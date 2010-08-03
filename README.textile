@@ -1,0 +1,10 @@
+Generate migrations and public
+
+  r g fluxx_engine_migration
+  r g fluxx_engine_locale
+  r g fluxx_engine_public
+  r g fluxx_crm_migration
+  r g fluxx_crm_migration
+  r g fluxx_crm_public
+  r g fluxx_grant_migration
+
