@@ -1,0 +1,43 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  insta_successful_update: "%{name} was successfully updated."
+  insta_successful_create: "%{name} was successfully created."
+  request_promoted: "Request promoted."
+  request_sent_back: "Request sent back."
+  failed_to_promote: "Unable to promote this request."
+  failed_to_promote_error_messages: "Unable to promote this request.  You may need to change some fields in the request.  These error messages were found: "
+  failed_to_send_back: "Unable to send this request back."
+  insta_successful_delete: "%{name} was successfully deleted."
+  insta_unsuccessful_delete: "%{name} could not be deleted."
+  errors_were_found: "Errors were found.  Error messages are displayed near each form field below."
+  request_report_approved: "Request report is approved."
+  failed_to_approve_request_report: "Failed to approve request report."
+  record_is_locked: "The record you are editing is locked by %{name} until %{lock_expiration}."
+  request_un_rejected: "Request un-rejected."
+  request_rejected: "Request rejected."
+  failed_to_un_reject: "Unable to un-reject your request."
+  grant_canceled: "Grant is canceled."
+  failed_to_cancel_grant: "Unable to cancel this grant."
+  
+  failed_to_promote_bad_org_tax_status: "Unable to promote this request to a grant because the %{program_organization} has no tax status."
+  failed_to_promote_bad_org_tax_status_report: "Unable to approve this report because the %{program_organization} has no tax status."
+  insta_no_record_found: "<div class=\"fluxx-card-content\"><div class=\"fluxx-card-show\">No record could be found with id %{model_id}.</div></div>"
+  insta_no_audit_record_found: "<div class=\"fluxx-card-content\"><div class=\"fluxx-card-show\">No history could be found.</div></div>"
+  
+  request_report_promoted: "Request promoted."
+  request_report_sent_back: "Request sent back."
+  failed_to_promote_report: "Unable to promote this request."
+  failed_to_promote_report_error_messages: "Unable to promote this request.  You may need to change some fields in the request.  These error messages were found: "
+  failed_to_send_back_report: "Unable to send this request back."
+  bad_date_format:  "%{date_string} is an invalid format for a date."
+  failed_to_reject: "Unable to reject this request."
+  failed_to_send_back_error_messages: "Unable to send this request back.  You may need to change some fields in the request.  These error messages were found: "
+  failed_to_reject_error_messages: "Unable to reject this request.  You may need to change some fields in the request.  These error messages were found: "
+  failed_to_un_reject_error_messages: "Unable to un-reject this request.  You may need to change some fields in the request.  These error messages were found: "
+  failed_to_cancel_grant_error_messages: "Unable to cancel this request.  You may need to change some fields in the request.  These error messages were found: "
+  
+  grant_failed_to_promote_with_exception: "Unable to promote this request.  These error messages were found: "
+  er_grants_may_not_be_greater_than_one_year: "ER grants may not have greater than 1 year duration: '%{duration_in_months}' months was specified for this loan."
