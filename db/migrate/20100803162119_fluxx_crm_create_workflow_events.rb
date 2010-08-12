@@ -4,6 +4,7 @@ class FluxxCrmCreateWorkflowEvents < ActiveRecord::Migration
       t.timestamps
       t.integer :created_by_id
       t.integer :updated_by_id
+      t.string :change_type
       t.string :workflowable_type
       t.integer :workflowable_id, :length => 12, :null => true
       t.string :ip_address
