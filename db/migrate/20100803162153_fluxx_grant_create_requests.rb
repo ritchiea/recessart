@@ -36,6 +36,8 @@ class FluxxGrantCreateRequests < ActiveRecord::Migration
       t.integer :locked_by_id, :null => true, :limit => 12
       t.datetime :locked_until, :deleted_at, :null => true
       t.boolean :delta, :null => false, :default => true
+      
+      t.integer :program_lead_id, :fiscal_org_owner_id, :grantee_signatory_id, :fiscal_signatory_id, :grantee_org_owner_id, :null => true, :limit => 12
     end
 
     add_index :requests, :granted
@@ -49,6 +51,12 @@ class FluxxGrantCreateRequests < ActiveRecord::Migration
     execute "alter table requests add constraint requests_fiscal_organization_id foreign key (fiscal_organization_id) references organizations(id)" unless connection.adapter_name =~ /SQLite/i
     execute "alter table requests add constraint requests_program_id foreign key (program_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
     execute "alter table requests add constraint requests_initiative_id foreign key (initiative_id) references initiatives(id)" unless connection.adapter_name =~ /SQLite/i
+
+    execute "alter table requests add constraint requests_program_lead_id foreign key (program_lead_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    execute "alter table requests add constraint requests_fiscal_org_owner_id foreign key (fiscal_org_owner_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    execute "alter table requests add constraint requests_grantee_signatory_id foreign key (grantee_signatory_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    execute "alter table requests add constraint requests_fiscal_signatory_id foreign key (fiscal_signatory_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    execute "alter table requests add constraint requests_grantee_org_owner_id foreign key (grantee_org_owner_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
   end
 
   def self.down

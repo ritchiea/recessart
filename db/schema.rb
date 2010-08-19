@@ -449,12 +449,22 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.boolean  "delta",                             :default => true, :null => false
+    t.integer  "program_lead_id"
+    t.integer  "fiscal_org_owner_id"
+    t.integer  "grantee_signatory_id"
+    t.integer  "fiscal_signatory_id"
+    t.integer  "grantee_org_owner_id"
   end
 
+  add_index "requests", ["fiscal_org_owner_id"], :name => "requests_fiscal_org_owner_id"
   add_index "requests", ["fiscal_organization_id"], :name => "index_requests_on_fiscal_organization_id"
+  add_index "requests", ["fiscal_signatory_id"], :name => "requests_fiscal_signatory_id"
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
+  add_index "requests", ["grantee_org_owner_id"], :name => "requests_grantee_org_owner_id"
+  add_index "requests", ["grantee_signatory_id"], :name => "requests_grantee_signatory_id"
   add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
+  add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
 
   create_table "user_organizations", :force => true do |t|
@@ -532,6 +542,7 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.string   "change_type"
     t.string   "workflowable_type"
     t.integer  "workflowable_id"
     t.string   "ip_address"
