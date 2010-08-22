@@ -13,6 +13,7 @@ class FluxxGrantCreateRequestTransactions < ActiveRecord::Migration
       t.integer :locked_by_id, :null => true, :limit => 12
       t.datetime :locked_until, :deleted_at, :null => true
       t.boolean :delta, :null => false, :default => true
+      t.string :request_document_linked_to, :null => :true
     end
     add_index :request_transactions, :request_id
     add_index :request_transactions, :payment_recorded_by_id
