@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
     t.string   "population",           :limit => 90
     t.string   "title",                :limit => 90
     t.text     "comment"
-    t.integer  "original_id",                        :null => false
   end
 
   add_index "geo_countries", ["iso2"], :name => "country_iso2_index"
@@ -257,7 +256,7 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"767"}
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 

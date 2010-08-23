@@ -8,3 +8,4 @@ Generate migrations and public
   r g fluxx_grant_migration
   r g fluxx_grant_public
 
+# Do this when creating a new project  r g devise:install
