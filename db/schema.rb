@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"767"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 
@@ -387,6 +387,7 @@ ActiveRecord::Schema.define(:version => 20100809215504) do
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.boolean  "delta",                       :default => true, :null => false
+    t.string   "request_document_linked_to"
   end
 
   add_index "request_transactions", ["payment_recorded_by_id"], :name => "index_request_transactions_on_payment_recorded_by_id"
