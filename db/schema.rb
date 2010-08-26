@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100823160548) do
+ActiveRecord::Schema.define(:version => 20100826185825) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -415,7 +415,7 @@ ActiveRecord::Schema.define(:version => 20100823160548) do
     t.integer  "fiscal_organization_id"
     t.integer  "program_id"
     t.integer  "initiative_id"
-    t.boolean  "granted"
+    t.boolean  "granted",                           :default => false, :null => false
     t.boolean  "renewal_grant"
     t.boolean  "funding_general_operating_support"
     t.boolean  "board_authorization_required"
@@ -449,7 +449,7 @@ ActiveRecord::Schema.define(:version => 20100823160548) do
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
-    t.boolean  "delta",                             :default => true, :null => false
+    t.boolean  "delta",                             :default => true,  :null => false
     t.integer  "program_lead_id"
     t.integer  "fiscal_org_owner_id"
     t.integer  "grantee_signatory_id"
@@ -467,6 +467,22 @@ ActiveRecord::Schema.define(:version => 20100823160548) do
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
   add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
+
+  create_table "role_users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name",          :null => false
+    t.integer  "user_id"
+    t.string   "roleable_type"
+    t.integer  "roleable_id"
+  end
+
+  add_index "role_users", ["created_by_id"], :name => "role_users_created_by_id"
+  add_index "role_users", ["name", "roleable_type", "roleable_id"], :name => "index_role_users_on_name_and_roleable_type_and_roleable_id"
+  add_index "role_users", ["updated_by_id"], :name => "role_users_updated_by_id"
+  add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id"
 
   create_table "user_organizations", :force => true do |t|
     t.datetime "created_at"
