@@ -5,7 +5,8 @@ class FluxxGrantCreateRequests < ActiveRecord::Migration
       t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
       t.integer :program_organization_id, :fiscal_organization_id, :program_id, :initiative_id, :null => true, :limit => 12
 
-      t.boolean :granted, :renewal_grant, :funding_general_operating_support, :board_authorization_required
+      t.boolean :granted, :null => false, :default => false
+      t.boolean :renewal_grant, :funding_general_operating_support, :board_authorization_required
       
       t.datetime :request_received_at, :grant_approved_at, :grant_agreement_at, :grant_begins_at, :grant_closed_at, :null => true
       t.integer :amount_requested, :amount_recommended, :null => true, :limit => 12
