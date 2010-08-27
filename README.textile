@@ -1,5 +1,6 @@
 Generate migrations and public
 
+  r g audited_migration
   r g fluxx_engine_migration
   r g fluxx_engine_locale
   r g fluxx_engine_public
