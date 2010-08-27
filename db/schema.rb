@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"767"}
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 
@@ -268,11 +268,11 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
     t.integer  "updated_by_id"
     t.string   "name"
     t.string   "description"
-    t.integer  "parent_program_id"
+    t.integer  "parent_id"
     t.boolean  "rollup"
   end
 
-  add_index "programs", ["parent_program_id"], :name => "index_programs_on_parent_program_id"
+  add_index "programs", ["parent_id"], :name => "index_programs_on_parent_id"
 
   create_table "realtime_updates", :force => true do |t|
     t.datetime "created_at"
@@ -546,13 +546,28 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
     t.string   "time_zone",                    :limit => 40,   :default => "Pacific Time (US & Canada)"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
+    t.string   "encrypted_password",           :limit => 128,  :default => "",                           :null => false
+    t.string   "password_salt",                                :default => "",                           :null => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                                :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
 
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
   add_index "users", ["personal_geo_country_id"], :name => "users_personal_country_id"
   add_index "users", ["personal_geo_state_id"], :name => "users_personal_geo_state_id"
   add_index "users", ["primary_user_organization_id"], :name => "users_primary_user_org_id"
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "workflow_events", :force => true do |t|
     t.datetime "created_at"

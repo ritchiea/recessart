@@ -5,11 +5,11 @@ class FluxxGrantCreatePrograms < ActiveRecord::Migration
       t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
       t.string :name
       t.string :description
-      t.integer :parent_program_id, :null => true, :limit => 12
+      t.integer :parent_id, :null => true, :limit => 12
       t.boolean :rollup
     end
-    execute "alter table programs add constraint programs_parent_program_id foreign key (parent_program_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
-    add_index :programs, :parent_program_id
+    execute "alter table programs add constraint programs_parent_id foreign key (parent_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
+    add_index :programs, :parent_id
   end
 
   def self.down

@@ -6,6 +6,10 @@ Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'En
 Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Power - initiative', :description => 'Power - initiative', :program_id => power_program
 Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Coal - initiative', :description => 'Coal - initiative', :program_id => coal_program
 
+(1..5).each do |i|
+  FundingSource.create :name => "Funding Source #{i}", :amount => 10
+end
+
 tax_class_group = MultiElementGroup.create :name => 'tax_classes', :description => 'TaxClass', :target_class_name => 'Organization'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a1'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a2'
