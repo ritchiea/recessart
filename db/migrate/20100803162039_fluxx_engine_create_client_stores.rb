@@ -12,7 +12,8 @@ class FluxxEngineCreateClientStores < ActiveRecord::Migration
       add_column :client_stores, :data, :text
     end
     
-    add_index :client_stores, :user_id, :unique => true
+    add_index :client_stores, :user_id
+    add_index :client_stores, [:user_id, :name], :unique => true
   end
 
   def self.down
