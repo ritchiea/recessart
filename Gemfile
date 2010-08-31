@@ -1,6 +1,6 @@
 source "http://gemcutter.org"
 
-gem 'rails', '3.0.0.rc'
+gem 'rails', '3.0.0'
 
 gem "aasm", :git => "http://github.com/rubyist/aasm.git"
 gem "sqlite3-ruby", :require => "sqlite3"
