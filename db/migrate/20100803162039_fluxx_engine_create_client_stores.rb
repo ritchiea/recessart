@@ -3,6 +3,7 @@ class FluxxEngineCreateClientStores < ActiveRecord::Migration
     create_table :client_stores do |t|
       t.timestamps
       t.integer :user_id
+      t.string :client_store_type
       t.string :name
       t.datetime :deleted_at,                :null => true
     end
@@ -13,7 +14,7 @@ class FluxxEngineCreateClientStores < ActiveRecord::Migration
     end
     
     add_index :client_stores, :user_id
-    add_index :client_stores, [:user_id, :name], :unique => true
+    add_index :client_stores, [:user_id, :client_store_type]
   end
 
   def self.down
