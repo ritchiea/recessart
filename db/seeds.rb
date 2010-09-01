@@ -10,6 +10,10 @@ Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Co
   FundingSource.create :name => "Funding Source #{i}", :amount => 10
 end
 
+Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Friends'
+Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Supporters'
+Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Partners'
+
 tax_class_group = MultiElementGroup.create :name => 'tax_classes', :description => 'TaxClass', :target_class_name => 'Organization'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a1'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a2'
