@@ -1,0 +1,14 @@
+%h2 Sign in to Fluxx
+= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  %p
+    = f.label :email
+    = f.text_field :email, :placeholder => 'Email Address'
+  %p
+    = f.label :password, :placeholder => 'Password'
+    = f.password_field :password
+  %p= f.submit "Sign in"
+  - if devise_mapping.rememberable?
+    %p
+      = f.check_box :remember_me
+      = f.label :remember_me
+= render :partial => "devise/shared/links"

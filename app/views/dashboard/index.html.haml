@@ -1,6 +1,6 @@
 %html
   %head
-    %title "Grants Dashboard"
+    %title Grants Dashboard
     =javascript_include_tag '/fluxx_engine/dist/fluxx.engine.full.js'
     =stylesheet_link_tag '/fluxx_engine/theme/default/css/style.css'
     :javascript
@@ -13,6 +13,12 @@
               options: {
                 url: '/realtime_updates'
               }
+            },
+            header: {
+              actions: [
+                '#{link_to current_user.login, current_user, :class => 'new-detail'}',
+                '#{link_to 'logout', destroy_user_session_path}'
+              ]
             },
             dock: {
               quicklinks: [

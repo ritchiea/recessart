@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title Fluxx Grant
+    = stylesheet_link_tag :all
+    = stylesheet_link_tag '/fluxx_engine/theme/default/css/login.css'
+    = javascript_include_tag :defaults
+    = csrf_meta_tag
+  %body
+    .container
+      .pinwheel
+      .content= yield
