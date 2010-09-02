@@ -16,7 +16,7 @@
             },
             header: {
               actions: [
-                '#{link_to current_user.login, current_user, :class => 'new-detail'}',
+                '#{link_to current_user.full_name ? current_user.full_name : current_user.email, current_user, :class => 'new-detail'}',
                 '#{link_to 'logout', destroy_user_session_path}'
               ]
             },
