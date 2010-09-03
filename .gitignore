@@ -7,3 +7,4 @@ config/database.yml
 config/development.sphinx.conf
 db/sphinx/
 log/
+public/system
