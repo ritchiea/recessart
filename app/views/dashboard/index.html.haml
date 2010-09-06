@@ -30,7 +30,7 @@
                     type: 'green small'
                   },
                   {
-                    label: 'New User',
+                    label: 'New Person',
                     url: '#{new_user_path}',
                     className: 'new-detail',
                     type: 'green small'
@@ -49,8 +49,8 @@
                     className: 'noop',
                     type: 'plus small',
                     popup: [
-                      '#{link_to 'Org', organizations_path, :class => 'new-listing'}',
-                      '#{link_to 'User', users_path, :class => 'new-listing'}',
+                      '#{link_to 'Organizations', organizations_path, :class => 'new-listing'}',
+                      '#{link_to 'People', users_path, :class => 'new-listing'}',
                       '#{link_to 'Requests', grant_requests_path, :class => 'new-listing'}',
                       '#{link_to 'Grants', granted_requests_path, :class => 'new-listing'}',
                       '#{link_to 'Reports', request_reports_path, :class => 'new-listing'}',
