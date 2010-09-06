@@ -1,0 +1,47 @@
+development:
+  port: 3312
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+fastdev:
+  port: 3312
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+test:
+  port: 3313
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+production:
+  port: 3312
+  #address: db1.fluxx.ef.org
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+  # searchd_file_path: "/home/fluxx/www/fluxx/shared/db/sphinx/production/"
+faux_casey_production:
+  port: 3312
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+  # searchd_file_path: "/home/fluxx/www/fluxx/shared/db/sphinx/production/"
+faux_eric_production:
+  port: 3312
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+  # searchd_file_path: "/home/fluxx/www/fluxx/shared/db/sphinx/production/"
+staging:
+  port: 3312
+  mem_limit: 128M
+#  morphology: stem_en
+  min_prefix_len: 3
+  bin_path: '/usr/local/bin'
+  # searchd_file_path: "/home/fluxx/www/fluxx/shared/db/sphinx/production/"
