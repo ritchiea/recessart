@@ -39,5 +39,11 @@ module FluxxGrantRi
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # TODO ESH: take a look at: http://api.rubyonrails.org/classes/ActiveRecord/Timestamp.html
+    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+    # Run "rake -D time" for a list of tasks for finding time zone names.
+    config.time_zone = 'UTC'
+
   end
 end
