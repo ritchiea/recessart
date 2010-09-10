@@ -459,15 +459,15 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
     t.integer  "grantee_org_owner_id"
   end
 
-  add_index "requests", ["fiscal_org_owner_id"], :name => "requests_fiscal_org_owner_id"
+  add_index "requests", ["fiscal_org_owner_id"], :name => "request_fiscal_org_owner_id_idx"
   add_index "requests", ["fiscal_organization_id"], :name => "index_requests_on_fiscal_organization_id"
-  add_index "requests", ["fiscal_signatory_id"], :name => "requests_fiscal_signatory_id"
+  add_index "requests", ["fiscal_signatory_id"], :name => "request_fiscal_signatory_id_idx"
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
-  add_index "requests", ["grantee_org_owner_id"], :name => "requests_grantee_org_owner_id"
-  add_index "requests", ["grantee_signatory_id"], :name => "requests_grantee_signatory_id"
+  add_index "requests", ["grantee_org_owner_id"], :name => "request_grantee_org_owner_id_idx"
+  add_index "requests", ["grantee_signatory_id"], :name => "request_grantee_signatory_id_idx"
   add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
-  add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
+  add_index "requests", ["program_lead_id"], :name => "request_program_lead_id_idx"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
 
   create_table "role_users", :force => true do |t|
