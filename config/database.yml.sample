@@ -28,6 +28,15 @@ test:
   password:
   timeout: 5000
 
+staging:
+  adapter: mysql
+  database: fgrant_production
+  host: localhost
+  pool: 5
+  username: root
+  password:
+  timeout: 5000
+
 production:
   adapter: mysql
   database: fgrant_production

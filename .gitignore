@@ -8,3 +8,4 @@ config/development.sphinx.conf
 db/sphinx/
 log/
 public/system
+config/fastdev.sphinx.conf

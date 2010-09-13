@@ -21,6 +21,7 @@ gem 'faker', '>=0.3.1'
 #gem 'formtastic-rails3', '>= 0.9.10.0'
 gem "formtastic", :git => "http://github.com/justinfrench/formtastic.git", :branch => "rails3"
 gem 'jsmin', '>= 1.0.1'
+gem 'memcache-client', '>= 1.8.5'
 
 
 gem 'fastercsv', '>= 1.5.3'
