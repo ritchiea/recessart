@@ -19,7 +19,7 @@ FluxxGrantRi::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -47,5 +47,5 @@ FluxxGrantRi::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
-  MEMCACHE_SERVER='localhost:11211'
+  MEMCACHE_SERVER='67.23.39.109:11211'
 end
