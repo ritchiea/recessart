@@ -1,7 +1,11 @@
 %html
   %head
     %title Grants Dashboard
-    =javascript_include_tag '/fluxx_engine/dist/fluxx.engine.full.js'
+    - if Rails.env == 'production' || Rails.env == 'staging'
+      =javascript_include_tag '/fluxx_engine/dist/fluxx.engine.full.min.js'
+    - else
+      =javascript_include_tag '/fluxx_engine/dist/fluxx.engine.full.js'
+    
     =stylesheet_link_tag '/fluxx_engine/theme/default/css/style.css'
     :javascript
       $.extend(true, {
