@@ -9,3 +9,4 @@ db/sphinx/
 log/
 public/system
 config/fastdev.sphinx.conf
+public/fluxx_engine
