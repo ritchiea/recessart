@@ -10,3 +10,5 @@ log/
 public/system
 config/fastdev.sphinx.conf
 public/fluxx_engine
+public/fluxx_crm
+public/fluxx_grant
