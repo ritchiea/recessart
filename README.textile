@@ -6,7 +6,8 @@ The FLUXX Grant Reference Implementation is a fully-featured grants management s
 
 
 h2. Highlights of the Fluxx Grants Management Software
-Fluxx Grant is grants management software.  This provides a mechanism for foundations to track the grant making progress using a highly configurable workflow system.  The system allows each member of the foundation to view the data the way they need to see it.  There is even a mechanism for board members and guests to view the data in a 
+
+Fluxx Grant is grants management software.  This provides a mechanism for foundations to track the grant making progress using a highly configurable workflow system.  The system allows each member of the foundation to view the data the way they need to see it. 
 
 
 h2. Installation
