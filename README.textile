@@ -6,7 +6,7 @@ The FLUXX Grant Reference Implementation is a fully-featured grants management s
 
 
 h2. Highlights of the Fluxx Grants Management Software
-
+Fluxx Grant is grants management software.  This provides a mechanism for foundations to track the grant making progress using a highly configurable workflow system.  The system allows each member of the foundation to view the data the way they need to see it.  There is even a mechanism for board members and guests to view the data in a 
 
 
 h2. Installation
@@ -25,6 +25,7 @@ h3. Quick Start: for rails experts
 * @gem install rails --version 3.0.0@
 * Change to a directory where you'd like to install the fluxx grant software
 * @git clone git://github.com/solpath/fluxx_grant_ri.git@
+* @cd fluxx_grant_ri@
 * @bundle install@
 * @cp config/database.yml.sample config/database.yml@
 * Edit the config/database.yml file and insert your database credentials

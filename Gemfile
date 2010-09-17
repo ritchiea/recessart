@@ -28,7 +28,7 @@ gem 'rcov'
 
 if dev_local 
   p "Installing dependent fluxx gems to point to local paths.  Be sure you install fluxx_engine, fluxx_crm and fluxx_grant in the same directory as the reference implementation."
-  gem "fluxx_engine", '>= 0.0.6', :path => "../fluxx_engine"
+  gem "fluxx_engine", '>= 0.0.7', :path => "../fluxx_engine"
   gem "fluxx_crm", '>= 0.0.4', :path => "../fluxx_crm", :require => 'fluxx_crm'
   gem "fluxx_grant", '>= 0.0.1', :path => "../fluxx_grant", :require => 'fluxx_grant'
 else
