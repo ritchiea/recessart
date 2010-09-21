@@ -126,5 +126,3 @@ How to load in extensions, making sure that ActiveRecord, ActiveController etc. 
 Managing gem dependencies
 * "http://wiki.github.com/technicalpickles/jeweler/customizing-your-projects-gem-specification":http://wiki.github.com/technicalpickles/jeweler/customizing-your-projects-gem-specification
 * "http://technicalpickles.com/posts/craft-the-perfect-gem-with-jeweler/":http://technicalpickles.com/posts/craft-the-perfect-gem-with-jeweler/
-
-
