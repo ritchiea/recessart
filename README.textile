@@ -76,15 +76,27 @@ Most of the code for fluxx grants lives in the 3 rails engine gems: fluxx_engine
 @git clone git://github.com/solpath/fluxx_crm.git@
 @git clone git://github.com/solpath/fluxx_engine.git@
 
+@cd fluxx_engine@
+@bundle install; rake install@
+@cd ../fluxx_crm@
+@bundle install; rake install@
+@cd fluxx_grant@
+@bundle install; rake install@
 
 In order to make it development easier, we have added an environment variable that tells the bundler to look for local copies of the gems.  Simply pass an environment variable to the bundle and rails commands:
-@DEV_LOCAL=1 bundle update@
-@DEV_LOCAL=1 rails server@
+@cd fluxx_grant_ri@
+@DEV_LOCAL=1 bundle install@
+@DEV_LOCAL=1 FLUXX_UI_DEV=1 rails server@
 This environment variable tells rails to read the gems from the local directory rather than from the released gems.
+
+If you want to run rails console, you must also do:
+@DEV_LOCAL=1 rails console@
+
+You could also just @export DEV_LOCAL=1@ to avoid entering it over and over.
 
 In order to link in fluxx_engine, you must create a symbolic link:
 cd fluxx_grant_ri/public/
-ln -s ../../../fluxx_engine/public/fluxx_engine
+ln -s ../../fluxx_engine/public/fluxx_engine
 
 h3. References
 
