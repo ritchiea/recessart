@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100826185825) do
+ActiveRecord::Schema.define(:version => 20100923163931) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -43,6 +43,21 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
 
   add_index "client_stores", ["user_id", "client_store_type"], :name => "index_client_stores_on_user_id_and_client_store_type"
   add_index "client_stores", ["user_id"], :name => "index_client_stores_on_user_id"
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "favorites", :force => true do |t|
     t.datetime "created_at"
@@ -259,7 +274,7 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"767"}
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 
@@ -459,15 +474,15 @@ ActiveRecord::Schema.define(:version => 20100826185825) do
     t.integer  "grantee_org_owner_id"
   end
 
-  add_index "requests", ["fiscal_org_owner_id"], :name => "requests_fiscal_org_owner_id"
+  add_index "requests", ["fiscal_org_owner_id"], :name => "request_fiscal_org_owner_id_idx"
   add_index "requests", ["fiscal_organization_id"], :name => "index_requests_on_fiscal_organization_id"
-  add_index "requests", ["fiscal_signatory_id"], :name => "requests_fiscal_signatory_id"
+  add_index "requests", ["fiscal_signatory_id"], :name => "request_fiscal_signatory_id_idx"
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
-  add_index "requests", ["grantee_org_owner_id"], :name => "requests_grantee_org_owner_id"
-  add_index "requests", ["grantee_signatory_id"], :name => "requests_grantee_signatory_id"
+  add_index "requests", ["grantee_org_owner_id"], :name => "request_grantee_org_owner_id_idx"
+  add_index "requests", ["grantee_signatory_id"], :name => "request_grantee_signatory_id_idx"
   add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
-  add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
+  add_index "requests", ["program_lead_id"], :name => "request_program_lead_id_idx"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
 
   create_table "role_users", :force => true do |t|

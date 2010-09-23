@@ -50,6 +50,7 @@ h3. Generators and Migrations
 
 * Generate a set of migration files.  These files define how the database tables will be structured.  Feel free to alter these tables to suit your needs.  The audited_migration file tracks the history of changes to model objects.  The fluxx_engine, fluxx_crm and fluxx_grant migration generators generate migration files for utility tables and model tables for grants and CRM.
 ** @rails generate audited_migration@
+** @rails generate delayed_job@
 ** @rails generate fluxx_engine_migration@
 ** @rails generate fluxx_crm_migration@
 ** @rails generate fluxx_grant_migration@
@@ -66,6 +67,12 @@ h3. Generators and Migrations
 ** @rails generate fluxx_grant_public@
 ** @rails generate devise:install@
 
+h3. Background tasks
+
+* Sphinx
+** @rake ts:start@
+* Delayed job processor
+** @rake ts:dd@
 
 
 h3. Fluxx Developers

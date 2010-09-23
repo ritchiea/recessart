@@ -3,7 +3,7 @@ dev_local = ENV['DEV_LOCAL']
 source "http://gemcutter.org"
 
 gem 'rails', '3.0.0'
-
+  
 gem "sqlite3-ruby", :require => "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "capybara", "0.3.7"
@@ -17,7 +17,9 @@ gem 'faker', '>=0.3.1'
 gem 'formtastic', '~> 1.1.0'
 gem 'jsmin', '>= 1.0.1'
 gem 'memcache-client', '>= 1.8.5'
-
+# gem 'delayed_job', '>=2.1.0'
+gem 'delayed_job', :git => 'git://github.com/collectiveidea/delayed_job.git'
+gem 'ts-delayed-delta', '>=1.1.0'
 
 gem "aasm", '2.2.0'
 gem 'acts_as_audited_rails3', '>=1.1.1.5'
