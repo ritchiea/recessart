@@ -35,4 +35,5 @@ begin
   run FluxxGrantRi::Application
 rescue Exception => e
   p "Rack stack trace: #{e.backtrace}"
+
 end
