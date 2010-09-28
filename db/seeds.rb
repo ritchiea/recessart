@@ -93,3 +93,7 @@ MultiElementValue.create :multi_element_group_id => user_salutation_group.id, :v
 MultiElementValue.create :multi_element_group_id => user_salutation_group.id, :value => 'Prof.'
 MultiElementValue.create :multi_element_group_id => user_salutation_group.id, :value => 'Rev.'
     
+fip_type_group = MultiElementGroup.create :name => 'fip_types', :description => 'Fip Types', :target_class_name => 'Request'
+MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Contract'
+MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Meeting'
+MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Other'

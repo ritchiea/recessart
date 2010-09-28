@@ -38,6 +38,7 @@ class FluxxGrantCreateRequests < ActiveRecord::Migration
       t.datetime :locked_until, :deleted_at, :null => true
       t.boolean :delta, :null => false, :default => true
       
+      t.integer :fip_type_id, :null => true, :limit => 12
       t.integer :program_lead_id, :fiscal_org_owner_id, :grantee_signatory_id, :fiscal_signatory_id, :grantee_org_owner_id, :null => true, :limit => 12
     end
 
