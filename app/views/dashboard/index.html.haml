@@ -1,7 +1,10 @@
 %html
   %head
     %title Grants Dashboard
-    - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
+    - preload_javascripts = ['/javascripts/fluxx_engine/lib/jquery-1.4.2.min.js']
+    - preload_javascripts.each do |filename|
+      =javascript_include_tag filename
+    - (Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')} - preload_javascripts).each do |filename|
       =javascript_include_tag filename
     - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/src/**/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
       =javascript_include_tag filename
