@@ -1,12 +1,12 @@
 %html
   %head
     %title Grants Dashboard
-    - preload_javascripts = ['/javascripts/fluxx_engine/lib/jquery-1.4.2.min.js']
-    - preload_javascripts.each do |filename|
+    - preload_javascripts = Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.select{|filename| filename =~ /lib\/jquery/}
+    - preload_javascripts.sort.each do |filename|
       =javascript_include_tag filename
-    - (Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')} - preload_javascripts).each do |filename|
+    - (Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").sort.map{|filename| filename.gsub("#{Rails.root}/public", '')} - preload_javascripts).each do |filename|
       =javascript_include_tag filename
-    - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/src/**/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
+    - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/src/**/*.js").sort.map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
       =javascript_include_tag filename
     
     =stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/style.css'
