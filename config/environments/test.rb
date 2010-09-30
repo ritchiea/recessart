@@ -33,4 +33,5 @@ FluxxGrantRi::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
   MEMCACHE_SERVER='localhost:11211'
+  SKIP_FLUXX_BUILDER=false
 end

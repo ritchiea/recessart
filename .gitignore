@@ -13,8 +13,13 @@ public/fluxx_engine
 public/fluxx_crm
 public/fluxx_grant
 public/images/fluxx_engine/
-public/javascripts/fluxx_crm/
-public/javascripts/fluxx_engine/
-public/stylesheets/compiled/
+public/images/fluxx_crm/
 public/images/fluxx_grant/
+public/javascripts/fluxx_engine/
+public/javascripts/fluxx_crm/
+public/javascripts/fluxx_grant/
+public/stylesheets/compiled/
 public/stylesheets/fluxx_engine/
+public/stylesheets/fluxx_crm/
+public/stylesheets/fluxx_grant/
+

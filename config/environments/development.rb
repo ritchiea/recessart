@@ -20,4 +20,5 @@ FluxxGrantRi::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
   MEMCACHE_SERVER='localhost:11211'
+  SKIP_FLUXX_BUILDER=false
 end
