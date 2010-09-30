@@ -26,6 +26,7 @@ gem 'acts_as_audited_rails3', '>=1.1.1.5'
 gem 'fastercsv', '>= 1.5.3'
 gem 'thin', '>= 1.2.7'
 gem 'rcov'
+gem 'compass'
 
 
 if dev_local 

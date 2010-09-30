@@ -12,3 +12,9 @@ config/fastdev.sphinx.conf
 public/fluxx_engine
 public/fluxx_crm
 public/fluxx_grant
+public/images/fluxx_engine/
+public/javascripts/fluxx_crm/
+public/javascripts/fluxx_engine/
+public/stylesheets/compiled/
+public/images/fluxx_grant/
+public/stylesheets/fluxx_engine/
