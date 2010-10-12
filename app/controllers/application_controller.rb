@@ -12,23 +12,23 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  protected
-    def current_user_session
-      return @current_user_session if defined?(@current_user_session)
-      @current_user_session = UserSession.find
-    end
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
 
-    def current_user
-      User.suspended_delta do
-        User.without_realtime do
-          User.without_auditing do
-            return @current_user if defined?(@current_user)
-            @current_user = current_user_session && current_user_session.user
-          end
+  def current_user
+    User.suspended_delta do
+      User.without_realtime do
+        User.without_auditing do
+          return @current_user if defined?(@current_user)
+          @current_user = current_user_session && current_user_session.user
         end
       end
     end
+  end
     
+  protected
     def require_user
       unless current_user
         store_location

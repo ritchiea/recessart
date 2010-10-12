@@ -9,6 +9,8 @@ class FluxxCrmCreateRoleUsers < ActiveRecord::Migration
       t.integer :roleable_id, :null => true, :limit => 12
     end
     add_index :role_users, [:name, :roleable_type, :roleable_id]
+    add_index :role_users, [:user_id, :roleable_type]
+    add_index :role_users, [:roleable_id]
     add_index :role_users, :user_id
     execute "alter table role_users add constraint role_users_created_by_id foreign key (created_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
     execute "alter table role_users add constraint role_users_updated_by_id foreign key (updated_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
