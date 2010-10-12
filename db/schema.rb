@@ -467,6 +467,7 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.boolean  "delta",                             :default => true,  :null => false
+    t.integer  "fip_type_id"
     t.integer  "program_lead_id"
     t.integer  "fiscal_org_owner_id"
     t.integer  "grantee_signatory_id"
@@ -474,15 +475,15 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.integer  "grantee_org_owner_id"
   end
 
-  add_index "requests", ["fiscal_org_owner_id"], :name => "request_fiscal_org_owner_id_idx"
+  add_index "requests", ["fiscal_org_owner_id"], :name => "requests_fiscal_org_owner_id"
   add_index "requests", ["fiscal_organization_id"], :name => "index_requests_on_fiscal_organization_id"
-  add_index "requests", ["fiscal_signatory_id"], :name => "request_fiscal_signatory_id_idx"
+  add_index "requests", ["fiscal_signatory_id"], :name => "requests_fiscal_signatory_id"
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
-  add_index "requests", ["grantee_org_owner_id"], :name => "request_grantee_org_owner_id_idx"
-  add_index "requests", ["grantee_signatory_id"], :name => "request_grantee_signatory_id_idx"
+  add_index "requests", ["grantee_org_owner_id"], :name => "requests_grantee_org_owner_id"
+  add_index "requests", ["grantee_signatory_id"], :name => "requests_grantee_signatory_id"
   add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
-  add_index "requests", ["program_lead_id"], :name => "request_program_lead_id_idx"
+  add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
 
   create_table "role_users", :force => true do |t|
@@ -563,28 +564,29 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.string   "time_zone",                    :limit => 40,   :default => "Pacific Time (US & Canada)"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
-    t.string   "encrypted_password",           :limit => 128,  :default => "",                           :null => false
+    t.string   "crypted_password",             :limit => 128,  :default => "",                           :null => false
     t.string   "password_salt",                                :default => "",                           :null => false
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
+    t.string   "persistence_token"
+    t.datetime "single_access_token"
     t.datetime "confirmation_sent_at"
-    t.string   "reset_password_token"
-    t.string   "remember_token"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "perishable_token"
+    t.integer  "login_count",                                  :default => 0
+    t.integer  "failed_login_count",                           :default => 0
+    t.datetime "last_request_at"
+    t.datetime "current_login_at"
+    t.datetime "last_login_at"
+    t.string   "current_login_ip"
+    t.string   "last_login_ip"
   end
 
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+  add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
   add_index "users", ["personal_geo_country_id"], :name => "users_personal_country_id"
   add_index "users", ["personal_geo_state_id"], :name => "users_personal_geo_state_id"
   add_index "users", ["primary_user_organization_id"], :name => "users_primary_user_org_id"
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["single_access_token"], :name => "index_users_on_single_access_token"
 
   create_table "workflow_events", :force => true do |t|
     t.datetime "created_at"

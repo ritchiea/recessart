@@ -1,9 +1,12 @@
 FluxxGrantRi::Application.routes.draw do
-  devise_for :users, :path => "users", :path_names => { :sign_in => 'login', :sign_out => 'logout', :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-
+  resources :hgrants
   get "dashboard/index"
   get "dashboard/example_partial_update"
+  match 'login' => 'user_sessions#new', :as => :login
+  match 'logout' => 'user_sessions#destroy', :as => :logout
+  
   root :to => 'dashboard#index'
+  resources :user_sessions
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

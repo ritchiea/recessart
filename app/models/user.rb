@@ -1,24 +1,18 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation
+  acts_as_authentic do |c|
+    # c.my_config_option = my_value # for available options see documentation in: Authlogic::ActsAsAuthentic
+    c.act_like_restful_authentication = true
+  end # block optional
+  
   include ::FluxxGrantUser
   
   
-  # Make it so that devise does not reindex delta indexing in sphinx upon signin
-  def update_tracked_fields_with_specific! request
-    User.without_auditing do
-      User.without_realtime do
-        User.suspended_delta(false) do
-          update_tracked_fields_without_specific! request
-        end
-      end
-    end
-  end
-  alias_method_chain :update_tracked_fields!, :specific
+  # TODO: Make it so that authlogic does not reindex delta indexing in sphinx upon signin
   
 end
+
