@@ -2,6 +2,7 @@ class UserSessionsController < ApplicationController
   skip_before_filter :require_user, :only => [:new, :create]
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
+  skip_before_filter :verify_authenticity_token, :only => [:new, :create]
   
   def new
     @user_session = UserSession.new
@@ -11,7 +12,6 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Login successful!"
-      p "ESH: 111 in create"
       redirect_back_or_default dashboard_index_path
     else
       render :action => :new

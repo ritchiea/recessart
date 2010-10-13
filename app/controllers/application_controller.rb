@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
     def require_no_user
       if current_user
         store_location
-        flash[:notice] = "You must be logged out to access this page"
-        redirect_to account_url
+        # flash[:notice] = "You must be logged out to access this page"
+        redirect_to dashboard_index_path
         return false
       end
     end
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
     end
     
     def redirect_back_or_default(default)
-      redirect_to(session[:return_to] || default)
+      redirect_to(default || '/')
       session[:return_to] = nil
     end
 end
