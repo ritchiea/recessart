@@ -49,4 +49,5 @@ FluxxGrantRi::Application.configure do
   
   MEMCACHE_SERVER='67.23.39.109:11211'
   SKIP_FLUXX_BUILDER=true
+  FORCE_UPDATE_SASS=true
 end
