@@ -48,5 +48,4 @@ FluxxGrantRi::Application.configure do
   config.active_support.deprecation = :notify
   MEMCACHE_SERVER='localhost:11211'
   SKIP_FLUXX_BUILDER=true
-  FORCE_UPDATE_SASS=true
 end
