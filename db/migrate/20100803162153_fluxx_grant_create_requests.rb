@@ -47,18 +47,22 @@ class FluxxGrantCreateRequests < ActiveRecord::Migration
     add_index :requests, :fiscal_organization_id
     add_index :requests, :program_id
     add_index :requests, :initiative_id
-    
-    
-    execute "alter table requests add constraint requests_program_organization_id foreign key (program_organization_id) references organizations(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_fiscal_organization_id foreign key (fiscal_organization_id) references organizations(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_program_id foreign key (program_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_initiative_id foreign key (initiative_id) references initiatives(id)" unless connection.adapter_name =~ /SQLite/i
+    add_index :requests, :program_lead_id
+    add_index :requests, :fiscal_org_owner_id
+    add_index :requests, :grantee_signatory_id
+    add_index :requests, :fiscal_signatory_id
+    add_index :requests, :grantee_org_owner_id
+        
+    add_constraint 'requests', 'requests_program_organization_id', 'program_organization_id', 'organizations', 'id'
+    add_constraint 'requests', 'requests_fiscal_organization_id', 'fiscal_organization_id', 'organizations', 'id'
+    add_constraint 'requests', 'requests_program_id', 'program_id', 'programs', 'id'
+    add_constraint 'requests', 'requests_initiative_id', 'initiative_id', 'initiatives', 'id'
 
-    execute "alter table requests add constraint requests_program_lead_id foreign key (program_lead_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_fiscal_org_owner_id foreign key (fiscal_org_owner_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_grantee_signatory_id foreign key (grantee_signatory_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_fiscal_signatory_id foreign key (fiscal_signatory_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table requests add constraint requests_grantee_org_owner_id foreign key (grantee_org_owner_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'requests', 'requests_program_lead_id', 'program_lead_id', 'users', 'id'
+    add_constraint 'requests', 'requests_fiscal_org_owner_id', 'fiscal_org_owner_id', 'users', 'id'
+    add_constraint 'requests', 'requests_grantee_signatory_id', 'grantee_signatory_id', 'users', 'id'
+    add_constraint 'requests', 'requests_fiscal_signatory_id', 'fiscal_signatory_id', 'users', 'id'
+    add_constraint 'requests', 'requests_grantee_org_owner_id', 'grantee_org_owner_id', 'users', 'id'
   end
 
   def self.down

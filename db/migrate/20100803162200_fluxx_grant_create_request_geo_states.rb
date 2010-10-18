@@ -7,8 +7,8 @@ class FluxxGrantCreateRequestGeoStates < ActiveRecord::Migration
     end
     add_index :request_geo_states, :request_id
     add_index :request_geo_states, :geo_state_id
-    execute "alter table request_geo_states add constraint request_geo_states_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_geo_states add constraint request_geo_states_geo_state_id foreign key (geo_state_id) references geo_states(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_geo_states', 'request_geo_states_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_geo_states', 'request_geo_states_geo_state_id', 'geo_state_id', 'geo_states', 'id'
   end
 
   def self.down

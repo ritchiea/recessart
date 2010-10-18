@@ -11,8 +11,8 @@ class FluxxGrantCreateRequestLetters < ActiveRecord::Migration
     end
     add_index :request_letters, :request_id
     add_index :request_letters, :letter_template_id
-    execute "alter table request_letters add constraint request_letters_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_letters add constraint request_letters_letter_template_id foreign key (letter_template_id) references letter_templates(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_letters', 'request_letters_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_letters', 'request_letters_letter_template_id', 'letter_template_id', 'letter_templates', 'id'
   end
 
   def self.down

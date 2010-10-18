@@ -17,8 +17,8 @@ class FluxxGrantCreateRequestTransactions < ActiveRecord::Migration
     end
     add_index :request_transactions, :request_id
     add_index :request_transactions, :payment_recorded_by_id
-    execute "alter table request_transactions add constraint request_transactions_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_transactions add constraint request_transactions_payment_recorded_by_id foreign key (payment_recorded_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_transactions', 'request_transactions_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_transactions', 'request_transactions_payment_recorded_by_id', 'payment_recorded_by_id', 'users', 'id'
   end
 
   def self.down

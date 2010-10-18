@@ -43,16 +43,16 @@ class FluxxCrmCreateUsers < ActiveRecord::Migration
     add_index :users, :login, :unique => true
     add_index :users, :email, :unique => true
     
-    execute "alter table users add constraint users_personal_country_id foreign key (personal_geo_country_id) references geo_countries(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table users add constraint users_personal_geo_state_id foreign key (personal_geo_state_id) references geo_states(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table users add constraint users_primary_user_org_id foreign key (primary_user_organization_id) references user_organizations(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'users', 'users_personal_country_id', 'personal_geo_country_id', 'geo_countries', 'id'
+    add_constraint 'users', 'users_personal_geo_state_id', 'personal_geo_state_id', 'geo_states', 'id'
+    add_constraint 'users', 'users_primary_user_org_id', 'primary_user_organization_id', 'user_organizations', 'id'
 
-    execute "alter table user_organizations add constraint user_org_user_id foreign key (user_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table user_organizations add constraint user_organizations_created_by_id foreign key (created_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table user_organizations add constraint user_organizations_updated_by_id foreign key (updated_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'user_organizations', 'user_org_user_id', 'user_id', 'users', 'id'
+    add_constraint 'user_organizations', 'user_organizations_created_by_id', 'created_by_id', 'users', 'id'
+    add_constraint 'user_organizations', 'user_organizations_updated_by_id', 'updated_by_id', 'users', 'id'
 
-    execute "alter table organizations add constraint organizations_created_by_id foreign key (created_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table organizations add constraint organizations_updated_by_id foreign key (updated_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'organizations', 'organizations_created_by_id', 'created_by_id', 'users', 'id'
+    add_constraint 'organizations', 'organizations_updated_by_id', 'updated_by_id', 'users', 'id'
   end
 
   def self.down

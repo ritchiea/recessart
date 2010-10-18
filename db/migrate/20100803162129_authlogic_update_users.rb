@@ -15,7 +15,6 @@ class AuthlogicUpdateUsers < ActiveRecord::Migration
     
     add_index :users, :persistence_token
     add_index :users, :single_access_token
-    add_index :users, :perishable_token
   end
 
   def self.down
@@ -24,7 +23,6 @@ class AuthlogicUpdateUsers < ActiveRecord::Migration
     remove_column :users, :persistence_token
     remove_column :users, :single_access_token
     remove_column :users, :confirmation_sent_at
-    remove_column :users, :perishable_token
     
     remove_column :users, :login_count
     remove_column :users, :failed_login_count
@@ -36,6 +34,5 @@ class AuthlogicUpdateUsers < ActiveRecord::Migration
     
     remove_index :users, :persistence_token
     remove_index :users, :single_access_token
-    remove_index :users, :perishable_token
   end
 end

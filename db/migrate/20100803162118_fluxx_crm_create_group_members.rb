@@ -10,7 +10,7 @@ class FluxxCrmCreateGroupMembers < ActiveRecord::Migration
     end
     add_index :group_members, :group_id
     add_index :group_members, [:groupable_id, :groupable_type]
-    execute "alter table group_members add constraint group_members_group_id foreign key (group_id) references groups(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'group_members', 'group_members_group_id', 'group_id', 'groups', 'id'
   end
 
   def self.down

@@ -7,8 +7,8 @@ class FluxxGrantCreateRequestOrganizations < ActiveRecord::Migration
       t.string :description
     end
     add_index :request_organizations, [:request_id, :organization_id], :unique => true
-    execute "alter table request_organizations add constraint request_organizations_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_organizations add constraint request_organizations_organization_id foreign key (organization_id) references organizations(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_organizations', 'request_organizations_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_organizations', 'request_organizations_organization_id', 'organization_id', 'organizations', 'id'
   end
 
   def self.down

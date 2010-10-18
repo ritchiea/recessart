@@ -14,10 +14,10 @@ class FluxxGrantCreateRequestFundingSources < ActiveRecord::Migration
     add_index :request_funding_sources, :initiative_id
     add_index :request_funding_sources, :funding_source_id
 
-    execute "alter table request_funding_sources add constraint request_funding_sources_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_funding_sources add constraint request_funding_sources_program_id foreign key (program_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_funding_sources add constraint request_funding_sources_initiative_id foreign key (initiative_id) references initiatives(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_funding_sources add constraint request_funding_sources_funding_source_id foreign key (funding_source_id) references funding_sources(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_funding_sources', 'request_funding_sources_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_program_id', 'program_id', 'programs', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_initiative_id', 'initiative_id', 'initiatives', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_funding_source_id', 'funding_source_id', 'funding_sources', 'id'
   end
 
   def self.down

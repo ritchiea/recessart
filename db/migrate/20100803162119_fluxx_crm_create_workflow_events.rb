@@ -14,8 +14,8 @@ class FluxxCrmCreateWorkflowEvents < ActiveRecord::Migration
     end
 
     add_index :workflow_events, [:workflowable_id, :workflowable_type]
-    execute "alter table workflow_events add constraint workflow_events_created_by_id foreign key (created_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table workflow_events add constraint workflow_events_updated_by_id foreign key (updated_by_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'workflow_events', 'workflow_events_created_by_id', 'created_by_id', 'users', 'id'
+    add_constraint 'workflow_events', 'workflow_events_updated_by_id', 'updated_by_id', 'users', 'id'
   end
 
   def self.down

@@ -15,7 +15,7 @@ class FluxxGrantCreateRequestReports < ActiveRecord::Migration
       t.boolean :delta, :null => false, :default => true
     end
     add_index :request_reports, :request_id
-    execute "alter table request_reports add constraint request_reports_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_reports', 'request_reports_request_id', 'request_id', 'requests', 'id'
   end
 
   def self.down

@@ -27,9 +27,9 @@ class FluxxCrmCreateOrganizations < ActiveRecord::Migration
     end
     add_index :organizations, :name, :unique => false
     add_index :organizations, :parent_org_id, :unique => false
-    execute "alter table organizations add constraint organizations_geo_country_id foreign key (geo_country_id) references geo_countries(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table organizations add constraint organizations_geo_state_id foreign key (geo_state_id) references geo_states(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table organizations add constraint organizations_parent_org_id foreign key (parent_org_id) references organizations(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'organizations', 'organizations_geo_country_id', 'geo_country_id', 'geo_countries', 'id'
+    add_constraint 'organizations', 'organizations_geo_state_id', 'geo_state_id', 'geo_states', 'id'
+    add_constraint 'organizations', 'organizations_parent_org_id', 'parent_org_id', 'organizations', 'id'
   end
 
   def self.down

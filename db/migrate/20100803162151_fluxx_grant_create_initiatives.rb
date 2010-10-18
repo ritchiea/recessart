@@ -8,7 +8,7 @@ class FluxxGrantCreateInitiatives < ActiveRecord::Migration
       t.integer :program_id
     end
     add_index :initiatives, :program_id
-    execute "alter table initiatives add constraint initiatives_program_id foreign key (program_id) references programs(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'initiatives', 'initiatives_program_id', 'program_id', 'programs', 'id'
   end
 
   def self.down

@@ -7,7 +7,8 @@ class FluxxCrmCreateFavorites < ActiveRecord::Migration
       t.integer :favorable_id, :null => false, :limit => 12
     end
 
-    execute "alter table favorites add constraint favorites_user_id foreign key (user_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'favorites', 'favorites_user_id', 'user_id', 'users', 'id'
+    add_index :favorites, [:favorable_type, :favorable_id]
   end
 
   def self.down

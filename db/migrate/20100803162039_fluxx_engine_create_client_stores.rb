@@ -7,12 +7,7 @@ class FluxxEngineCreateClientStores < ActiveRecord::Migration
       t.string :name
       t.datetime :deleted_at,                :null => true
     end
-    if connection.adapter_name =~ /mysql/i
-      execute 'ALTER TABLE client_stores ADD COLUMN data longtext collate utf8_unicode_ci' 
-    else
-      add_column :client_stores, :data, :text
-    end
-    
+    add_long_text_column :client_stores, :data
     add_index :client_stores, :user_id
     add_index :client_stores, [:user_id, :client_store_type]
   end

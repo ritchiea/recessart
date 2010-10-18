@@ -9,8 +9,8 @@ class FluxxGrantCreateRequestUsers < ActiveRecord::Migration
     end
     add_index :request_users, :request_id
     add_index :request_users, :user_id
-    execute "alter table request_users add constraint request_users_request_id foreign key (request_id) references requests(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table request_users add constraint request_users_user_id foreign key (user_id) references users(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'request_users', 'request_users_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_users', 'request_users_user_id', 'user_id', 'users', 'id'
   end
 
   def self.down

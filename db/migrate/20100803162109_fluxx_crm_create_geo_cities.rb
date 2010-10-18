@@ -9,8 +9,8 @@ class FluxxCrmCreateGeoCities < ActiveRecord::Migration
       t.integer :original_id, :limit => 12, :null => false # The original record ID supplied by maxmind
     end
     
-    execute "alter table geo_cities add constraint geo_cities_state_id foreign key (geo_state_id) references geo_states(id)" unless connection.adapter_name =~ /SQLite/i
-    execute "alter table geo_cities add constraint geo_cities_country_id foreign key (geo_country_id) references geo_countries(id)" unless connection.adapter_name =~ /SQLite/i
+    add_constraint 'geo_cities', 'geo_cities_state_id', 'geo_state_id', 'geo_states', 'id'
+    add_constraint 'geo_cities', 'geo_cities_country_id', 'geo_country_id', 'geo_countries', 'id'
     add_index :geo_cities, :name, :name => 'geo_cities_name_index'
   end
 
