@@ -33,12 +33,9 @@ h3. Quick Start: for rails experts
 * @rake db:migrate@
 * @rake db:seed@
 * @rake ts:rebuild@
-* @rails generate fluxx_engine_public@
-* @rails generate fluxx_crm_public@
-* @rails generate fluxx_grant_public@
 * You will need to create your first user.
 ** @rails c@
-** User.create :first_name => 'John', :last_name => 'Smith', :email => 'johnsmith@some_domain_name.com', :password => 'pass'
+** User.create :first_name => 'John', :last_name => 'Smith', :email => 'johnsmith@some_domain_name.com', :password => 'pass', :login => 'johnsmith', :password_confirmation => 'pass'
 ** exit
 * Add all program roles to that user:
 ** @rake fluxx_grant:add_all_program_roles user_id=1@
