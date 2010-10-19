@@ -29,6 +29,7 @@ gem 'fastercsv', '>= 1.5.3'
 gem 'thin', '>= 1.2.7'
 gem 'rcov'
 gem 'compass'
+gem 'exception_notification'
 
 
 if dev_local 

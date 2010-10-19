@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100923163931) do
+ActiveRecord::Schema.define(:version => 20101018233649) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -58,6 +58,20 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "documents", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
+  end
+
+  add_index "documents", ["created_by_id"], :name => "documents_created_by_id"
+  add_index "documents", ["updated_by_id"], :name => "documents_updated_by_id"
 
   create_table "favorites", :force => true do |t|
     t.datetime "created_at"
@@ -119,6 +133,12 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
   add_index "geo_countries", ["iso2"], :name => "country_iso2_index"
   add_index "geo_countries", ["name"], :name => "country_name_index"
 
+  create_table "geo_regions", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",       :null => false
+  end
+
   create_table "geo_states", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -126,10 +146,12 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.string   "fips_10_4",      :limit => 90, :null => false
     t.string   "abbreviation",   :limit => 25
     t.integer  "geo_country_id",               :null => false
+    t.integer  "geo_region_id"
   end
 
   add_index "geo_states", ["abbreviation"], :name => "geo_states_abbrv_index"
   add_index "geo_states", ["geo_country_id"], :name => "geo_states_country_id"
+  add_index "geo_states", ["geo_region_id"], :name => "geo_states_geo_region_id"
   add_index "geo_states", ["name"], :name => "geo_states_name_index"
 
   create_table "group_members", :force => true do |t|
@@ -300,6 +322,16 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.string   "type_name",        :null => false
     t.string   "model_class",      :null => false
     t.text     "delta_attributes", :null => false
+  end
+
+  create_table "request_evaluation_metrics", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "description"
+    t.string   "comment"
+    t.boolean  "achieved"
   end
 
   create_table "request_funding_sources", :force => true do |t|
@@ -499,7 +531,9 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
 
   add_index "role_users", ["created_by_id"], :name => "role_users_created_by_id"
   add_index "role_users", ["name", "roleable_type", "roleable_id"], :name => "index_role_users_on_name_and_roleable_type_and_roleable_id"
+  add_index "role_users", ["roleable_id"], :name => "role_users_roleable_id"
   add_index "role_users", ["updated_by_id"], :name => "role_users_updated_by_id"
+  add_index "role_users", ["user_id", "roleable_type"], :name => "role_users_user_id_roleable_type"
   add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id"
 
   create_table "user_organizations", :force => true do |t|
@@ -569,10 +603,8 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
     t.string   "persistence_token"
     t.datetime "single_access_token"
     t.datetime "confirmation_sent_at"
-    t.string   "perishable_token"
     t.integer  "login_count",                                  :default => 0
     t.integer  "failed_login_count",                           :default => 0
-    t.datetime "last_request_at"
     t.datetime "current_login_at"
     t.datetime "last_login_at"
     t.string   "current_login_ip"
@@ -581,7 +613,6 @@ ActiveRecord::Schema.define(:version => 20100923163931) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
-  add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
   add_index "users", ["personal_geo_country_id"], :name => "users_personal_country_id"
   add_index "users", ["personal_geo_state_id"], :name => "users_personal_geo_state_id"
