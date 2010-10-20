@@ -13,6 +13,7 @@ Fluxx Grant is grants management software.  This provides a mechanism for founda
 h2. Installation
 
 If you have been developing in rails for a while, you probably have all the key ingredients to get started with fluxx grant.  If not, this guide will walk you through how to get started.
+Check on the google group at "http://groups.google.com/group/projectfluxx":http://groups.google.com/group/projectfluxx for support and gem release announcements.
 
 
 h3. Pre-requisites
@@ -99,7 +100,8 @@ If you want to run rails console, you must also do:
 You could also just @export DEV_LOCAL=1@ to avoid entering it over and over.
 
 h3. Support
-The best way to reach us is to join the google group at http://groups.google.com/group/projectfluxx.
+
+The best way to reach us is to join the google group at "http://groups.google.com/group/projectfluxx":http://groups.google.com/group/projectfluxx.
 
 h3. References
 

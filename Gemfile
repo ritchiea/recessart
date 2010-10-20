@@ -25,7 +25,9 @@ gem 'ts-delayed-delta', '>=1.1.0'
 
 gem "aasm", '2.2.0'
 gem 'acts_as_audited_rails3', '>=1.1.1.5'
-gem 'fastercsv', '>= 1.5.3'
+if RUBY_VERSION < '1.9'
+  gem 'fastercsv', '>= 1.5.3'
+end
 gem 'thin', '>= 1.2.7'
 gem 'rcov'
 gem 'compass'
@@ -45,5 +47,5 @@ else
 end
 
 if RUBY_VERSION < '1.9'
-  gem "ruby-debug", ">= 0.10.3"
+  gem "ruby-debug19", ">= 0.11.6"
 end
