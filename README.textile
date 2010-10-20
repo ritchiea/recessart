@@ -98,6 +98,9 @@ If you want to run rails console, you must also do:
 
 You could also just @export DEV_LOCAL=1@ to avoid entering it over and over.
 
+h3. Support
+The best way to reach us is to join the google group at http://groups.google.com/group/projectfluxx.
+
 h3. References
 
 
