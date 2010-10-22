@@ -97,3 +97,33 @@ fip_type_group = MultiElementGroup.create :name => 'fip_types', :description => 
 MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Contract'
 MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Meeting'
 MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Other'
+
+employee_profile = UserProfile.create :name => 'Employee'
+board_profile = UserProfile.create :name => 'Board'
+consultant_profile = UserProfile.create :name => 'Consultant'
+grantee_profile = UserProfile.create :name => 'Grantee'
+
+# define employee
+UserProfileRule.create :user_profile => employee_profile, :role_name => 'create_all'
+UserProfileRule.create :user_profile => employee_profile, :role_name => 'update_all'
+UserProfileRule.create :user_profile => employee_profile, :role_name => 'view_all'
+UserProfileRule.create :user_profile => employee_profile, :role_name => 'delete_all'
+
+# define board
+UserProfileRule.create :user_profile => board_profile, :role_name => 'view_user'
+UserProfileRule.create :user_profile => board_profile, :role_name => 'view_organization'
+UserProfileRule.create :user_profile => board_profile, :role_name => 'view_grant'
+UserProfileRule.create :user_profile => board_profile, :role_name => 'view_report'
+UserProfileRule.create :user_profile => board_profile, :role_name => 'view_transaction'
+
+# define consultant
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'view_organization'
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'view_request'
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'view_grant'
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'view_report'
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'view_transaction'
+UserProfileRule.create :user_profile => consultant_profile, :role_name => 'create_request'
+
+# define grantee
+UserProfileRule.create :user_profile => grantee_profile, :role_name => 'create_own_request'
+UserProfileRule.create :user_profile => grantee_profile, :role_name => 'view_own_request'
