@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
   end
+  
+  def clear_current_user
+    @current_user = nil if defined?(@current_user)
+  end
 
   def current_user
     User.suspended_delta do
