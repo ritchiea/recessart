@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   
   def clear_current_user
     @current_user = nil if defined?(@current_user)
+    @current_user_session = nil if defined?(@current_user_session)
   end
 
   def current_user
@@ -56,7 +57,7 @@ class ApplicationController < ActionController::Base
     end
     
     def redirect_back_or_default(default)
-      redirect_to(default || '/')
+      redirect_to(default || dashboard_index_path)
       session[:return_to] = nil
     end
 end
