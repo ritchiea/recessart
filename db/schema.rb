@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101021202956) do
+ActiveRecord::Schema.define(:version => 20101025125318) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -204,6 +204,20 @@ ActiveRecord::Schema.define(:version => 20101021202956) do
     t.boolean  "delta",         :default => true, :null => false
   end
 
+  create_table "model_document_types", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name",                            :null => false
+    t.string   "model_type",                      :null => false
+    t.boolean  "required",      :default => true, :null => false
+  end
+
+  add_index "model_document_types", ["created_by_id"], :name => "model_document_types_created_by_id"
+  add_index "model_document_types", ["model_type"], :name => "index_model_document_types_on_model_type"
+  add_index "model_document_types", ["updated_by_id"], :name => "model_document_types_updated_by_id"
+
   create_table "model_documents", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -213,11 +227,14 @@ ActiveRecord::Schema.define(:version => 20101021202956) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.string   "documentable_type",     :null => false
-    t.integer  "documentable_id",       :null => false
+    t.string   "documentable_type",      :null => false
+    t.integer  "documentable_id",        :null => false
     t.datetime "locked_until"
     t.integer  "locked_by_id"
+    t.integer  "model_document_type_id", :null => false
   end
+
+  add_index "model_documents", ["model_document_type_id"], :name => "model_documents_model_document_type_id"
 
   create_table "multi_element_choices", :force => true do |t|
     t.datetime "created_at"
@@ -562,6 +579,7 @@ ActiveRecord::Schema.define(:version => 20101021202956) do
     t.datetime "updated_at"
     t.integer  "user_profile_id"
     t.string   "role_name"
+    t.boolean  "allowed",         :default => true, :null => false
   end
 
   add_index "user_profile_rules", ["role_name"], :name => "index_user_profile_rules_on_role_name"
