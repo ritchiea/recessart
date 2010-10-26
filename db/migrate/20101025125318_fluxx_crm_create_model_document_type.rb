@@ -13,7 +13,7 @@ class FluxxCrmCreateModelDocumentType < ActiveRecord::Migration
     add_constraint 'model_document_types', 'model_document_types_created_by_id', 'created_by_id', 'users', 'id'
     add_constraint 'model_document_types', 'model_document_types_updated_by_id', 'updated_by_id', 'users', 'id'
     
-    add_column :model_documents, :model_document_type_id, :integer, :null => (adapter_name =~ /SQLite/i ? true : false)
+    add_column :model_documents, :model_document_type_id, :integer, :null => true
     add_constraint 'model_documents', 'model_documents_model_document_type_id', 'model_document_type_id', 'model_document_types', 'id'
   end
 
