@@ -42,6 +42,11 @@ h3. Quick Start: for rails experts
 ** @rake fluxx_grant:add_all_program_roles user_id=1@
 * @rails server@
 
+h3. NOTE:
+If you want to pull the latest gems, you must run:
+@bundle update@
+Otherwise bundle install will not automatically try to get more recent versions of the gems.
+
 h2. Technical Details
 
 h3. Generators and Migrations
