@@ -13,7 +13,7 @@ gem 'thinking-sphinx', '2.0.0.rc1', :require => 'thinking_sphinx'
 gem 'paperclip'
 # gem 'devise', '1.1.2'
 
-gem 'authlogic', :git => 'git://github.com/odorcicd/authlogic.git', :branch => 'rails3'
+gem "authlogic", :git => "git://github.com/binarylogic/authlogic.git"
 gem 'machinist', '>=1.0.6'
 gem 'faker', '>=0.3.1'
 gem 'formtastic', '~> 1.1.0'
