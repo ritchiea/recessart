@@ -4,6 +4,7 @@ class UserSessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:new, :create]
   
   def new
+    response.headers['fluxx_template'] = 'login'
     @user_session = UserSession.new
     respond_to do |format|
       format.html do
