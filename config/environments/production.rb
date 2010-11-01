@@ -46,7 +46,7 @@ FluxxGrantRi::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  MEMCACHE_SERVER='localhost:11211'
+  MEMCACHE_SERVER='127.0.0.1:11211'
   SKIP_FLUXX_BUILDER=true
 
   require 'memcache'
