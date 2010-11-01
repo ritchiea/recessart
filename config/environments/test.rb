@@ -34,4 +34,6 @@ FluxxGrantRi::Application.configure do
   config.active_support.deprecation = :stderr
   MEMCACHE_SERVER='localhost:11211'
   SKIP_FLUXX_BUILDER=false
+  FluxxGrantRi::Application.config.session_store :mem_cache_store, :memcache_server => MEMCACHE_SERVER
+  ActiveSupport::Cache.lookup_store :mem_cache_store, MEMCACHE_SERVER
 end
