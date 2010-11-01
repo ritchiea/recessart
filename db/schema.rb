@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101025125318) do
+ActiveRecord::Schema.define(:version => 20101101233057) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -329,6 +329,96 @@ ActiveRecord::Schema.define(:version => 20101025125318) do
   end
 
   add_index "programs", ["parent_id"], :name => "index_programs_on_parent_id"
+
+  create_table "project_list_items", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name"
+    t.text     "list_item_text"
+    t.integer  "project_list_id"
+    t.datetime "due_at"
+    t.integer  "item_order"
+    t.integer  "assigned_user_id"
+  end
+
+  add_index "project_list_items", ["assigned_user_id"], :name => "project_list_items_assigned_user_id"
+  add_index "project_list_items", ["created_by_id"], :name => "project_list_items_created_by_id"
+  add_index "project_list_items", ["project_list_id"], :name => "project_list_items_project_id"
+  add_index "project_list_items", ["updated_by_id"], :name => "project_list_items_updated_by_id"
+
+  create_table "project_lists", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "title"
+    t.integer  "project_id"
+    t.integer  "list_order"
+    t.integer  "list_type_id"
+  end
+
+  add_index "project_lists", ["created_by_id"], :name => "project_lists_created_by_id"
+  add_index "project_lists", ["project_id"], :name => "project_lists_project_id"
+  add_index "project_lists", ["updated_by_id"], :name => "project_lists_updated_by_id"
+
+  create_table "project_organizations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "project_id"
+    t.integer  "organization_id"
+  end
+
+  add_index "project_organizations", ["created_by_id"], :name => "project_organizations_created_by_id"
+  add_index "project_organizations", ["organization_id"], :name => "project_organizations_organization_id"
+  add_index "project_organizations", ["project_id"], :name => "project_organizations_project_id"
+  add_index "project_organizations", ["updated_by_id"], :name => "project_organizations_updated_by_id"
+
+  create_table "project_requests", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "project_id"
+    t.integer  "request_id"
+  end
+
+  add_index "project_requests", ["created_by_id"], :name => "project_requests_created_by_id"
+  add_index "project_requests", ["project_id"], :name => "project_requests_project_id"
+  add_index "project_requests", ["request_id"], :name => "project_requests_request_id"
+  add_index "project_requests", ["updated_by_id"], :name => "project_requests_updated_by_id"
+
+  create_table "project_users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "project_id"
+    t.integer  "user_id"
+  end
+
+  add_index "project_users", ["created_by_id"], :name => "project_users_created_by_id"
+  add_index "project_users", ["project_id"], :name => "project_users_project_id"
+  add_index "project_users", ["updated_by_id"], :name => "project_users_updated_by_id"
+  add_index "project_users", ["user_id"], :name => "project_users_user_id"
+
+  create_table "projects", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "project_type_id"
+    t.integer  "lead_user_id"
+  end
+
+  add_index "projects", ["created_by_id"], :name => "projects_created_by_id"
+  add_index "projects", ["lead_user_id"], :name => "projects_lead_user_id"
+  add_index "projects", ["updated_by_id"], :name => "projects_updated_by_id"
 
   create_table "realtime_updates", :force => true do |t|
     t.datetime "created_at"
@@ -656,6 +746,20 @@ ActiveRecord::Schema.define(:version => 20101025125318) do
   add_index "users", ["primary_user_organization_id"], :name => "users_primary_user_org_id"
   add_index "users", ["single_access_token"], :name => "index_users_on_single_access_token"
   add_index "users", ["user_profile_id"], :name => "users_user_profile_id"
+
+  create_table "wiki_documents", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "model_id"
+    t.string   "model_type"
+    t.integer  "wiki_order"
+    t.text     "note"
+  end
+
+  add_index "wiki_documents", ["created_by_id"], :name => "wiki_documents_created_by_id"
+  add_index "wiki_documents", ["updated_by_id"], :name => "wiki_documents_updated_by_id"
 
   create_table "workflow_events", :force => true do |t|
     t.datetime "created_at"
