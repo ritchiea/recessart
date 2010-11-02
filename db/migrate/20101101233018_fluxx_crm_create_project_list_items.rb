@@ -9,6 +9,9 @@ class FluxxCrmCreateProjectListItems < ActiveRecord::Migration
       t.datetime :due_at
       t.integer :item_order   # order in which the item elements are displayed
       t.integer :assigned_user_id, :limit => 12
+      t.datetime :deleted_at,                :null => true
+      t.datetime :locked_until,              :null => true
+      t.integer :locked_by_id,               :null => true
     end
 
     add_constraint 'project_list_items', 'project_list_items_created_by_id', 'created_by_id', 'users', 'id'
