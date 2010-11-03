@@ -341,11 +341,14 @@ ActiveRecord::Schema.define(:version => 20101101233057) do
     t.datetime "due_at"
     t.integer  "item_order"
     t.integer  "assigned_user_id"
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
   end
 
   add_index "project_list_items", ["assigned_user_id"], :name => "project_list_items_assigned_user_id"
   add_index "project_list_items", ["created_by_id"], :name => "project_list_items_created_by_id"
-  add_index "project_list_items", ["project_list_id"], :name => "project_list_items_project_id"
+  add_index "project_list_items", ["project_list_id"], :name => "project_list_items_project_list_id"
   add_index "project_list_items", ["updated_by_id"], :name => "project_list_items_updated_by_id"
 
   create_table "project_lists", :force => true do |t|
@@ -357,6 +360,9 @@ ActiveRecord::Schema.define(:version => 20101101233057) do
     t.integer  "project_id"
     t.integer  "list_order"
     t.integer  "list_type_id"
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
   end
 
   add_index "project_lists", ["created_by_id"], :name => "project_lists_created_by_id"
@@ -414,6 +420,9 @@ ActiveRecord::Schema.define(:version => 20101101233057) do
     t.text     "description"
     t.integer  "project_type_id"
     t.integer  "lead_user_id"
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
   end
 
   add_index "projects", ["created_by_id"], :name => "projects_created_by_id"
@@ -756,6 +765,9 @@ ActiveRecord::Schema.define(:version => 20101101233057) do
     t.string   "model_type"
     t.integer  "wiki_order"
     t.text     "note"
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
   end
 
   add_index "wiki_documents", ["created_by_id"], :name => "wiki_documents_created_by_id"

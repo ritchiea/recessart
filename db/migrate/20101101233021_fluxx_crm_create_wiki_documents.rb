@@ -6,6 +6,7 @@ class FluxxCrmCreateWikiDocuments < ActiveRecord::Migration
       t.integer :model_id, :limit => 12
       t.string :model_type
       t.integer :wiki_order   # order in which the wiki entries are displayed
+      t.string :title
       t.text :note
       t.datetime :deleted_at,                :null => true
       t.datetime :locked_until,              :null => true

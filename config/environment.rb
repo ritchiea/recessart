@@ -5,11 +5,12 @@ require File.expand_path('../application', __FILE__)
 FluxxGrantRi::Application.initialize!
 
 require 'thinking_sphinx/deltas/delayed_delta'
-GrantRequest
-RequestTransaction
-Organization
-User
-RequestReport
+GrantRequest rescue nil
+RequestTransaction rescue nil
+Organization rescue nil
+User rescue nil
+RequestReport rescue nil
+Project rescue nil
 
 if defined?(PhusionPassenger)
  PhusionPassenger.on_event(:starting_worker_process) do |forked|
