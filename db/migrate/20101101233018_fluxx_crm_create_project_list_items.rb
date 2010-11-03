@@ -18,10 +18,10 @@ class FluxxCrmCreateProjectListItems < ActiveRecord::Migration
     add_constraint 'project_list_items', 'project_list_items_updated_by_id', 'updated_by_id', 'users', 'id'
     add_constraint 'project_list_items', 'project_list_items_assigned_user_id', 'assigned_user_id', 'users', 'id'
     
-    add_constraint 'project_list_items', 'project_list_items_project_id', 'project_list_id', 'projects', 'id'
+    add_constraint 'project_list_items', 'project_list_items_project_list_id', 'project_list_id', 'project_lists', 'id'
   end
 
   def self.down
-    drop_table :project_lists
+    drop_table :project_list_items
   end
 end

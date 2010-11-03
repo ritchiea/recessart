@@ -14,6 +14,6 @@ class FluxxGrantCreateProjectRequests < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :project_users
+    drop_table :project_requests
   end
 end
