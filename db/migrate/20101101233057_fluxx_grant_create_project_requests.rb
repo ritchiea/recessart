@@ -5,6 +5,7 @@ class FluxxGrantCreateProjectRequests < ActiveRecord::Migration
       t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
       t.integer :project_id, :limit => 12
       t.integer :request_id, :limit => 12
+      t.boolean :granted
     end
 
     add_constraint 'project_requests', 'project_requests_created_by_id', 'created_by_id', 'requests', 'id'
