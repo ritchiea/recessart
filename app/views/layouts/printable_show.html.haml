@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %title Fluxx Grant
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/style.css'
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_crm/theme/default/style.css'
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_grant/theme/default/style.css'
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/printable.css', :media => 'print'
+    
+  %body
+    = yield

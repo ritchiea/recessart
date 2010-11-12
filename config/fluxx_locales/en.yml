@@ -39,5 +39,6 @@ en:
   failed_to_un_reject_error_messages: "Unable to un-reject this request.  You may need to change some fields in the request.  These error messages were found: "
   failed_to_cancel_grant_error_messages: "Unable to cancel this request.  You may need to change some fields in the request.  These error messages were found: "
   
+  unable_to_promote: "Unable to promote.  These error messages were found: "
   grant_failed_to_promote_with_exception: "Unable to promote this request.  These error messages were found: "
   er_grants_may_not_be_greater_than_one_year: "ER grants may not have greater than 1 year duration: '%{duration_in_months}' months was specified for this loan."
