@@ -7,5 +7,7 @@
     = stylesheet_link_tag '/stylesheets/compiled/fluxx_grant/theme/default/style.css'
     = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/printable.css', :media => 'print'
     
-  %body
-    = yield
+  %body{:id => 'fluxx'}
+    %div{:id => 'card-table'}
+      %div{:id => 'hand'}
+        = yield
