@@ -53,4 +53,5 @@ FluxxGrantRi::Application.configure do
   SESSION_CACHE = MemCache.new(MEMCACHE_SERVER, :namespace => 'rack:session', :memcache_server => MEMCACHE_SERVER)
   FluxxGrantRi::Application.config.session_store :mem_cache_store, :cache => SESSION_CACHE
   FluxxGrantRi::Application.config.cache_store = :mem_cache_store, MEMCACHE_SERVER
+  Sass::Plugin.options[:line_numbers] = true
 end
