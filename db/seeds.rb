@@ -142,3 +142,8 @@ project_list_type_group = MultiElementGroup.create :name => 'list_types', :descr
 MultiElementValue.create :multi_element_group_id => project_list_type_group.id, :value => 'Numbers'
 MultiElementValue.create :multi_element_group_id => project_list_type_group.id, :value => 'Bulleted'
 MultiElementValue.create :multi_element_group_id => project_list_type_group.id, :value => 'To-Do'
+
+WikiDocumentTemplate.create :model_type => 'GrantRequest', :document_type => 'Letter', :filename => 'grant_award_letter.html', :description => 'Grant Award Letter', :category => 'award letter', :document => 'Award Letter'
+WikiDocumentTemplate.create :model_type => 'GrantRequest', :document_type => 'Letter', :filename => 'grant_agreement_letter.html', :description => 'Grant Agreement Letter', :category => 'agreement letter', :document => 'Agreement Letter'
+
+WikiDocumentTemplate.reload_all_templated_wiki_documents
