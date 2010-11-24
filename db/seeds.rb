@@ -14,18 +14,6 @@ Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Friends
 Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Supporters'
 Group.create :created_at => Time.now, :updated_at => Time.now, :name => 'Partners'
 
-LetterTemplate.create :letter_type => 'al_public_charity', :description => 'Award Letter Public Charity', :category => 'Award', :filename => 'al_public_charity'
-LetterTemplate.create :letter_type => 'ga_public_charity', :description => 'Grant Agreement Public Charity', :category => 'Grant Agreement', :filename => 'ga_public_charity'
-LetterTemplate.create :letter_type => 'ga_china_er', :description => 'Grant Agreement China ER', :category => 'Grant Agreement', :filename => 'ga_china_er'
-LetterTemplate.create :letter_type => 'ga_gos', :description => 'Grant Agreement General Operating Support', :category => 'Grant Agreement', :filename => 'ga_gos'
-LetterTemplate.create :letter_type => 'ga_multiyear', :description => 'Grant Agreement Multiyear', :category => 'Grant Agreement', :filename => 'ga_multiyear'
-LetterTemplate.create :letter_type => 'ga_us_er', :description => 'Grant Agreement US ER', :category => 'Grant Agreement', :filename => 'ga_us_er'
-LetterTemplate.create :letter_type => 'al_china_er', :description => 'Award Letter China ER', :category => 'Award', :filename => 'al_china_er'
-LetterTemplate.create :letter_type => 'al_gos', :description => 'Award Letter General Operating Support', :category => 'Award', :filename => 'al_gos'
-LetterTemplate.create :letter_type => 'al_multiyear', :description => 'Award Letter Multiyear', :category => 'Award', :filename => 'al_multiyear'
-LetterTemplate.create :letter_type => 'al_us_er', :description => 'Award Letter US ER', :category => 'Award', :filename => 'al_us_er'
-
-
 tax_class_group = MultiElementGroup.create :name => 'tax_classes', :description => 'TaxClass', :target_class_name => 'Organization'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a1'
 MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a2'
