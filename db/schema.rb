@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101123021902) do
+ActiveRecord::Schema.define(:version => 20101127175539) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -190,6 +190,41 @@ ActiveRecord::Schema.define(:version => 20101123021902) do
 
   add_index "initiatives", ["program_id"], :name => "index_initiatives_on_program_id"
 
+  create_table "letter_templates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "letter_type"
+    t.string   "filename"
+    t.string   "description"
+    t.string   "category"
+    t.string   "letter"
+    t.datetime "deleted_at"
+    t.boolean  "delta",         :default => true, :null => false
+  end
+
+  create_table "model_document_templates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "model_type"
+    t.string   "document_type"
+    t.string   "filename"
+    t.string   "description"
+    t.string   "category"
+    t.text     "document"
+    t.datetime "deleted_at"
+    t.boolean  "delta",         :default => true, :null => false
+  end
+
+  add_index "model_document_templates", ["category"], :name => "index_model_document_templates_on_category"
+  add_index "model_document_templates", ["created_by_id"], :name => "modeldoctemplate_created_by_id"
+  add_index "model_document_templates", ["document_type"], :name => "index_model_document_templates_on_document_type"
+  add_index "model_document_templates", ["model_type"], :name => "index_model_document_templates_on_model_type"
+  add_index "model_document_templates", ["updated_by_id"], :name => "modeldoctemplate_updated_by_id"
+
   create_table "model_document_types", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -213,13 +248,17 @@ ActiveRecord::Schema.define(:version => 20101123021902) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.string   "documentable_type",      :null => false
-    t.integer  "documentable_id",        :null => false
+    t.string   "documentable_type",                              :null => false
+    t.integer  "documentable_id",                                :null => false
     t.datetime "locked_until"
     t.integer  "locked_by_id"
     t.integer  "model_document_type_id"
+    t.string   "document_type",              :default => "file"
+    t.text     "document_text"
+    t.integer  "model_document_template_id"
   end
 
+  add_index "model_documents", ["model_document_template_id"], :name => "model_documents_template_id"
   add_index "model_documents", ["model_document_type_id"], :name => "model_documents_model_document_type_id"
 
   create_table "multi_element_choices", :force => true do |t|
@@ -474,6 +513,18 @@ ActiveRecord::Schema.define(:version => 20101123021902) do
 
   add_index "request_geo_states", ["geo_state_id"], :name => "index_request_geo_states_on_geo_state_id"
   add_index "request_geo_states", ["request_id"], :name => "index_request_geo_states_on_request_id"
+
+  create_table "request_letters", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_id"
+    t.integer  "letter_template_id"
+    t.string   "letter"
+    t.datetime "deleted_at"
+    t.boolean  "delta",              :default => true, :null => false
+  end
 
   create_table "request_organizations", :force => true do |t|
     t.datetime "created_at"

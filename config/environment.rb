@@ -6,6 +6,14 @@ FluxxGrantRi::Application.initialize!
 
 require 'thinking_sphinx/deltas/delayed_delta'
 
+Request rescue nil
+FipRequest rescue nil
+GrantRequest rescue nil
+Organization rescue nil
+User rescue nil
+RequestTransaction rescue nil
+RequestReport rescue nil
+
 if defined?(PhusionPassenger)
  PhusionPassenger.on_event(:starting_worker_process) do |forked|
    if forked
