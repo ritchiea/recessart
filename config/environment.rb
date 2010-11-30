@@ -6,6 +6,8 @@ FluxxGrantRi::Application.initialize!
 
 require 'thinking_sphinx/deltas/delayed_delta'
 
+FLUXX_CONFIGURATION = {}
+
 Request rescue nil
 FipRequest rescue nil
 GrantRequest rescue nil
