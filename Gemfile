@@ -24,7 +24,7 @@ gem 'delayed_job', :git => 'git://github.com/collectiveidea/delayed_job.git'
 gem 'ts-delayed-delta', '>=1.1.0'
 
 gem "aasm", '2.2.0'
-gem 'acts_as_audited_rails3', '>=1.1.1.5'
+gem 'acts_as_audited_rails3', '>=1.1.2'
 if RUBY_VERSION < '1.9'
   gem 'fastercsv', '>= 1.5.3'
 end
