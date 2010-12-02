@@ -22,6 +22,7 @@ Organization.suspended_delta(false) do
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '509a3'
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => 'Private Foundation'
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '501c4'
+    MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '501c5'
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => '501c6'
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => 'non-US'
     MultiElementValue.create :multi_element_group_id => tax_class_group.id, :value => 'Non-Exempt'
