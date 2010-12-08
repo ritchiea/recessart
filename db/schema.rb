@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101208182519) do
+ActiveRecord::Schema.define(:version => 20101208194915) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -661,6 +661,34 @@ ActiveRecord::Schema.define(:version => 20101208182519) do
   add_index "role_users", ["updated_by_id"], :name => "role_users_updated_by_id"
   add_index "role_users", ["user_id", "roleable_type"], :name => "index_role_users_on_user_id_and_roleable_type"
   add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id"
+
+  create_table "sub_initiatives", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name",           :null => false
+    t.text     "description"
+    t.integer  "sub_program_id", :null => false
+  end
+
+  add_index "sub_initiatives", ["created_by_id"], :name => "sub_initiatives_created_by_id"
+  add_index "sub_initiatives", ["sub_program_id"], :name => "sub_initiative_sub_program_id"
+  add_index "sub_initiatives", ["updated_by_id"], :name => "sub_initiatives_updated_by_id"
+
+  create_table "sub_programs", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name",          :null => false
+    t.text     "description"
+    t.integer  "initiative_id", :null => false
+  end
+
+  add_index "sub_programs", ["created_by_id"], :name => "sub_programs_created_by_id"
+  add_index "sub_programs", ["initiative_id"], :name => "index_sub_programs_on_initiative_id"
+  add_index "sub_programs", ["updated_by_id"], :name => "sub_programs_updated_by_id"
 
   create_table "user_organizations", :force => true do |t|
     t.datetime "created_at"
