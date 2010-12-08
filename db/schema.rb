@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101208194915) do
+ActiveRecord::Schema.define(:version => 20101208215815) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -489,6 +489,8 @@ ActiveRecord::Schema.define(:version => 20101208194915) do
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.integer  "board_authority_id"
+    t.integer  "sub_program_id"
+    t.integer  "sub_initiative_id"
   end
 
   add_index "request_funding_sources", ["board_authority_id"], :name => "rfs_board_authority_id"
@@ -496,6 +498,8 @@ ActiveRecord::Schema.define(:version => 20101208194915) do
   add_index "request_funding_sources", ["initiative_id"], :name => "index_request_funding_sources_on_initiative_id"
   add_index "request_funding_sources", ["program_id"], :name => "index_request_funding_sources_on_program_id"
   add_index "request_funding_sources", ["request_id"], :name => "index_request_funding_sources_on_request_id"
+  add_index "request_funding_sources", ["sub_initiative_id"], :name => "rfs_sub_initiative_id"
+  add_index "request_funding_sources", ["sub_program_id"], :name => "rfs_sub_program_id"
 
   create_table "request_geo_states", :force => true do |t|
     t.datetime "created_at"
