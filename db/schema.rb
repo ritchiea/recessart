@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101202004625) do
+ActiveRecord::Schema.define(:version => 20101208182519) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "favorable_id",   :null => false
   end
 
+  add_index "favorites", ["favorable_type", "favorable_id"], :name => "index_favorites_on_favorable_type_and_favorable_id"
   add_index "favorites", ["user_id"], :name => "favorites_user_id"
 
   create_table "funding_sources", :force => true do |t|
@@ -190,20 +191,6 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
 
   add_index "initiatives", ["program_id"], :name => "index_initiatives_on_program_id"
 
-  create_table "letter_templates", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "created_by_id"
-    t.integer  "updated_by_id"
-    t.string   "letter_type"
-    t.string   "filename"
-    t.string   "description"
-    t.string   "category"
-    t.string   "letter"
-    t.datetime "deleted_at"
-    t.boolean  "delta",         :default => true, :null => false
-  end
-
   create_table "model_document_templates", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -285,8 +272,10 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.string   "description"
     t.string   "value"
     t.integer  "multi_element_group_id"
+    t.integer  "dependent_multi_element_value_id"
   end
 
+  add_index "multi_element_values", ["dependent_multi_element_value_id"], :name => "multi_element_values_dependent_value_id"
   add_index "multi_element_values", ["multi_element_group_id"], :name => "index_multi_element_values_on_multi_element_group_id"
 
   create_table "notes", :force => true do |t|
@@ -304,6 +293,7 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
   end
 
   add_index "notes", ["created_by_id"], :name => "notes_created_by_id"
+  add_index "notes", ["notable_type", "notable_id"], :name => "index_notes_on_notable_type_and_notable_id"
   add_index "notes", ["updated_by_id"], :name => "notes_updated_by_id"
 
   create_table "organizations", :force => true do |t|
@@ -338,7 +328,7 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"767"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 
@@ -366,10 +356,10 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.datetime "due_at"
     t.integer  "item_order"
     t.integer  "assigned_user_id"
+    t.boolean  "item_completed",   :default => false
     t.datetime "deleted_at"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
-    t.boolean  "item_completed",   :default => false
   end
 
   add_index "project_list_items", ["assigned_user_id"], :name => "project_list_items_assigned_user_id"
@@ -417,7 +407,7 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "updated_by_id"
     t.integer  "project_id"
     t.integer  "request_id"
-    t.boolean  "granted",       :default => false, :null => false
+    t.boolean  "granted"
     t.string   "description"
   end
 
@@ -448,13 +438,13 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "updated_by_id"
     t.string   "title"
     t.text     "description"
+    t.string   "state"
     t.integer  "project_type_id"
     t.integer  "lead_user_id"
     t.datetime "deleted_at"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
     t.boolean  "delta",           :default => true, :null => false
-    t.string   "state"
   end
 
   add_index "projects", ["created_by_id"], :name => "projects_created_by_id"
@@ -477,10 +467,13 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.integer  "request_id",    :null => false
     t.string   "description"
     t.string   "comment"
     t.boolean  "achieved"
   end
+
+  add_index "request_evaluation_metrics", ["request_id"], :name => "request_evaluation_metrics_request_id"
 
   create_table "request_funding_sources", :force => true do |t|
     t.datetime "created_at"
@@ -495,8 +488,10 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "funding_amount"
     t.integer  "locked_by_id"
     t.datetime "locked_until"
+    t.integer  "board_authority_id"
   end
 
+  add_index "request_funding_sources", ["board_authority_id"], :name => "rfs_board_authority_id"
   add_index "request_funding_sources", ["funding_source_id"], :name => "index_request_funding_sources_on_funding_source_id"
   add_index "request_funding_sources", ["initiative_id"], :name => "index_request_funding_sources_on_initiative_id"
   add_index "request_funding_sources", ["program_id"], :name => "index_request_funding_sources_on_program_id"
@@ -513,18 +508,6 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
 
   add_index "request_geo_states", ["geo_state_id"], :name => "index_request_geo_states_on_geo_state_id"
   add_index "request_geo_states", ["request_id"], :name => "index_request_geo_states_on_request_id"
-
-  create_table "request_letters", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "created_by_id"
-    t.integer  "updated_by_id"
-    t.integer  "request_id"
-    t.integer  "letter_template_id"
-    t.string   "letter"
-    t.datetime "deleted_at"
-    t.boolean  "delta",              :default => true, :null => false
-  end
 
   create_table "request_organizations", :force => true do |t|
     t.datetime "created_at"
@@ -650,15 +633,15 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "grantee_org_owner_id"
   end
 
-  add_index "requests", ["fiscal_org_owner_id"], :name => "requests_fiscal_org_owner_id"
+  add_index "requests", ["fiscal_org_owner_id"], :name => "index_requests_on_fiscal_org_owner_id"
   add_index "requests", ["fiscal_organization_id"], :name => "index_requests_on_fiscal_organization_id"
-  add_index "requests", ["fiscal_signatory_id"], :name => "requests_fiscal_signatory_id"
+  add_index "requests", ["fiscal_signatory_id"], :name => "index_requests_on_fiscal_signatory_id"
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
-  add_index "requests", ["grantee_org_owner_id"], :name => "requests_grantee_org_owner_id"
-  add_index "requests", ["grantee_signatory_id"], :name => "requests_grantee_signatory_id"
+  add_index "requests", ["grantee_org_owner_id"], :name => "index_requests_on_grantee_org_owner_id"
+  add_index "requests", ["grantee_signatory_id"], :name => "index_requests_on_grantee_signatory_id"
   add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
-  add_index "requests", ["program_lead_id"], :name => "requests_program_lead_id"
+  add_index "requests", ["program_lead_id"], :name => "index_requests_on_program_lead_id"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
 
   create_table "role_users", :force => true do |t|
@@ -674,9 +657,9 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
 
   add_index "role_users", ["created_by_id"], :name => "role_users_created_by_id"
   add_index "role_users", ["name", "roleable_type", "roleable_id"], :name => "index_role_users_on_name_and_roleable_type_and_roleable_id"
-  add_index "role_users", ["roleable_id"], :name => "role_users_roleable_id"
+  add_index "role_users", ["roleable_id"], :name => "index_role_users_on_roleable_id"
   add_index "role_users", ["updated_by_id"], :name => "role_users_updated_by_id"
-  add_index "role_users", ["user_id", "roleable_type"], :name => "role_users_user_id_roleable_type"
+  add_index "role_users", ["user_id", "roleable_type"], :name => "index_role_users_on_user_id_and_roleable_type"
   add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id"
 
   create_table "user_organizations", :force => true do |t|
@@ -695,9 +678,9 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
   end
 
   add_index "user_organizations", ["created_by_id"], :name => "user_organizations_created_by_id"
-  add_index "user_organizations", ["organization_id"], :name => "user_org_org_id"
+  add_index "user_organizations", ["organization_id"], :name => "index_user_organizations_on_organization_id"
   add_index "user_organizations", ["updated_by_id"], :name => "user_organizations_updated_by_id"
-  add_index "user_organizations", ["user_id"], :name => "user_org_user_id"
+  add_index "user_organizations", ["user_id"], :name => "index_user_organizations_on_user_id"
 
   create_table "user_profile_rules", :force => true do |t|
     t.datetime "created_at"
@@ -811,12 +794,11 @@ ActiveRecord::Schema.define(:version => 20101202004625) do
     t.integer  "model_id"
     t.string   "model_type"
     t.integer  "wiki_order"
+    t.string   "title"
     t.text     "note"
     t.datetime "deleted_at"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
-    t.string   "project_summary"
-    t.string   "title"
     t.integer  "wiki_document_template_id"
   end
 
