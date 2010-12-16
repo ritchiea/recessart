@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101208215815) do
+ActiveRecord::Schema.define(:version => 20101216005325) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -84,6 +84,34 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
   add_index "favorites", ["favorable_type", "favorable_id"], :name => "index_favorites_on_favorable_type_and_favorable_id"
   add_index "favorites", ["user_id"], :name => "favorites_user_id"
 
+  create_table "funding_source_allocations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "funding_source_id"
+    t.integer  "program_id"
+    t.integer  "sub_program_id"
+    t.integer  "initiative_id"
+    t.integer  "sub_initiative_id"
+    t.integer  "authority_id"
+    t.integer  "amount"
+    t.integer  "retired"
+    t.integer  "boolean"
+    t.integer  "locked_by_id"
+    t.datetime "locked_until"
+    t.datetime "deleted_at"
+  end
+
+  add_index "funding_source_allocations", ["authority_id"], :name => "funding_source_allocations_authority_id"
+  add_index "funding_source_allocations", ["created_by_id"], :name => "funding_source_allocations_created_by_id"
+  add_index "funding_source_allocations", ["funding_source_id"], :name => "funding_source_allocations_funding_source_id"
+  add_index "funding_source_allocations", ["initiative_id"], :name => "funding_source_allocations_initiative_id"
+  add_index "funding_source_allocations", ["program_id"], :name => "funding_source_allocations_program_id"
+  add_index "funding_source_allocations", ["sub_initiative_id"], :name => "funding_source_allocations_sub_initiative_id"
+  add_index "funding_source_allocations", ["sub_program_id"], :name => "funding_source_allocations_sub_program_id"
+  add_index "funding_source_allocations", ["updated_by_id"], :name => "funding_source_allocations_updated_by_id"
+
   create_table "funding_sources", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -91,6 +119,9 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
     t.integer  "updated_by_id"
     t.string   "name"
     t.integer  "amount"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean  "retired"
   end
 
   create_table "geo_cities", :force => true do |t|
@@ -184,12 +215,14 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name"
-    t.string   "description"
-    t.integer  "program_id"
+    t.string   "name",           :null => false
+    t.text     "description"
+    t.integer  "sub_program_id"
   end
 
-  add_index "initiatives", ["program_id"], :name => "index_initiatives_on_program_id"
+  add_index "initiatives", ["created_by_id"], :name => "sub_programs_created_by_id"
+  add_index "initiatives", ["sub_program_id"], :name => "index_sub_programs_on_initiative_id"
+  add_index "initiatives", ["updated_by_id"], :name => "sub_programs_updated_by_id"
 
   create_table "model_document_templates", :force => true do |t|
     t.datetime "created_at"
@@ -593,7 +626,7 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
     t.integer  "program_organization_id"
     t.integer  "fiscal_organization_id"
     t.integer  "program_id"
-    t.integer  "initiative_id"
+    t.integer  "sub_program_id"
     t.boolean  "granted",                           :default => false, :null => false
     t.boolean  "renewal_grant"
     t.boolean  "funding_general_operating_support"
@@ -643,10 +676,10 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
   add_index "requests", ["granted"], :name => "index_requests_on_granted"
   add_index "requests", ["grantee_org_owner_id"], :name => "index_requests_on_grantee_org_owner_id"
   add_index "requests", ["grantee_signatory_id"], :name => "index_requests_on_grantee_signatory_id"
-  add_index "requests", ["initiative_id"], :name => "index_requests_on_initiative_id"
   add_index "requests", ["program_id"], :name => "index_requests_on_program_id"
   add_index "requests", ["program_lead_id"], :name => "index_requests_on_program_lead_id"
   add_index "requests", ["program_organization_id"], :name => "index_requests_on_program_organization_id"
+  add_index "requests", ["sub_program_id"], :name => "index_requests_on_initiative_id"
 
   create_table "role_users", :force => true do |t|
     t.datetime "created_at"
@@ -671,13 +704,13 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",           :null => false
+    t.string   "name",          :null => false
     t.text     "description"
-    t.integer  "sub_program_id", :null => false
+    t.integer  "initiative_id"
   end
 
   add_index "sub_initiatives", ["created_by_id"], :name => "sub_initiatives_created_by_id"
-  add_index "sub_initiatives", ["sub_program_id"], :name => "sub_initiative_sub_program_id"
+  add_index "sub_initiatives", ["initiative_id"], :name => "sub_initiative_initiative_id"
   add_index "sub_initiatives", ["updated_by_id"], :name => "sub_initiatives_updated_by_id"
 
   create_table "sub_programs", :force => true do |t|
@@ -685,14 +718,12 @@ ActiveRecord::Schema.define(:version => 20101208215815) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",          :null => false
-    t.text     "description"
-    t.integer  "initiative_id", :null => false
+    t.string   "name"
+    t.string   "description"
+    t.integer  "program_id"
   end
 
-  add_index "sub_programs", ["created_by_id"], :name => "sub_programs_created_by_id"
-  add_index "sub_programs", ["initiative_id"], :name => "index_sub_programs_on_initiative_id"
-  add_index "sub_programs", ["updated_by_id"], :name => "sub_programs_updated_by_id"
+  add_index "sub_programs", ["program_id"], :name => "index_initiatives_on_program_id"
 
   create_table "user_organizations", :force => true do |t|
     t.datetime "created_at"
