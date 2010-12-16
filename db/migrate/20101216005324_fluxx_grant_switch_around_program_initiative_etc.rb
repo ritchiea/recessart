@@ -19,8 +19,6 @@ class FluxxGrantSwitchAroundProgramInitiativeEtc < ActiveRecord::Migration
     # requests; initiative_id should be renamed to sub_program_id
     execute "ALTER TABLE requests change column initiative_id sub_program_id int(11) DEFAULT NULL"
     
-    # request_funding_sources nothing changes but referential integrity
-    
     # rename sub_programs and initiatives
     execute "RENAME TABLE sub_programs to tmp_table"
     execute "RENAME TABLE initiatives to sub_programs"
@@ -30,6 +28,11 @@ class FluxxGrantSwitchAroundProgramInitiativeEtc < ActiveRecord::Migration
     execute "ALTER TABLE initiatives change column initiative_id sub_program_id  int(11) DEFAULT NULL"
     # change sub_initiatives column sub_program_id to initiative_id
     execute "ALTER TABLE sub_initiatives change column sub_program_id initiative_id  int(11) DEFAULT NULL"
+
+    # request_funding_sources swap initiative_id and sub_program_id 
+    execute "ALTER TABLE request_funding_sources change column sub_program_id tmp_initiative_id  int(11) DEFAULT NULL"
+    execute "ALTER TABLE request_funding_sources change column initiative_id sub_program_id int(11) DEFAULT NULL"
+    execute "ALTER TABLE request_funding_sources change column tmp_initiative_id initiative_id  int(11) DEFAULT NULL"
     
     # resume referential integrity
     unless adapter_name =~ /SQLite/i
