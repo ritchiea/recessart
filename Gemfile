@@ -32,6 +32,7 @@ gem 'thin', '>= 1.2.7'
 gem 'rcov'
 gem 'compass'
 gem 'exception_notification'
+gem 'capistrano'
 
 
 if dev_local 
