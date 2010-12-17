@@ -4,9 +4,9 @@ Organization.suspended_delta(false) do
     power_program = Program.create :created_at => Time.now, :updated_at => Time.now, :name => 'Power', :description => 'Power'
     coal_program = Program.create :created_at => Time.now, :updated_at => Time.now, :name => 'Coal', :description => 'Coal'
 
-    Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Energy - initiative', :description => 'Energy - initiative', :program_id => energy_program
-    Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Power - initiative', :description => 'Power - initiative', :program_id => power_program
-    Initiative.create :created_at => Time.now, :updated_at => Time.now, :name => 'Coal - initiative', :description => 'Coal - initiative', :program_id => coal_program
+    SubProgram.create :created_at => Time.now, :updated_at => Time.now, :name => 'Energy - initiative', :description => 'Energy - initiative', :program_id => energy_program
+    SubProgram.create :created_at => Time.now, :updated_at => Time.now, :name => 'Power - initiative', :description => 'Power - initiative', :program_id => power_program
+    SubProgram.create :created_at => Time.now, :updated_at => Time.now, :name => 'Coal - initiative', :description => 'Coal - initiative', :program_id => coal_program
 
     (1..5).each do |i|
       FundingSource.create :name => "Funding Source #{i}", :amount => 10

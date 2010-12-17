@@ -9,7 +9,8 @@ gem "will_paginate", "~> 3.0.pre2"
 gem "capybara", "0.3.7"
 gem 'mysql'
 gem 'haml', '>= 3'
-gem 'thinking-sphinx', '2.0.1', :require => 'thinking_sphinx'
+#gem 'thinking-sphinx', '2.0.1', :require => 'thinking_sphinx'
+gem "thinking-sphinx", :git => "http://github.com/freelancing-god/thinking-sphinx.git", :branch => "rails3", :require => 'thinking_sphinx'
 gem 'paperclip'
 # gem 'devise', '1.1.2'
 

@@ -15,6 +15,7 @@ Organization rescue nil
 User rescue nil
 RequestTransaction rescue nil
 RequestReport rescue nil
+Project rescue nil
 
 if defined?(PhusionPassenger)
  PhusionPassenger.on_event(:starting_worker_process) do |forked|
