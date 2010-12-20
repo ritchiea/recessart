@@ -89,7 +89,7 @@ Organization.suspended_delta(false) do
     MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Meeting'
     MultiElementValue.create :multi_element_group_id => fip_type_group.id, :value => 'Other'
 
-    board_authority_group = MultiElementGroup.create :name => 'board_authorities', :description => 'Board Authorities', :target_class_name => 'RequestFundingSource'
+    board_authority_group = MultiElementGroup.create :name => 'board_authorities', :description => 'Board Authorities', :target_class_name => 'FundingSourceAllocation'
     MultiElementValue.create :multi_element_group_id => board_authority_group.id, :value => '3/1/2010', :description => 'March 2010'
     MultiElementValue.create :multi_element_group_id => board_authority_group.id, :value => '6/1/2010', :description => 'June 2010'
     MultiElementValue.create :multi_element_group_id => board_authority_group.id, :value => '11/1/2010', :description => 'November 2010'
