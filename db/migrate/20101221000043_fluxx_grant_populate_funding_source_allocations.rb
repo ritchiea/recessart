@@ -1,4 +1,7 @@
 class FluxxGrantPopulateFundingSourceAllocations < ActiveRecord::Migration
+  class RequestFundingSource < ActiveRecord::Base
+  end
+
   def self.up
     execute "insert into funding_source_allocations (created_at, updated_at, program_id, sub_program_id, initiative_id, sub_initiative_id, funding_source_id, authority_id)
     select now(), now(), program_id, sub_program_id, initiative_id, sub_initiative_id, funding_source_id, board_authority_id

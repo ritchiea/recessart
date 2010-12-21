@@ -10,7 +10,7 @@ class FluxxGrantCreateFundingSourceAllocation < ActiveRecord::Migration
       t.integer :sub_initiative_id, :null => true, :limit => 12
       t.integer :authority_id, :null => true, :limit => 12
       t.integer :amount, :null => true, :limit => 12
-      t.integer :retired, :boolean
+      t.boolean :retired
       t.integer :locked_by_id, :null => true, :limit => 12
       t.datetime :locked_until, :deleted_at, :null => true
     end
