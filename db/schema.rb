@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101220051643) do
+ActiveRecord::Schema.define(:version => 20101221000043) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -514,25 +514,15 @@ ActiveRecord::Schema.define(:version => 20101220051643) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "request_id"
-    t.integer  "funding_source_id"
-    t.integer  "program_id"
-    t.integer  "initiative_id"
     t.string   "document_file_name"
     t.integer  "funding_amount"
     t.integer  "locked_by_id"
     t.datetime "locked_until"
-    t.integer  "board_authority_id"
-    t.integer  "sub_program_id"
-    t.integer  "sub_initiative_id"
+    t.integer  "funding_source_allocation_id"
   end
 
-  add_index "request_funding_sources", ["board_authority_id"], :name => "rfs_board_authority_id"
-  add_index "request_funding_sources", ["funding_source_id"], :name => "index_request_funding_sources_on_funding_source_id"
-  add_index "request_funding_sources", ["initiative_id"], :name => "index_request_funding_sources_on_initiative_id"
-  add_index "request_funding_sources", ["program_id"], :name => "index_request_funding_sources_on_program_id"
+  add_index "request_funding_sources", ["funding_source_allocation_id"], :name => "rfs_funding_source_allocation_id"
   add_index "request_funding_sources", ["request_id"], :name => "index_request_funding_sources_on_request_id"
-  add_index "request_funding_sources", ["sub_initiative_id"], :name => "rfs_sub_initiative_id"
-  add_index "request_funding_sources", ["sub_program_id"], :name => "rfs_sub_program_id"
 
   create_table "request_geo_states", :force => true do |t|
     t.datetime "created_at"
