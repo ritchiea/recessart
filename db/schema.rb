@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101222195611) do
+ActiveRecord::Schema.define(:version => 20110107223623) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -374,8 +374,10 @@ ActiveRecord::Schema.define(:version => 20101222195611) do
     t.string   "description"
     t.integer  "parent_id"
     t.boolean  "rollup"
+    t.integer  "geo_zone_id"
   end
 
+  add_index "programs", ["geo_zone_id"], :name => "program_geo_zone_id"
   add_index "programs", ["parent_id"], :name => "index_programs_on_parent_id"
 
   create_table "project_list_items", :force => true do |t|
