@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110107223623) do
+ActiveRecord::Schema.define(:version => 20110108185551) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -550,6 +550,23 @@ ActiveRecord::Schema.define(:version => 20110107223623) do
 
   add_index "request_organizations", ["organization_id"], :name => "request_organizations_organization_id"
   add_index "request_organizations", ["request_id", "organization_id"], :name => "index_request_organizations_on_request_id_and_organization_id", :unique => true
+
+  create_table "request_programs", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_id"
+    t.integer  "program_id"
+    t.string   "state",               :default => "new"
+    t.datetime "approved_at"
+    t.integer  "approved_by_user_id"
+  end
+
+  add_index "request_programs", ["created_by_id"], :name => "request_programs_created_by_id"
+  add_index "request_programs", ["program_id"], :name => "request_programs_program_id"
+  add_index "request_programs", ["request_id", "program_id"], :name => "index_request_programs_on_request_id_and_program_id", :unique => true
+  add_index "request_programs", ["updated_by_id"], :name => "request_programs_updated_by_id"
 
   create_table "request_reports", :force => true do |t|
     t.datetime "created_at"
