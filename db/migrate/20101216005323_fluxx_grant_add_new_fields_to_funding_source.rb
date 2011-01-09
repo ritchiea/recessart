@@ -2,7 +2,7 @@ class FluxxGrantAddNewFieldsToFundingSource < ActiveRecord::Migration
   def self.up
     add_column :funding_sources, :start_at, :datetime
     add_column :funding_sources, :end_at, :datetime
-    add_column :funding_sources, :retired, :boolean
+    add_column :funding_sources, :retired, :boolean, :null => false, :default => false
   end
 
   def self.down
