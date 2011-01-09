@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110108185551) do
+ActiveRecord::Schema.define(:version => 20110109041128) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(:version => 20110108185551) do
     t.string   "name",           :null => false
     t.text     "description"
     t.integer  "sub_program_id"
+    t.boolean  "retired"
   end
 
   add_index "initiatives", ["created_by_id"], :name => "sub_programs_created_by_id"
@@ -375,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20110108185551) do
     t.integer  "parent_id"
     t.boolean  "rollup"
     t.integer  "geo_zone_id"
+    t.boolean  "retired"
   end
 
   add_index "programs", ["geo_zone_id"], :name => "program_geo_zone_id"
@@ -716,6 +718,7 @@ ActiveRecord::Schema.define(:version => 20110108185551) do
     t.string   "name",          :null => false
     t.text     "description"
     t.integer  "initiative_id"
+    t.boolean  "retired"
   end
 
   add_index "sub_initiatives", ["created_by_id"], :name => "sub_initiatives_created_by_id"
@@ -730,6 +733,7 @@ ActiveRecord::Schema.define(:version => 20110108185551) do
     t.string   "name"
     t.string   "description"
     t.integer  "program_id"
+    t.boolean  "retired"
   end
 
   add_index "sub_programs", ["program_id"], :name => "index_initiatives_on_program_id"
