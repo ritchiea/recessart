@@ -23,6 +23,7 @@ gem 'memcache-client', '>= 1.8.5'
 # gem 'delayed_job', '>=2.1.0'
 gem 'delayed_job', :git => 'git://github.com/collectiveidea/delayed_job.git'
 gem 'ts-delayed-delta', '>=1.1.0'
+gem 'liquid'
 
 gem "aasm", '2.2.0'
 gem 'acts_as_audited_rails3', '>=1.1.2'
