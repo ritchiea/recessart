@@ -9,8 +9,6 @@ gem "will_paginate", "~> 3.0.pre2"
 gem "capybara", "0.3.7"
 gem 'mysql'
 gem 'haml', '>= 3'
-#gem 'thinking-sphinx', '2.0.1', :require => 'thinking_sphinx'
-gem "thinking-sphinx", :git => "http://github.com/freelancing-god/thinking-sphinx.git", :branch => "rails3", :require => 'thinking_sphinx'
 gem 'paperclip'
 # gem 'devise', '1.1.2'
 
@@ -37,17 +35,14 @@ gem 'exception_notification'
 gem 'capistrano'
 
 
-if dev_local 
-  p "Installing dependent fluxx gems to point to local paths.  Be sure you install fluxx_engine, fluxx_crm and fluxx_grant in the same directory as the reference implementation."
-  gem "fluxx_engine", '>= 0.0.7', :path => "../fluxx_engine"
-  gem "fluxx_crm", '>= 0.0.4', :path => "../fluxx_crm", :require => 'fluxx_crm'
-  gem "fluxx_grant", '>= 0.0.1', :path => "../fluxx_grant", :require => 'fluxx_grant'
-else
-  p "Installing dependent fluxx gems."
-  gem "fluxx_engine", '>= 0.0.6'
-  gem "fluxx_crm", '>= 0.0.4', :require => 'fluxx_crm'
-  gem "fluxx_grant", '>= 0.0.1', :require => 'fluxx_grant'
+cur_dir = File.dirname(__FILE__)
+if File.exist?("#{cur_dir}/../fluxx_grant")
+  require "#{cur_dir}/../fluxx_grant/lib/extensions/gem_handler.rb"
+elsif File.exist?("#{cur_dir}/fluxx_grant")
+  require "#{cur_dir}/fluxx_grant/lib/extensions/gem_handler.rb"
 end
+gem_versions = {:fluxx_engine => '>= 0.0.7', :fluxx_crm => '>= 0.0.4', :fluxx_grant => '>= 0.0.1'}
+self.instance_exec [dev_local, cur_dir, gem_versions], &GemHandler.dependent_gems_block
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"
