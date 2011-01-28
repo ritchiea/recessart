@@ -24,7 +24,7 @@ BAK="${HOSTBAK}/${NOW}" # Path to backup dir on $NAS
  
 ### Server Setup ###
 #* MySQL login user name *#
-MUSER="root"
+MUSER="fluxx"
  
 #* MySQL login PASSWORD name *#
 MPASS="f1uexsexs"
