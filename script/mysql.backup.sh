@@ -57,7 +57,7 @@ else
 fi
  
 # get all database listing
-DBS="$($MYSQL -u $MUSER -h $MHOST $MPASS -Bse 'show databases' | grep fluxx)"
+DBS="$($MYSQL -u $MUSER -h $MHOST $MPASS -Bse 'show databases')"
  
 # start to dump database one by one
 for db in $DBS
