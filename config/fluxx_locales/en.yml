@@ -48,4 +48,5 @@ en:
   initiative_name: "Initiative"
   sub_initiative_name: "Sub Initiative"
   program_lead_name: "Program Lead"
-  
+  Organization: "Organization"
+  organization: "organization"
