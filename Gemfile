@@ -31,7 +31,6 @@ end
 gem 'thin', '>= 1.2.7'
 gem 'rcov'
 gem 'compass'
-gem 'exception_notification'
 gem 'capistrano'
 gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 
