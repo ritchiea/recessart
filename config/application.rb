@@ -45,5 +45,9 @@ module FluxxGrantRi
     # Run "rake -D time" for a list of tasks for finding time zone names.
     config.time_zone = 'UTC'
 
+    config.middleware.use ::ExceptionNotifier,
+      :email_prefix => "[FLUXX ERROR] FluxxGrantRI #{Rails.env}: ",
+      :sender_address => %w{"Fluxx Error" <fluxx@ef.org>},
+      :exception_recipients => %w{fluxx@acesfconsulting.com}
   end
 end
