@@ -55,4 +55,11 @@ FluxxGrantRi::Application.configure do
   FluxxGrantRi::Application.config.session_store :mem_cache_store, :cache => SESSION_CACHE
   FluxxGrantRi::Application.config.cache_store = :mem_cache_store, MEMCACHE_SERVER
   Sass::Plugin.options[:line_numbers] = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address => "localhost",
+    :port => 25,
+    :domain => 'localhost',
+    :enable_starttls_auto => false
+  }
 end

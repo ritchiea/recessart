@@ -47,7 +47,7 @@ module FluxxGrantRi
 
     config.middleware.use ::ExceptionNotifier,
       :email_prefix => "[FLUXX ERROR] FluxxGrantRI #{Rails.env}: ",
-      :sender_address => %w{"Fluxx Error" <fluxx@ef.org>},
-      :exception_recipients => %w{fluxx@acesfconsulting.com}
+      :sender_address => %w{someemailaddress},
+      :exception_recipients => %w{someemailaddress}
   end
 end
