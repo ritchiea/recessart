@@ -44,10 +44,5 @@ module FluxxGrantRi
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names.
     config.time_zone = 'UTC'
-
-    config.middleware.use ::ExceptionNotifier,
-      :email_prefix => "[FLUXX ERROR] FluxxGrantRI #{Rails.env}: ",
-      :sender_address => %w{someemailaddress},
-      :exception_recipients => %w{someemailaddress}
   end
 end

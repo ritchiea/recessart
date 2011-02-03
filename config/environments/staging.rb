@@ -62,4 +62,8 @@ FluxxGrantRi::Application.configure do
     :domain => 'localhost',
     :enable_starttls_auto => false
   }
+  config.middleware.use ::ExceptionNotifier,
+    :email_prefix => "[FLUXX ERROR] FluxxGrantRI #{Rails.env}: ",
+    :sender_address => %w{someemailaddress},
+    :exception_recipients => %w{someemailaddress}
 end
