@@ -2,6 +2,7 @@
 
 require ::File.expand_path('../config/environment',  __FILE__)
 
+use Rack::HgrantRack
 use Rack::FluxxBuilder
 
 run FluxxGrantRi::Application
