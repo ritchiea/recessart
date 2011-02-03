@@ -4,18 +4,21 @@ development:
 #  morphology: stem_en
   min_prefix_len: 3
   bin_path: '/usr/local/bin'
+  max_matches: 100000
 fastdev:
   port: 3315
   mem_limit: 128M
 #  morphology: stem_en
   min_prefix_len: 3
   bin_path: '/usr/local/bin'
+  max_matches: 100000
 test:
   port: 3315
   mem_limit: 128M
 #  morphology: stem_en
   min_prefix_len: 3
   bin_path: '/usr/local/bin'
+  max_matches: 100000
 production:
   port: 3315
   #address: db1.fluxx.ef.org
@@ -24,6 +27,7 @@ production:
   min_prefix_len: 3
   bin_path: '/usr/local/bin'
   searchd_file_path: "<%= Rails.root %>/../../shared/sphinx/<%= Rails.env %>"
+  max_matches: 100000
 staging:
   port: 3315
   mem_limit: 128M
@@ -31,3 +35,4 @@ staging:
   min_prefix_len: 3
   bin_path: '/usr/local/bin'
   searchd_file_path: "<%= Rails.root %>/../../shared/sphinx/<%= Rails.env %>"
+  max_matches: 100000
