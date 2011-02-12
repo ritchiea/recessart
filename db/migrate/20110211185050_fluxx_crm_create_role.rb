@@ -16,7 +16,8 @@ class FluxxCrmCreateRole < ActiveRecord::Migration
       t.integer :role_id
     end
     
-    execute "update role_users set role_id = (select id from roles where roles.name = role_users.name and roles.roleable_type = role_users.roleable_type)"
+    execute "update role_users set role_id = (select id from roles where roles.name = role_users.name and roles.roleable_type = role_users.roleable_type) where role_users.roleable_type is not null"
+    execute "update role_users set role_id = (select id from roles where roles.name = role_users.name and roles.roleable_type is null) where role_users.roleable_type is null"
 
     change_table :role_users do |t|
       t.remove :name
