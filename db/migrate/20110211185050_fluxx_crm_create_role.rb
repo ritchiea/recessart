@@ -5,6 +5,7 @@ class FluxxCrmCreateRole < ActiveRecord::Migration
       t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
       t.string :name
       t.string :roleable_type
+      t.datetime :deleted_at,                :null => true
     end
     
     add_constraint 'roles', 'roles_created_by_id', 'created_by_id', 'users', 'id'
