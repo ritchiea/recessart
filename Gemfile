@@ -40,7 +40,7 @@ if File.exist?("#{cur_dir}/../fluxx_grant")
 elsif File.exist?("#{cur_dir}/fluxx_grant")
   require "#{cur_dir}/fluxx_grant/lib/extensions/gem_handler.rb"
 end
-gem_versions = {:fluxx_engine => '>= 0.0.7', :fluxx_crm => '>= 0.0.4', :fluxx_grant => '>= 0.0.1'}
+gem_versions = [[:fluxx_engine, '>= 0.0.7'], [:fluxx_crm, '>= 0.0.4'], [:fluxx_grant, '>= 0.0.1']]
 self.instance_exec [dev_local, cur_dir, gem_versions], &GemHandler.dependent_gems_block
 
 if RUBY_VERSION < '1.9'
