@@ -33,6 +33,8 @@ gem 'rcov'
 gem 'compass'
 gem 'capistrano'
 gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
+gem 'httpi'
+gem 'crack'
 
 cur_dir = File.dirname(__FILE__)
 if File.exist?("#{cur_dir}/../fluxx_grant")
