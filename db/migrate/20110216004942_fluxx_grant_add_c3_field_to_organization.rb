@@ -1,4 +1,4 @@
-class FluxxCrmAddC3FieldToOrganization < ActiveRecord::Migration
+class FluxxGrantAddC3FieldToOrganization < ActiveRecord::Migration
   def self.up
     change_table :organizations do |t|
       t.boolean :c3_status_approved, :null => false, :default => false
