@@ -36,14 +36,21 @@ gem "exception_notification", :git => "git://github.com/rails/exception_notifica
 gem 'httpi'
 gem 'crack'
 
-cur_dir = File.dirname(__FILE__)
-if File.exist?("#{cur_dir}/../fluxx_grant")
-  require "#{cur_dir}/../fluxx_grant/lib/extensions/gem_handler.rb"
-elsif File.exist?("#{cur_dir}/fluxx_grant")
-  require "#{cur_dir}/fluxx_grant/lib/extensions/gem_handler.rb"
-end
 gem_versions = [[:fluxx_engine, '>= 0.0.7'], [:fluxx_crm, '>= 0.0.4'], [:fluxx_grant, '>= 0.0.1']]
-self.instance_exec [dev_local, cur_dir, gem_versions], &GemHandler.dependent_gems_block
+if dev_local
+  cur_dir = File.dirname(__FILE__)
+  if File.exist?("#{cur_dir}/../fluxx_grant")
+    require "#{cur_dir}/../fluxx_grant/lib/extensions/gem_handler.rb"
+  elsif File.exist?("#{cur_dir}/fluxx_grant")
+    require "#{cur_dir}/fluxx_grant/lib/extensions/gem_handler.rb"
+  end
+  self.instance_exec [dev_local, cur_dir, gem_versions], &GemHandler.dependent_gems_block
+else
+  gem_versions.each do |repo_pair|
+    repo_name, version = repo_pair
+    gem repo_name.to_s, version
+  end
+end
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"
