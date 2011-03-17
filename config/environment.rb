@@ -6,7 +6,7 @@ FluxxGrantRi::Application.initialize!
 
 require 'thinking_sphinx/deltas/delayed_delta'
 
-FLUXX_CONFIGURATION = {}
+FLUXX_CONFIGURATION = {:show_printable_button => true, :show_pdf_button => true}
 
 Request rescue nil
 FipRequest rescue nil

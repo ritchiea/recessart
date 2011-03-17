@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'pdfkit'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -9,6 +10,7 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module FluxxGrantRi
   class Application < Rails::Application
   config.i18n.load_path << Dir[File.join(Rails.root, 'config', 'fluxx_locales', '*.{rb,yml}')].first
+  config.middleware.use PDFKit::Middleware, :print_media_type => true , :margin_top => '0in', :margin_right => '0in', :margin_bottom => '0in', :margin_left => '0in'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
