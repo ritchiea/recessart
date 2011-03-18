@@ -35,6 +35,7 @@ gem 'capistrano'
 gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 gem 'httpi'
 gem 'crack'
+gem 'pdfkit'
 
 gem_versions = [[:fluxx_engine, '>= 0.0.7'], [:fluxx_crm, '>= 0.0.4'], [:fluxx_grant, '>= 0.0.1']]
 if dev_local
