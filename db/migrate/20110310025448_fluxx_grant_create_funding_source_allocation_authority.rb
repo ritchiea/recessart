@@ -14,60 +14,60 @@ class FluxxGrantCreateFundingSourceAllocationAuthority < ActiveRecord::Migration
       select created_at, updated_at, created_by_id, updated_by_id, amount, authority_id, id from funding_source_allocations"
     
     execute "drop temporary table if exists fsss"
-    execute "create temporary table fsss select id, funding_source_id, program_id, sub_program_id, initiative_id, sub_initiative_id, count(*) tot 
-      from funding_source_allocations group by funding_source_id, program_id, sub_program_id, initiative_id, sub_initiative_id"
+    execute "create temporary table fsss select id, funding_source_id, program_id, sub_program_id, initiative_id, sub_initiative_id, spending_year, count(*) tot 
+      from funding_source_allocations group by funding_source_id, program_id, sub_program_id, initiative_id, sub_initiative_id, spending_year"
 
     # Need to update matching funding_source_allocation_authorities records to point to the fsss.id
     # Then remap rfs records to point to the coalesced funding_source_allocation record
     execute "update funding_source_allocation_authorities fsaa, fsss, funding_source_allocations fsa 
     set fsaa.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.program_id = fsa.program_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.program_id = fsa.program_id and fsss.spending_year = fsa.spending_year and 
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = fsaa.funding_source_allocation_id"
     execute "update request_funding_sources rfs, fsss, funding_source_allocations fsa 
     set rfs.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.program_id = fsa.program_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.program_id = fsa.program_id and fsss.spending_year = fsa.spending_year and
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = rfs.funding_source_allocation_id"
 
     execute "update funding_source_allocation_authorities fsaa, fsss, funding_source_allocations fsa 
     set fsaa.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_program_id = fsa.sub_program_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_program_id = fsa.sub_program_id and fsss.spending_year = fsa.spending_year and
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = fsaa.funding_source_allocation_id"
     execute "update request_funding_sources rfs, fsss, funding_source_allocations fsa 
     set rfs.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_program_id = fsa.sub_program_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_program_id = fsa.sub_program_id and fsss.spending_year = fsa.spending_year and
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = rfs.funding_source_allocation_id"
 
     execute "update funding_source_allocation_authorities fsaa, fsss, funding_source_allocations fsa 
     set fsaa.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.initiative_id = fsa.initiative_id and 
+    fsss.funding_source_id = fsa.funding_source_id and fsss.initiative_id = fsa.initiative_id and fsss.spending_year = fsa.spending_year and 
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = fsaa.funding_source_allocation_id"
     execute "update request_funding_sources rfs, fsss, funding_source_allocations fsa 
     set rfs.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.initiative_id = fsa.initiative_id and 
+    fsss.funding_source_id = fsa.funding_source_id and fsss.initiative_id = fsa.initiative_id and fsss.spending_year = fsa.spending_year and 
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = rfs.funding_source_allocation_id"
 
     execute "update funding_source_allocation_authorities fsaa, fsss, funding_source_allocations fsa 
     set fsaa.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_initiative_id = fsa.sub_initiative_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_initiative_id = fsa.sub_initiative_id and fsss.spending_year = fsa.spending_year and
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = fsaa.funding_source_allocation_id"
     execute "update request_funding_sources rfs, fsss, funding_source_allocations fsa 
     set rfs.funding_source_allocation_id = fsss.id 
     where 
-    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_initiative_id = fsa.sub_initiative_id and
+    fsss.funding_source_id = fsa.funding_source_id and fsss.sub_initiative_id = fsa.sub_initiative_id and fsss.spending_year = fsa.spending_year and
     tot > 1 and fsss.id <> fsa.id
     and fsa.id = rfs.funding_source_allocation_id"
 

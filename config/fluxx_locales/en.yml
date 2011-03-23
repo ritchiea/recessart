@@ -50,3 +50,17 @@ en:
   program_lead_name: "Program Lead"
   Organization: "Organization"
   organization: "organization"
+  
+  date:
+    input:
+      formats: [:fluxx_long, :fluxx_short, :default, :long, :short]
+    formats:
+      fluxx_short: "%b %d"
+      fluxx_long: "%B %d, %Y"
+  time:
+    input:
+      formats: [:fluxx_long, :fluxx_short, :default, :long, :short]
+    formats:
+      fluxx_short: "%m/%d/%Y"
+      fluxx_long: "%B %d, %Y"
+  
