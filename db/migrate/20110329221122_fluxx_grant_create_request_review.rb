@@ -2,7 +2,7 @@ class FluxxGrantCreateRequestReview < ActiveRecord::Migration
   def self.up
         create_table "request_reviews", :force => true do |t|
     t.timestamps
-    t.integer :created_by_id, :updated_by_id, :request_id, :rating :null => true, :limit => 12
+    t.integer :created_by_id, :updated_by_id, :request_id, :rating, :null => true, :limit => 12
     t.string :review_type, :null => false, :default => 'RequestReport'
     t.text :comment, :benefits, :outcomes, :merits
     t.datetime :locked_until, :deleted_at, :null => true
