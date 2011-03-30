@@ -14,8 +14,6 @@ class FluxxGrantCreateBudgetRequest < ActiveRecord::Migration
     add_constraint 'budget_requests', 'budget_requests_updated_by_id', 'updated_by_id', 'users', 'id'
   end
 
-  end
-
   def self.down
     drop_table :budget_requests
   end
