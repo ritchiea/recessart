@@ -6,9 +6,17 @@ class FluxxGrantAddHierarchyMarkerToExistingDashboards < ActiveRecord::Migration
         funj = client_store.data.de_json
         funj['cards'].each do |card|
           if data_attrs = card['listing']['data']
-            if data_attrs.any?{|element| element.to_json =~ /"name":"request/}
+            if data_attrs.any?{|element| element.to_json =~ /"name":"request\[/}
               data_attrs << {"name" => "request[hierarchies][]", "value" => "request_hierarchy"}
               data_attrs << {"name" => "request[hierarchies][]", "value" => "allocation_hierarchy"}
+            end
+            if data_attrs.any?{|element| element.to_json =~ /"name":"request_transaction\[/}
+              data_attrs << {"name" => "request_transaction[hierarchies][]", "value" => "request_hierarchy"}
+              data_attrs << {"name" => "request_transaction[hierarchies][]", "value" => "allocation_hierarchy"}
+            end
+            if data_attrs.any?{|element| element.to_json =~ /"name":"request_report\[/}
+              data_attrs << {"name" => "request_report[hierarchies][]", "value" => "request_hierarchy"}
+              data_attrs << {"name" => "request_report[hierarchies][]", "value" => "allocation_hierarchy"}
             end
           end
         end
