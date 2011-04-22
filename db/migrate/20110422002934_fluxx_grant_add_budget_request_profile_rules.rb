@@ -5,6 +5,7 @@ class FluxxGrantAddBudgetRequestProfileRules < ActiveRecord::Migration
     UserProfileRule.create :user_profile => grantee_profile, :permission_name => 'view_own', :model_type => 'BudgetRequest'
     UserProfileRule.create :user_profile => grantee_profile, :permission_name => 'update_own', :model_type => 'BudgetRequest'
     UserProfileRule.create :user_profile => grantee_profile, :permission_name => 'delete_own', :model_type => 'BudgetRequest'
+    UserProfileRule.create :user_profile => grantee_profile, :permission_name => 'listview', :model_type => 'BudgetRequest'
   end
 
   def self.down
@@ -13,5 +14,6 @@ class FluxxGrantAddBudgetRequestProfileRules < ActiveRecord::Migration
     UserProfileRule.where(:user_profile => grantee_profile, :permission_name => 'view_own', :model_type => 'BudgetRequest').first.destroy
     UserProfileRule.where(:user_profile => grantee_profile, :permission_name => 'update_own', :model_type => 'BudgetRequest').first.destroy
     UserProfileRule.where(:user_profile => grantee_profile, :permission_name => 'delete_own', :model_type => 'BudgetRequest').first.destroy
+    UserProfileRule.where(:user_profile => grantee_profile, :permission_name => 'listview', :model_type => 'BudgetRequest').first.destroy
   end
 end
