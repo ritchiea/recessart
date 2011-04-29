@@ -51,6 +51,11 @@ en:
   Organization: "Organization"
   organization: "organization"
   
+  amount_recommended_field_required: "Amount recommended is required"
+  duration_in_months_field_required: "Duration is required"
+  grant_begins_at_field_required: "Grant begin date is required"
+  grant_ends_at_field_required: "Grant end date is required"
+
   date:
     input:
       formats: [:fluxx_long, :fluxx_short, :default, :long, :short]
