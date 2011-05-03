@@ -9,6 +9,8 @@ gem "will_paginate", "~> 3.0.pre2"
 gem "capybara", "0.3.7"
 gem 'mysql'
 gem 'haml', '>= 3'
+gem 'sass', ">= 3.1.1"
+
 gem 'paperclip'
 # gem 'devise', '1.1.2'
 
@@ -30,7 +32,6 @@ if RUBY_VERSION < '1.9'
 end
 gem 'thin', '>= 1.2.7'
 gem 'rcov'
-gem 'compass'
 gem 'capistrano'
 gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 gem 'httpi'
