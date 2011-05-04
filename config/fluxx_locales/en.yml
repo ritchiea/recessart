@@ -38,6 +38,8 @@ en:
   failed_to_reject_error_messages: "Unable to reject this request.  You may need to change some fields in the request.  These error messages were found: "
   failed_to_un_reject_error_messages: "Unable to un-reject this request.  You may need to change some fields in the request.  These error messages were found: "
   failed_to_cancel_grant_error_messages: "Unable to cancel this request.  You may need to change some fields in the request.  These error messages were found: "
+
+  insufficient_funds_in_allocation: "The allocation %{allocation_name} contains insufficient funds for this request."
   
   unable_to_promote: "Unable to promote.  These error messages were found: "
   grant_failed_to_promote_with_exception: "Unable to promote this request.  These error messages were found: "
