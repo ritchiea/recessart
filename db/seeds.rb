@@ -107,11 +107,17 @@ Organization.suspended_delta(false) do
     UserProfileRule.create :user_profile => employee_profile, :permission_name => 'delete_all'
 
     # define board
-    UserProfileRule.create :user_profile => board_profile, :permission_name => 'view_user'
-    UserProfileRule.create :user_profile => board_profile, :permission_name => 'view_organization'
-    UserProfileRule.create :user_profile => board_profile, :permission_name => 'view_grant'
-    UserProfileRule.create :user_profile => board_profile, :permission_name => 'view_report'
-    UserProfileRule.create :user_profile => board_profile, :permission_name => 'view_transaction'
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "view" , :model_type => "User"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "view", :model_type => "Organization"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "view", :model_type => "Request"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "view", :model_type => "RequestReport"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "User"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "Organization"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "Request"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "RequestReport"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "ClientStore"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "create", :model_type => "ClientStore"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "update", :model_type => "ClientStore"
 
     # define consultant
     UserProfileRule.create :user_profile => consultant_profile, :permission_name => 'view_organization'
