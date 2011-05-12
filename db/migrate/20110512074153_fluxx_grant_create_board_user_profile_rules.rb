@@ -12,8 +12,8 @@ class FluxxGrantCreateBoardUserProfileRules < ActiveRecord::Migration
     UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "Request"
     UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "RequestReport"
     UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "ClientStore"
-    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "ClientStore"
-    UserProfileRule.create :user_profile => board_profile, :permission_name => "listview", :model_type => "ClientStore"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "create", :model_type => "ClientStore"
+    UserProfileRule.create :user_profile => board_profile, :permission_name => "update", :model_type => "ClientStore"
   end
 
   def self.down
