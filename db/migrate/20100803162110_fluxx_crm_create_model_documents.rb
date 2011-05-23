@@ -12,6 +12,7 @@ class FluxxCrmCreateModelDocuments < ActiveRecord::Migration
       t.datetime :locked_until,              :null => true
       t.integer :locked_by_id,               :null => true
     end
+    add_index :model_documents, [:documentable_type, :documentable_id], :name => 'model_documents_doc_type_id'
   end
 
   def self.down

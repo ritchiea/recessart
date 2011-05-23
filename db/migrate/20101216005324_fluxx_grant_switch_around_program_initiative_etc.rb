@@ -1,54 +1,52 @@
 class FluxxGrantSwitchAroundProgramInitiativeEtc < ActiveRecord::Migration
   def self.up
     # get rid of referential integrity
-    unless adapter_name =~ /SQLite/i
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY rfs_sub_initiative_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY request_funding_sources_funding_source_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY request_funding_sources_initiative_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY request_funding_sources_program_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY request_funding_sources_request_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY rfs_board_authority_id"
-      execute "ALTER TABLE request_funding_sources DROP FOREIGN KEY rfs_sub_program_id"
-      execute "ALTER TABLE requests DROP FOREIGN KEY requests_program_id"
-      execute "ALTER TABLE requests DROP FOREIGN KEY requests_initiative_id"
-      execute "ALTER TABLE initiatives DROP FOREIGN KEY initiatives_program_id"
-      execute "ALTER TABLE sub_initiatives DROP FOREIGN KEY sub_initiative_sub_program_id"
-      execute "ALTER TABLE sub_programs DROP FOREIGN KEY sub_program_initiative_id"
-    end
-    
+    remove_constraint 'request_funding_sources', 'rfs_sub_initiative_id'
+    remove_constraint 'request_funding_sources', 'request_funding_sources_funding_source_id'
+    remove_constraint 'request_funding_sources', 'request_funding_sources_initiative_id'
+    remove_constraint 'request_funding_sources', 'request_funding_sources_program_id'
+    remove_constraint 'request_funding_sources', 'request_funding_sources_request_id'
+    remove_constraint 'request_funding_sources', 'rfs_board_authority_id'
+    remove_constraint 'request_funding_sources', 'rfs_sub_program_id'
+    remove_constraint 'requests', 'requests_program_id'
+    remove_constraint 'requests', 'requests_initiative_id'
+    remove_constraint 'initiatives', 'initiatives_program_id'
+    remove_constraint 'sub_initiatives', 'sub_initiative_sub_program_id'
+    remove_constraint 'sub_programs', 'sub_program_initiative_id'
+      
     # requests; initiative_id should be renamed to sub_program_id
-    execute "ALTER TABLE requests change column initiative_id sub_program_id int(11) DEFAULT NULL"
+    rename_column 'requests', 'initiative_id', 'sub_program_id'
+    
     
     # rename sub_programs and initiatives
-    execute "RENAME TABLE sub_programs to tmp_table"
-    execute "RENAME TABLE initiatives to sub_programs"
-    execute "RENAME TABLE tmp_table to initiatives"
+    rename_table 'sub_programs', 'tmp_table'
+    rename_table 'initiatives', 'sub_programs'
+    rename_table 'tmp_table', 'initiatives'
     
     # change initiatives column initiative_id to sub_program_id 
-    execute "ALTER TABLE initiatives change column initiative_id sub_program_id  int(11) DEFAULT NULL"
+    rename_column 'initiatives', 'program_id', 'sub_program_id'
     # change sub_initiatives column sub_program_id to initiative_id
-    execute "ALTER TABLE sub_initiatives change column sub_program_id initiative_id  int(11) DEFAULT NULL"
+    rename_column 'sub_initiatives', 'sub_program_id', 'initiative_id'
+    rename_column 'sub_programs', 'initiative_id', 'program_id'
 
     # request_funding_sources swap initiative_id and sub_program_id 
-    execute "ALTER TABLE request_funding_sources change column sub_program_id tmp_initiative_id  int(11) DEFAULT NULL"
-    execute "ALTER TABLE request_funding_sources change column initiative_id sub_program_id int(11) DEFAULT NULL"
-    execute "ALTER TABLE request_funding_sources change column tmp_initiative_id initiative_id  int(11) DEFAULT NULL"
+    rename_column 'request_funding_sources', 'sub_program_id', 'tmp_initiative_id'
+    rename_column 'request_funding_sources', 'initiative_id', 'sub_program_id'
+    rename_column 'request_funding_sources', 'tmp_initiative_id', 'initiative_id'
     
     # resume referential integrity
-    unless adapter_name =~ /SQLite/i
-      execute "ALTER TABLE sub_programs ADD CONSTRAINT `sub_programs_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`)"
-      execute "ALTER TABLE initiatives ADD CONSTRAINT `initiative_sub_program_id` FOREIGN KEY (`sub_program_id`) REFERENCES `sub_programs` (`id`)"
-      execute "ALTER TABLE sub_initiatives ADD CONSTRAINT `sub_initiative_initiative_id` FOREIGN KEY (`initiative_id`) REFERENCES `initiatives` (`id`)"
-      execute "ALTER TABLE requests ADD CONSTRAINT `requests_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`)"
-      execute "ALTER TABLE requests ADD CONSTRAINT `requests_sub_program_id` FOREIGN KEY (`sub_program_id`) REFERENCES `sub_programs` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `rfs_sub_initiative_id` FOREIGN KEY (`sub_initiative_id`) REFERENCES `sub_initiatives` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `request_funding_sources_funding_source_id` FOREIGN KEY (`funding_source_id`) REFERENCES `funding_sources` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `request_funding_sources_initiative_id` FOREIGN KEY (`initiative_id`) REFERENCES `initiatives` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `request_funding_sources_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `request_funding_sources_request_id` FOREIGN KEY (`request_id`) REFERENCES `requests` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `rfs_board_authority_id` FOREIGN KEY (`board_authority_id`) REFERENCES `multi_element_values` (`id`)"
-      execute "ALTER TABLE request_funding_sources ADD CONSTRAINT `rfs_sub_program_id` FOREIGN KEY (`sub_program_id`) REFERENCES `sub_programs` (`id`)"
-    end
+    add_constraint 'sub_programs', 'sub_programs_program_id', 'program_id', 'programs', 'id'
+    add_constraint 'initiatives', 'initiative_sub_program_id', 'sub_program_id', 'sub_programs', 'id'
+    add_constraint 'sub_initiatives', 'sub_initiative_initiative_id', 'initiative_id', 'initiatives', 'id'
+    add_constraint 'requests', 'requests_program_id', 'program_id', 'programs', 'id'
+    add_constraint 'requests', 'requests_sub_program_id', 'sub_program_id', 'sub_programs', 'id'
+    add_constraint 'request_funding_sources', 'rfs_sub_initiative_id', 'sub_initiative_id', 'sub_initiatives', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_funding_source_id', 'funding_source_id', 'funding_sources', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_initiative_id', 'initiative_id', 'initiatives', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_program_id', 'program_id', 'programs', 'id'
+    add_constraint 'request_funding_sources', 'request_funding_sources_request_id', 'request_id', 'requests', 'id'
+    add_constraint 'request_funding_sources', 'rfs_board_authority_id', 'board_authority_id', 'multi_element_values', 'id'
+    add_constraint 'request_funding_sources', 'rfs_sub_program_id', 'sub_program_id', 'sub_programs', 'id'
   end
 
   def self.down

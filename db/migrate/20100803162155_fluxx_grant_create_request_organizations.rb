@@ -6,7 +6,7 @@ class FluxxGrantCreateRequestOrganizations < ActiveRecord::Migration
       t.integer :request_id, :organization_id, :null => true, :limit => 12
       t.string :description
     end
-    add_index :request_organizations, [:request_id, :organization_id], :unique => true
+    add_index :request_organizations, [:request_id, :organization_id], :unique => true, :name => 'request_organizations_req_org_id'
     add_constraint 'request_organizations', 'request_organizations_request_id', 'request_id', 'requests', 'id'
     add_constraint 'request_organizations', 'request_organizations_organization_id', 'organization_id', 'organizations', 'id'
   end

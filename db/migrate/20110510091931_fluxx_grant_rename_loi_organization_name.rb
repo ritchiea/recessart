@@ -1,6 +1,6 @@
 class FluxxGrantRenameLoiOrganizationName < ActiveRecord::Migration
   def self.up
-    execute "ALTER TABLE lois change column organization organization_name varchar(255) DEFAULT NULL"
+    rename_column :lois, :organization, :organization_name
   end
 
   def self.down
