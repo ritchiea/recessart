@@ -1,11 +1,11 @@
 class FluxxGrantPopulateOriginalRequestAmendments < ActiveRecord::Migration
   def self.up
-    Request.where(:state => "granted").each { |r|
+    Request.where(:granted => true).each { |r|
       amendment = r.request_amendments.build(
         :original => true,
         :amount_recommended => r.amount_recommended,
-        :grant_begins_at => r.grant_begins_at,
-        :grant_closed_at => r.grant_closed_at,
+        :start_date => r.grant_begins_at,
+        :end_date => r.grant_closed_at,
         :duration => r.duration_in_months
       )
       amendment.save
