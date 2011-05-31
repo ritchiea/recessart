@@ -8,7 +8,7 @@ class FluxxGrantConvertAmountsToMoney < ActiveRecord::Migration
       :request_amendments => %w[amount_recommended],
       :request_funding_sources => %w[funding_amount],
       :request_transaction_funding_sources => %w[amount],
-      :request_transactions => %w[amount_paid],
+      :request_transactions => %w[amount_paid amount_due],
       :requests => %w[amount_requested amount_recommended funds_expended_amount],
     }
   end
