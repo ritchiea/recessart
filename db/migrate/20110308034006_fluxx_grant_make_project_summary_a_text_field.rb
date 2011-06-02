@@ -4,5 +4,6 @@ class FluxxGrantMakeProjectSummaryATextField < ActiveRecord::Migration
   end
 
   def self.down
+    change_column :requests, :project_summary, :string
   end
 end

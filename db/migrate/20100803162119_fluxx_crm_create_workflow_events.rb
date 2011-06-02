@@ -13,7 +13,7 @@ class FluxxCrmCreateWorkflowEvents < ActiveRecord::Migration
       t.text :comment
     end
 
-    add_index :workflow_events, [:workflowable_id, :workflowable_type], :name => :workflow_events_id_type
+    add_index :workflow_events, [:workflowable_id, :workflowable_type], :name => 'workflow_events_flowid_type'
     add_constraint 'workflow_events', 'workflow_events_created_by_id', 'created_by_id', 'users', 'id'
     add_constraint 'workflow_events', 'workflow_events_updated_by_id', 'updated_by_id', 'users', 'id'
   end
