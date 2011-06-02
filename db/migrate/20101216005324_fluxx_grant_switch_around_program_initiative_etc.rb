@@ -24,10 +24,10 @@ class FluxxGrantSwitchAroundProgramInitiativeEtc < ActiveRecord::Migration
     rename_table 'tmp_table', 'initiatives'
     
     # change initiatives column initiative_id to sub_program_id 
-    rename_column 'initiatives', 'program_id', 'sub_program_id'
+    rename_column 'initiatives', 'initiative_id', 'sub_program_id'
     # change sub_initiatives column sub_program_id to initiative_id
     rename_column 'sub_initiatives', 'sub_program_id', 'initiative_id'
-    rename_column 'sub_programs', 'initiative_id', 'program_id'
+    # rename_column 'sub_programs', 'initiative_id', 'program_id'
 
     # request_funding_sources swap initiative_id and sub_program_id 
     rename_column 'request_funding_sources', 'sub_program_id', 'tmp_initiative_id'
