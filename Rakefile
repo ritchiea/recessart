@@ -4,5 +4,16 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
+module ::FluxxGrantRi
+  class Application
+    include Rake::DSL
+  end
+end
+
+module ::RakeFileUtils
+  extend Rake::FileUtilsExt
+end
+
+
 FluxxGrantRi::Application.load_tasks
 require 'thinking_sphinx/deltas/delayed_delta/tasks'
