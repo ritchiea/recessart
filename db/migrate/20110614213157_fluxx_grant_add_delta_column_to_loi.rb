@@ -1,6 +1,6 @@
 class FluxxGrantAddDeltaColumnToLoi < ActiveRecord::Migration
   def self.up
-    add_column :lois, :delta, :boolean
+    add_column :lois, :delta, :boolean, :default => true
   end
 
   def self.down
