@@ -2,6 +2,7 @@ class FluxxGrantMakeAmountPrecisionLarger < ActiveRecord::Migration
   def self.conversions
     {
       :budget_requests => %w[amount_requested amount_recommended],
+      :lois => %w[amount_requested],
       :funding_source_allocations => %w[amount],
       :funding_source_allocation_authorities => %w[amount],
       :funding_sources => %w[amount],
@@ -20,8 +21,5 @@ class FluxxGrantMakeAmountPrecisionLarger < ActiveRecord::Migration
   end
 
   def self.down
-    conversions.each { |table, fields|
-      fields.each { |field| change_colum table, field, :integer }
-    }
   end
 end
