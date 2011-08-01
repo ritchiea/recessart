@@ -9,8 +9,7 @@ class FluxxEngineAddUidToAllDashboardCards < ActiveRecord::Migration
           cards.each_with_index do |card, i|
             card['uid'] = i + 1
           end
-          dashboard.data = funj.to_json
-          dashboard.save
+          execute ClientStore.send(:sanitize_sql, ["update client_stores set data = ? where id = ?", funj.to_json, dashboard.id])
         end
       end
     end
