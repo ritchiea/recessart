@@ -3,6 +3,7 @@ class FluxxEngineCreateSphinxCheck < ActiveRecord::Migration
     create_table "sphinx_checks", :force => true, :client_id => false do |t|
       t.timestamps
       t.integer :check_ts
+      t.boolean :delta, :null => false, :default => true
     end
     execute "insert into sphinx_checks (check_ts) values (0)"
   end
