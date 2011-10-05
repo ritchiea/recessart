@@ -10,7 +10,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110215447) do
+ActiveRecord::Schema.define(:version => 20110918061339) do
+
+  create_table "alert_emails", :force => true do |t|
+    t.string   "mailer_method"
+    t.integer  "attempts",        :default => 0
+    t.datetime "last_attempt_at"
+    t.boolean  "delivered",       :default => false
+    t.integer  "alert_id"
+    t.integer  "model_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "model_type"
+    t.datetime "send_at"
+    t.text     "email_params"
+  end
+
+  create_table "alert_recipients", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "alert_id"
+    t.text     "rtu_model_user_method"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "alerts", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "last_realtime_update_id"
+    t.string   "model_controller_type"
+    t.text     "filter"
+    t.string   "subject"
+    t.text     "body"
+    t.string   "name"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
+    t.integer  "dashboard_id"
+    t.integer  "dashboard_card_id"
+    t.boolean  "group_models",            :default => false, :null => false
+  end
+
+  add_index "alerts", ["dashboard_id"], :name => "alerts_dashboard_id"
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -30,6 +70,61 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
   add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
+
+  create_table "bank_accounts", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "bank_name"
+    t.string   "account_name"
+    t.string   "account_number"
+    t.string   "special_instructions"
+    t.string   "street_address"
+    t.string   "street_address2"
+    t.string   "city"
+    t.integer  "geo_state_id"
+    t.integer  "geo_country_id"
+    t.string   "postal_code",                          :limit => 100
+    t.string   "phone",                                :limit => 100
+    t.string   "fax",                                  :limit => 100
+    t.string   "bank_code"
+    t.string   "bank_contact_name"
+    t.string   "bank_contact_phone"
+    t.string   "domestic_wire_aba_routing"
+    t.string   "domestic_special_wire_instructions"
+    t.string   "foreign_wire_intermediary_bank_name"
+    t.string   "foreign_wire_intermediary_bank_swift"
+    t.string   "foreign_wire_beneficiary_bank_swift"
+    t.string   "foreign_special_wire_instructions"
+    t.integer  "owner_organization_id"
+    t.integer  "owner_user_id"
+  end
+
+  add_index "bank_accounts", ["created_by_id"], :name => "bank_accounts_created_by_id"
+  add_index "bank_accounts", ["geo_country_id"], :name => "bank_accounts_geo_country_id"
+  add_index "bank_accounts", ["geo_state_id"], :name => "bank_accounts_geo_state_id"
+  add_index "bank_accounts", ["owner_organization_id"], :name => "bank_accounts_owner_organization_id"
+  add_index "bank_accounts", ["owner_user_id"], :name => "bank_accounts_owner_user_id"
+  add_index "bank_accounts", ["updated_by_id"], :name => "bank_accounts_updated_by_id"
+
+  create_table "budget_requests", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_id",                                        :null => false
+    t.decimal  "amount_requested",   :precision => 15, :scale => 2
+    t.decimal  "amount_recommended", :precision => 15, :scale => 2
+    t.string   "name"
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
+  end
+
+  add_index "budget_requests", ["created_by_id"], :name => "budget_requests_created_by_id"
+  add_index "budget_requests", ["request_id"], :name => "index_budget_requests_on_request_id"
+  add_index "budget_requests", ["updated_by_id"], :name => "budget_requests_updated_by_id"
 
   create_table "client_stores", :force => true do |t|
     t.datetime "created_at"
@@ -84,6 +179,21 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
   add_index "favorites", ["favorable_type", "favorable_id"], :name => "index_favorites_on_favorable_type_and_favorable_id"
   add_index "favorites", ["user_id"], :name => "favorites_user_id"
 
+  create_table "funding_source_allocation_authorities", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.decimal  "amount",                       :precision => 15, :scale => 2
+    t.integer  "authority_id"
+    t.integer  "funding_source_allocation_id"
+  end
+
+  add_index "funding_source_allocation_authorities", ["authority_id"], :name => "fsa_authorities_authority_id"
+  add_index "funding_source_allocation_authorities", ["created_by_id"], :name => "fsa_authorities_created_by_id"
+  add_index "funding_source_allocation_authorities", ["funding_source_allocation_id"], :name => "fsa_authorities_fsa_id"
+  add_index "funding_source_allocation_authorities", ["updated_by_id"], :name => "fsa_authorities_updated_by_id"
+
   create_table "funding_source_allocations", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -94,16 +204,14 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "sub_program_id"
     t.integer  "initiative_id"
     t.integer  "sub_initiative_id"
-    t.integer  "authority_id"
-    t.integer  "amount"
-    t.integer  "retired"
-    t.integer  "boolean"
+    t.decimal  "amount",            :precision => 15, :scale => 2
+    t.boolean  "retired"
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
+    t.integer  "spending_year"
   end
 
-  add_index "funding_source_allocations", ["authority_id"], :name => "funding_source_allocations_authority_id"
   add_index "funding_source_allocations", ["created_by_id"], :name => "funding_source_allocations_created_by_id"
   add_index "funding_source_allocations", ["funding_source_id"], :name => "funding_source_allocations_funding_source_id"
   add_index "funding_source_allocations", ["initiative_id"], :name => "funding_source_allocations_initiative_id"
@@ -118,10 +226,10 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.string   "name"
-    t.integer  "amount"
+    t.decimal  "amount",        :precision => 15, :scale => 2
     t.datetime "start_at"
     t.datetime "end_at"
-    t.boolean  "retired"
+    t.boolean  "retired",                                      :default => false, :null => false
   end
 
   create_table "geo_cities", :force => true do |t|
@@ -215,15 +323,52 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",           :null => false
+    t.string   "name",                              :null => false
     t.text     "description"
     t.integer  "sub_program_id"
-    t.boolean  "retired"
+    t.boolean  "retired",        :default => false, :null => false
+    t.integer  "migrate_id"
   end
 
   add_index "initiatives", ["created_by_id"], :name => "sub_programs_created_by_id"
   add_index "initiatives", ["sub_program_id"], :name => "index_sub_programs_on_initiative_id"
   add_index "initiatives", ["updated_by_id"], :name => "sub_programs_updated_by_id"
+
+  create_table "lois", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "applicant"
+    t.string   "organization_name"
+    t.string   "project_title"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "project_summary"
+    t.string   "address"
+    t.integer  "program_id"
+    t.integer  "locked_by_id"
+    t.datetime "locked_until"
+    t.datetime "deleted_at"
+    t.integer  "user_id"
+    t.integer  "request_id"
+    t.integer  "organization_id"
+    t.boolean  "delta",                                                            :default => true
+    t.string   "tax_id"
+    t.decimal  "amount_requested",                  :precision => 15, :scale => 2
+    t.integer  "sub_program_id"
+    t.integer  "duration_in_months"
+    t.datetime "grant_begins_at"
+    t.string   "street_address2"
+    t.string   "city",               :limit => 100
+    t.integer  "geo_state_id"
+    t.integer  "geo_country_id"
+    t.string   "postal_code",        :limit => 100
+    t.integer  "migrate_id"
+  end
+
+  add_index "lois", ["created_by_id"], :name => "lois_created_by_id"
+  add_index "lois", ["updated_by_id"], :name => "lois_updated_by_id"
 
   create_table "model_document_templates", :force => true do |t|
     t.datetime "created_at"
@@ -237,7 +382,9 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.string   "category"
     t.text     "document"
     t.datetime "deleted_at"
-    t.boolean  "delta",         :default => true, :null => false
+    t.boolean  "delta",                 :default => true,  :null => false
+    t.boolean  "display_in_adhoc_list", :default => false, :null => false
+    t.string   "generate_state"
   end
 
   add_index "model_document_templates", ["category"], :name => "index_model_document_templates_on_category"
@@ -251,13 +398,21 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",                            :null => false
-    t.string   "model_type",                      :null => false
-    t.boolean  "required",      :default => true, :null => false
+    t.string   "name",                                :null => false
+    t.string   "model_type",                          :null => false
+    t.boolean  "required",          :default => true, :null => false
+    t.integer  "program_id"
+    t.integer  "sub_program_id"
+    t.integer  "initiative_id"
+    t.integer  "sub_initiative_id"
   end
 
   add_index "model_document_types", ["created_by_id"], :name => "model_document_types_created_by_id"
+  add_index "model_document_types", ["initiative_id"], :name => "model_document_types_initiative_id"
   add_index "model_document_types", ["model_type"], :name => "index_model_document_types_on_model_type"
+  add_index "model_document_types", ["program_id"], :name => "model_document_types_program_id"
+  add_index "model_document_types", ["sub_initiative_id"], :name => "model_document_types_sub_initiative_id"
+  add_index "model_document_types", ["sub_program_id"], :name => "model_document_types_sub_program_id"
   add_index "model_document_types", ["updated_by_id"], :name => "model_document_types_updated_by_id"
 
   create_table "model_documents", :force => true do |t|
@@ -279,6 +434,7 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "model_document_template_id"
   end
 
+  add_index "model_documents", ["documentable_id", "documentable_type"], :name => "model_documents_docid_type"
   add_index "model_documents", ["model_document_template_id"], :name => "model_documents_template_id"
   add_index "model_documents", ["model_document_type_id"], :name => "model_documents_model_document_type_id"
 
@@ -335,35 +491,41 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",            :limit => 1000,                    :null => false
+    t.string   "name",                   :limit => 1000,                    :null => false
     t.string   "street_address"
     t.string   "street_address2"
-    t.string   "city",            :limit => 100
+    t.string   "city",                   :limit => 100
     t.integer  "geo_state_id"
     t.integer  "geo_country_id"
-    t.string   "postal_code",     :limit => 100
-    t.string   "phone",           :limit => 100
-    t.string   "other_contact",   :limit => 100
-    t.string   "fax",             :limit => 100
-    t.string   "email",           :limit => 100
-    t.string   "url",             :limit => 2048
-    t.string   "blog_url",        :limit => 2048
-    t.string   "twitter_url",     :limit => 2048
-    t.string   "acronym",         :limit => 100
-    t.string   "state",                           :default => "new"
-    t.boolean  "delta",                           :default => true
+    t.string   "postal_code",            :limit => 100
+    t.string   "phone",                  :limit => 100
+    t.string   "other_contact",          :limit => 100
+    t.string   "fax",                    :limit => 100
+    t.string   "email",                  :limit => 100
+    t.string   "url",                    :limit => 2048
+    t.string   "blog_url",               :limit => 2048
+    t.string   "twitter_url",            :limit => 2048
+    t.string   "acronym",                :limit => 100
+    t.string   "state",                                  :default => "new"
+    t.boolean  "delta",                                  :default => true
     t.datetime "deleted_at"
     t.integer  "parent_org_id"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
     t.integer  "tax_class_id"
     t.string   "tax_id"
+    t.boolean  "c3_status_approved",                     :default => false, :null => false
+    t.text     "c3_serialized_response"
+    t.string   "vendor_number"
+    t.boolean  "is_grantor",                             :default => false
+    t.integer  "migrate_id"
   end
 
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
   add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
+  add_index "organizations", ["parent_org_id", "deleted_at"], :name => "index_organizations_on_parent_org_id_and_deleted_at"
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
 
@@ -377,7 +539,8 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "parent_id"
     t.boolean  "rollup"
     t.integer  "geo_zone_id"
-    t.boolean  "retired"
+    t.boolean  "retired",       :default => false, :null => false
+    t.integer  "migrate_id"
   end
 
   add_index "programs", ["geo_zone_id"], :name => "program_geo_zone_id"
@@ -500,15 +663,28 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.text     "delta_attributes", :null => false
   end
 
+  create_table "request_amendments", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "duration"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.decimal  "amount_recommended", :precision => 15, :scale => 2
+    t.boolean  "original",                                          :default => false
+    t.integer  "request_id"
+    t.string   "request_type"
+  end
+
   create_table "request_evaluation_metrics", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "request_id",    :null => false
-    t.string   "description"
-    t.string   "comment"
+    t.text     "description",   :null => false
+    t.text     "comment",       :null => false
     t.boolean  "achieved"
+    t.string   "timeframe"
   end
 
   add_index "request_evaluation_metrics", ["request_id"], :name => "request_evaluation_metrics_request_id"
@@ -520,14 +696,22 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "updated_by_id"
     t.integer  "request_id"
     t.string   "document_file_name"
-    t.integer  "funding_amount"
+    t.decimal  "funding_amount",               :precision => 15, :scale => 2
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.integer  "funding_source_allocation_id"
+    t.integer  "program_id"
+    t.integer  "sub_program_id"
+    t.integer  "initiative_id"
+    t.integer  "sub_initiative_id"
   end
 
   add_index "request_funding_sources", ["funding_source_allocation_id"], :name => "rfs_funding_source_allocation_id"
+  add_index "request_funding_sources", ["initiative_id"], :name => "request_funding_sources_initiative_id"
+  add_index "request_funding_sources", ["program_id"], :name => "request_funding_sources_program_id"
   add_index "request_funding_sources", ["request_id"], :name => "index_request_funding_sources_on_request_id"
+  add_index "request_funding_sources", ["sub_initiative_id"], :name => "request_funding_sources_sub_initiative_id"
+  add_index "request_funding_sources", ["sub_program_id"], :name => "request_funding_sources_sub_program_id"
 
   create_table "request_geo_states", :force => true do |t|
     t.datetime "created_at"
@@ -588,9 +772,47 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.boolean  "delta",               :default => true,            :null => false
+    t.text     "tactical_results"
+    t.text     "strategic_results"
   end
 
   add_index "request_reports", ["request_id"], :name => "index_request_reports_on_request_id"
+
+  create_table "request_reviews", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_id"
+    t.integer  "rating"
+    t.string   "review_type"
+    t.text     "comment"
+    t.text     "benefits"
+    t.text     "outcomes"
+    t.text     "merits"
+    t.text     "recommendation"
+    t.integer  "locked_by_id"
+    t.datetime "locked_until"
+    t.datetime "deleted_at"
+  end
+
+  add_index "request_reviews", ["created_by_id"], :name => "request_reviews_created_by_id"
+  add_index "request_reviews", ["updated_by_id"], :name => "request_reviews_updated_by_id"
+
+  create_table "request_transaction_funding_sources", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_funding_source_id"
+    t.integer  "request_transaction_id"
+    t.decimal  "amount",                    :precision => 15, :scale => 2
+  end
+
+  add_index "request_transaction_funding_sources", ["created_by_id"], :name => "request_transaction_funding_sources_created_by_id"
+  add_index "request_transaction_funding_sources", ["request_funding_source_id"], :name => "request_transaction_funding_sources_fundsrc_id"
+  add_index "request_transaction_funding_sources", ["request_transaction_id"], :name => "request_transaction_funding_sources_transaction_id"
+  add_index "request_transaction_funding_sources", ["updated_by_id"], :name => "request_transaction_funding_sources_updated_by_id"
 
   create_table "request_transactions", :force => true do |t|
     t.datetime "created_at"
@@ -598,8 +820,8 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "request_id"
-    t.integer  "amount_paid"
-    t.integer  "amount_due"
+    t.decimal  "amount_paid",                 :precision => 15, :scale => 2
+    t.decimal  "amount_due",                  :precision => 15, :scale => 2
     t.datetime "due_at"
     t.datetime "paid_at"
     t.string   "comment"
@@ -610,12 +832,19 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
-    t.boolean  "delta",                       :default => true, :null => false
+    t.boolean  "delta",                                                      :default => true, :null => false
     t.string   "request_document_linked_to"
+    t.integer  "organization_payee_id"
+    t.integer  "user_payee_id"
+    t.integer  "bank_account_id"
+    t.text     "condition"
+    t.integer  "migrate_id"
   end
 
+  add_index "request_transactions", ["organization_payee_id"], :name => "request_transactions_org_payee_id"
   add_index "request_transactions", ["payment_recorded_by_id"], :name => "index_request_transactions_on_payment_recorded_by_id"
   add_index "request_transactions", ["request_id"], :name => "index_request_transactions_on_request_id"
+  add_index "request_transactions", ["user_payee_id"], :name => "request_transactions_user_payee_id"
 
   create_table "request_users", :force => true do |t|
     t.datetime "created_at"
@@ -639,7 +868,7 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.integer  "fiscal_organization_id"
     t.integer  "program_id"
     t.integer  "sub_program_id"
-    t.boolean  "granted",                           :default => false, :null => false
+    t.boolean  "granted",                                                          :default => false, :null => false
     t.boolean  "renewal_grant"
     t.boolean  "funding_general_operating_support"
     t.boolean  "board_authorization_required"
@@ -648,15 +877,14 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "grant_agreement_at"
     t.datetime "grant_begins_at"
     t.datetime "grant_closed_at"
-    t.integer  "amount_requested"
-    t.integer  "amount_recommended"
+    t.decimal  "amount_requested",                  :precision => 15, :scale => 2
+    t.decimal  "amount_recommended",                :precision => 15, :scale => 2
     t.integer  "duration_in_months"
-    t.string   "project_summary"
+    t.text     "project_summary"
     t.string   "base_request_id"
     t.string   "fip_title"
     t.string   "fip_consultant_name"
     t.datetime "fip_projected_end_at"
-    t.datetime "ierf_start_at"
     t.datetime "ierf_proposed_end_at"
     t.datetime "ierf_budget_end_at"
     t.text     "ierf_goals"
@@ -666,20 +894,32 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.text     "ierf_due_diligence_risks"
     t.text     "ierf_due_diligence_noc4_work"
     t.text     "ierf_due_diligence_board_review"
-    t.integer  "funds_expended_amount"
+    t.decimal  "funds_expended_amount",             :precision => 15, :scale => 2
     t.datetime "funds_expended_at"
     t.string   "type"
     t.string   "state"
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
-    t.boolean  "delta",                             :default => true,  :null => false
+    t.boolean  "delta",                                                            :default => true,  :null => false
     t.integer  "fip_type_id"
     t.integer  "program_lead_id"
     t.integer  "fiscal_org_owner_id"
     t.integer  "grantee_signatory_id"
     t.integer  "fiscal_signatory_id"
     t.integer  "grantee_org_owner_id"
+    t.text     "request_purpose"
+    t.boolean  "multi_year_support_expected"
+    t.integer  "multi_year_support_years"
+    t.integer  "risks_and_probability"
+    t.integer  "initiative_id"
+    t.integer  "sub_initiative_id"
+    t.string   "po_number"
+    t.boolean  "extension_flag"
+    t.boolean  "display_warnings",                                                 :default => true
+    t.integer  "grant_cycle_id"
+    t.integer  "migrate_id"
+    t.boolean  "skip_hgrant_flag",                                                 :default => false, :null => false
   end
 
   add_index "requests", ["fiscal_org_owner_id"], :name => "index_requests_on_fiscal_org_owner_id"
@@ -698,28 +938,48 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",          :null => false
     t.integer  "user_id"
-    t.string   "roleable_type"
     t.integer  "roleable_id"
+    t.integer  "role_id"
   end
 
   add_index "role_users", ["created_by_id"], :name => "role_users_created_by_id"
-  add_index "role_users", ["name", "roleable_type", "roleable_id"], :name => "index_role_users_on_name_and_roleable_type_and_roleable_id"
+  add_index "role_users", ["role_id"], :name => "role_users_role_id"
+  add_index "role_users", ["roleable_id"], :name => "index_role_users_on_name_and_roleable_type_and_roleable_id"
   add_index "role_users", ["roleable_id"], :name => "index_role_users_on_roleable_id"
   add_index "role_users", ["updated_by_id"], :name => "role_users_updated_by_id"
-  add_index "role_users", ["user_id", "roleable_type"], :name => "index_role_users_on_user_id_and_roleable_type"
   add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id"
+  add_index "role_users", ["user_id"], :name => "index_role_users_on_user_id_and_roleable_type"
+
+  create_table "roles", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name"
+    t.string   "roleable_type"
+    t.datetime "deleted_at"
+  end
+
+  add_index "roles", ["created_by_id"], :name => "roles_created_by_id"
+  add_index "roles", ["updated_by_id"], :name => "roles_updated_by_id"
+
+  create_table "sphinx_checks", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "check_ts"
+  end
 
   create_table "sub_initiatives", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",          :null => false
+    t.string   "name",                             :null => false
     t.text     "description"
     t.integer  "initiative_id"
-    t.boolean  "retired"
+    t.boolean  "retired",       :default => false, :null => false
+    t.integer  "migrate_id"
   end
 
   add_index "sub_initiatives", ["created_by_id"], :name => "sub_initiatives_created_by_id"
@@ -734,7 +994,8 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.string   "name"
     t.string   "description"
     t.integer  "program_id"
-    t.boolean  "retired"
+    t.boolean  "retired",       :default => false, :null => false
+    t.integer  "migrate_id"
   end
 
   add_index "sub_programs", ["program_id"], :name => "index_initiatives_on_program_id"
@@ -759,15 +1020,30 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
   add_index "user_organizations", ["updated_by_id"], :name => "user_organizations_updated_by_id"
   add_index "user_organizations", ["user_id"], :name => "index_user_organizations_on_user_id"
 
+  create_table "user_permissions", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "model_type"
+    t.integer  "user_id"
+    t.string   "name"
+  end
+
+  add_index "user_permissions", ["created_by_id"], :name => "user_permissions_created_by_id"
+  add_index "user_permissions", ["updated_by_id"], :name => "user_permissions_updated_by_id"
+  add_index "user_permissions", ["user_id"], :name => "user_permissions_user_id"
+
   create_table "user_profile_rules", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_profile_id"
-    t.string   "role_name"
+    t.string   "permission_name"
     t.boolean  "allowed",         :default => true, :null => false
+    t.string   "model_type"
   end
 
-  add_index "user_profile_rules", ["role_name"], :name => "index_user_profile_rules_on_role_name"
+  add_index "user_profile_rules", ["permission_name"], :name => "index_user_profile_rules_on_role_name"
   add_index "user_profile_rules", ["user_profile_id"], :name => "user_profile_rules_user_profile_id"
 
   create_table "user_profiles", :force => true do |t|
@@ -831,11 +1107,14 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.string   "current_login_ip"
     t.string   "last_login_ip"
     t.integer  "user_profile_id"
-    t.boolean  "test_user_flag"
+    t.boolean  "test_user_flag",                               :default => false
+    t.string   "linkedin_url"
+    t.string   "facebook_url"
+    t.integer  "migrate_id"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["login"], :name => "index_users_on_login"
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
   add_index "users", ["personal_geo_country_id"], :name => "users_personal_country_id"
   add_index "users", ["personal_geo_state_id"], :name => "users_personal_geo_state_id"
@@ -884,6 +1163,29 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
   add_index "wiki_documents", ["updated_by_id"], :name => "wiki_documents_updated_by_id"
   add_index "wiki_documents", ["wiki_document_template_id"], :name => "wiki_documents_template_id"
 
+  create_table "work_tasks", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name"
+    t.text     "task_text"
+    t.string   "taskable_type"
+    t.integer  "taskable_id"
+    t.datetime "due_at"
+    t.integer  "task_order"
+    t.integer  "assigned_user_id"
+    t.boolean  "task_completed",   :default => false
+    t.datetime "deleted_at"
+    t.datetime "locked_until"
+    t.integer  "locked_by_id"
+    t.datetime "completed_at"
+  end
+
+  add_index "work_tasks", ["assigned_user_id"], :name => "work_tasks_assigned_user_id"
+  add_index "work_tasks", ["created_by_id"], :name => "work_tasks_created_by_id"
+  add_index "work_tasks", ["updated_by_id"], :name => "work_tasks_updated_by_id"
+
   create_table "workflow_events", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -896,6 +1198,8 @@ ActiveRecord::Schema.define(:version => 20110110215447) do
     t.string   "old_state"
     t.string   "new_state"
     t.text     "comment"
+    t.string   "related_workflowable_type"
+    t.integer  "related_workflowable_id"
   end
 
   add_index "workflow_events", ["created_by_id"], :name => "workflow_events_created_by_id"
