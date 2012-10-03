@@ -25,7 +25,7 @@ FluxxGrantRi::Application.configure do
   # config.logger = SyslogLogger.new
 
   # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+  # config.cache_store = :dalli_store
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
@@ -46,13 +46,17 @@ FluxxGrantRi::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  MEMCACHE_SERVER='127.0.0.1:11211'
   SKIP_FLUXX_BUILDER=true
 
-  require 'memcache'
-  SESSION_CACHE = MemCache.new(MEMCACHE_SERVER, :namespace => 'rack:session', :memcache_server => MEMCACHE_SERVER)
-  FluxxGrantRi::Application.config.session_store :mem_cache_store, :cache => SESSION_CACHE
-  FluxxGrantRi::Application.config.cache_store = :mem_cache_store, MEMCACHE_SERVER
+  require 'action_dispatch/middleware/session/dalli_store'
+  FluxxGrantRi::Application.config.action_dispatch.rack_cache = {
+  :metastore    => Dalli::Client.new,
+  :entitystore  => 'file:tmp/cache/rack/body',
+  :allow_reload => false
+  }
+  FluxxGrantRi::Application.config.session_store :dalli_store, :memcache_server => ['host1', 'host2'], :namespace => 'sessions'
+  FluxxGrantRi::Application.config.session_store :dalli_store, :memcache_server => ['host1', 'host2'], :namespace => 'sessions'
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address => "localhost",
