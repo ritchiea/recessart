@@ -1,3 +1,0 @@
-class ProjectOrganizationsController < ApplicationController
-  include FluxxProjectOrganizationsController
-end

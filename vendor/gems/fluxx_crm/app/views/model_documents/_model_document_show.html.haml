@@ -1,4 +1,0 @@
-- if model.documentable && model.documentable.respond_to?(:process_liquid_template)
-  %p= raw model.documentable.process_liquid_template model.document_text, view_context
--# if model.documentable && model.documentable.respond_to?(:process_curly_template)
-  %p=#raw model.documentable.process_curly_template model.document_text, view_context

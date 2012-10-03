@@ -1,3 +1,0 @@
-- partial_data_src_url = url_for(alerts_path({:skip_wrapper => true}))
-%div{:class => 'partial alert-partial-span', 'data-src' => partial_data_src_url}
-  = render :partial => 'alerts/alert_list', :locals => {:models => []}

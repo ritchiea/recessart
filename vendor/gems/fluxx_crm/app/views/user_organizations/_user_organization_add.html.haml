@@ -1,2 +1,0 @@
-- if model && current_user.has_create_for_model?(UserOrganization)
-  = link_to 'add a relationship', new_user_organization_path(:user_organization => {:user_id => model.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.user-organization-partial-span'

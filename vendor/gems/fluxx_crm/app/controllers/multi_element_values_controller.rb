@@ -1,3 +1,0 @@
-class MultiElementValuesController < ApplicationController
-  include FluxxMultiElementValuesController
-end

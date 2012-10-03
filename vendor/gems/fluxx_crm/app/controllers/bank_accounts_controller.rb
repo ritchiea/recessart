@@ -1,3 +1,0 @@
-class BankAccountsController < ApplicationController
-  include FluxxBankAccountsController
-end

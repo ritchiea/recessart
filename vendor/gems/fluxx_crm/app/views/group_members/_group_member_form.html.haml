@@ -1,5 +1,0 @@
-= form.input :groupable_id, :as => :hidden
-= form.input :groupable_type, :as => :hidden
-= form.input :group_id, :as => :select, :required => true, :collection => Group.all_sorted_groups.map {|group|[group.name, group.id]}
-
-= form.commit_button

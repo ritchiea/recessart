@@ -1,2 +1,0 @@
-= form.input :assigned_user, :label => "Task assigned to", :as => :select, :collection => (User.employees.map{|user| [user.full_name, user.id]})
-= form.input :task_completed, :label => "Task completed", :as => :select, :collection => [['Yes', 1], ['No', 0]]

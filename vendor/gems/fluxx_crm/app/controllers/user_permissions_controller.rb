@@ -1,3 +1,0 @@
-class UserPermissionsController < ApplicationController
-  include FluxxUserPermissionsController
-end

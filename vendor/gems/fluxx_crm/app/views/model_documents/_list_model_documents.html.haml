@@ -1,5 +1,0 @@
-- required_doc_ids ||= []
-- if model.respond_to?(:model_documents) && model.id
-  - partial_data_src_url = url_for(model_documents_path({:documentable_id => model.id, :documentable_type => model.class.name, :required_doc_ids => required_doc_ids, :skip_wrapper => true}))
-  .partial{'data-src' => partial_data_src_url, 'class' => 'partial'}
-    = render :partial => "model_documents/model_document_list", :locals => { :models => model.model_documents, :documentable => model, :required_doc_ids => required_doc_ids }

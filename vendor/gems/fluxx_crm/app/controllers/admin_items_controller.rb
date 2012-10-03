@@ -1,3 +1,0 @@
-class AdminItemsController < ApplicationController
-  include FluxxAdminItemsController
-end

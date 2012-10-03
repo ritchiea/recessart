@@ -1,7 +1,0 @@
-= form.input :title, :label => "Project Title:"
-= form.input :lead_user, :label => "Project Lead:", :as => :select, :collection => User.employees.map{|employee| [employee.full_name, employee.id]}
-= form.input :project_type, :label => "Project Type:", :as => :select
-= form.input :state, :label => "Status:", :as => :select, :collection => ['Active', 'Archived'], :include_blank => nil
-= form.input :description, :label => "Description:", :as => :text
-
-= form.commit_button

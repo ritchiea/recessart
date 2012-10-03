@@ -1,8 +1,0 @@
-.wiki-document
-  %h1=model.title
-  %br  
-
-  - if model.model && model.model.respond_to?(:process_curly_template)
-    %p=raw model.model.process_curly_template model.note, view_context
-  - else
-    %p=raw model.note

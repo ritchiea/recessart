@@ -1,3 +1,0 @@
-class MultiElementGroupsController < ApplicationController
-  include FluxxMultiElementGroupsController
-end

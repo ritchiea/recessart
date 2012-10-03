@@ -1,5 +1,0 @@
-%ul#card-settings
-  %li{:name => "model-param-name"}= @model_class.calculate_form_name if @model_class
-  %li{:name => "model-class"}= @delta_type
-  %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''))
-  %li{:name => "icon-style"}= @icon_style

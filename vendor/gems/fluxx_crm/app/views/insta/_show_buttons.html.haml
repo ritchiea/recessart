@@ -1,6 +1,0 @@
-%ul.workflow
-  - if @action_buttons && @action_buttons.is_a?(Array)
-    = render :partial => "insta/show_action_buttons", :locals => { :model => @model, :buttons => @action_buttons}
-
-%ul.buttons
-  = render :partial => "insta/edit_buttons", :locals => { :model => @model, :buttons => @action_buttons}

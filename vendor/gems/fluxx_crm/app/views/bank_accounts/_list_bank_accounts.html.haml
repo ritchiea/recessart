@@ -1,5 +1,0 @@
-- organization_id ||= nil
-- user_id ||= nil
-- partial_data_src_url = bank_accounts_path({:skip_wrapper => true, :owner_organization_id => organization_id, :owner_user_id => user_id})
-%div.partial{:class => 'bank_account-partial-span', 'data-src' => partial_data_src_url}
-  = render :partial => 'bank_accounts/bank_account_list', :locals => {:models => model.bank_accounts, :organization_id => organization_id, :user_id => user_id}

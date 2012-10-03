@@ -1,7 +1,0 @@
--# A form to display a list of templates that relate to a particular model.  Choosing one creates a new model document based on that template.
-
-- documentable_type = grab_param(:model_document, :documentable_type)
-- documentable_id = grab_param(:model_document, :documentable_id)
-= form.input :documentable_id, :as => :hidden 
-= form.input :documentable_type, :as => :hidden 
-= form.input :model_document_template_id, :label => "Document", :as => :select, :collection => ModelDocumentTemplate.adhoc_for_type_and_category(documentable_type).all.map{|template| [template.description, template.id]}, :include_blank => nil

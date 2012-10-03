@@ -1,4 +1,0 @@
-- partial_data_src_url = url_for(multi_element_values_path({:multi_element_group_id => model.id, :skip_wrapper => true}))
-%div.partial.multi-element-value-partial-span{'data-src' => partial_data_src_url}
-  = render :partial => 'multi_element_values/multi_element_value_list', :locals => {:models => model.multi_element_values, :multi_element_group_id => model.id}
-
