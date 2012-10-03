@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110918061339) do
+ActiveRecord::Schema.define(:version => 20120321211608) do
 
   create_table "alert_emails", :force => true do |t|
     t.string   "mailer_method"
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.datetime "updated_at"
   end
 
+  create_table "alert_transition_states", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "alert_id"
+    t.string   "state"
+  end
+
+  add_index "alert_transition_states", ["alert_id"], :name => "alert_transition_states_alert_id"
+  add_index "alert_transition_states", ["created_by_id"], :name => "alert_transition_states_created_by_id"
+  add_index "alert_transition_states", ["updated_by_id"], :name => "alert_transition_states_updated_by_id"
+
   create_table "alerts", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -48,6 +61,10 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "dashboard_id"
     t.integer  "dashboard_card_id"
     t.boolean  "group_models",            :default => false, :null => false
+    t.boolean  "state_driven",            :default => false, :null => false
+    t.text     "cc_emails"
+    t.text     "bcc_emails"
+    t.boolean  "alert_enabled",           :default => true,  :null => false
   end
 
   add_index "alerts", ["dashboard_id"], :name => "alerts_dashboard_id"
@@ -62,9 +79,9 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.string   "username"
     t.string   "action"
     t.text     "audit_changes"
-    t.integer  "version",                              :default => 0
+    t.integer  "version",        :default => 0
     t.string   "comment"
-    t.text     "full_model",     :limit => 2147483647
+    t.text     "full_model"
   end
 
   add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
@@ -139,6 +156,18 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
   add_index "client_stores", ["user_id", "client_store_type"], :name => "index_client_stores_on_user_id_and_client_store_type"
   add_index "client_stores", ["user_id"], :name => "index_client_stores_on_user_id"
 
+  create_table "dashboard_templates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name"
+    t.text     "data"
+  end
+
+  add_index "dashboard_templates", ["created_by_id"], :name => "dashboard_templates_created_by_id"
+  add_index "dashboard_templates", ["updated_by_id"], :name => "dashboard_templates_updated_by_id"
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -187,6 +216,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.decimal  "amount",                       :precision => 15, :scale => 2
     t.integer  "authority_id"
     t.integer  "funding_source_allocation_id"
+    t.text     "note"
   end
 
   add_index "funding_source_allocation_authorities", ["authority_id"], :name => "fsa_authorities_authority_id"
@@ -204,12 +234,14 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "sub_program_id"
     t.integer  "initiative_id"
     t.integer  "sub_initiative_id"
-    t.decimal  "amount",            :precision => 15, :scale => 2
+    t.decimal  "amount",               :precision => 15, :scale => 2
     t.boolean  "retired"
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.integer  "spending_year"
+    t.decimal  "budget_amount",        :precision => 15, :scale => 2
+    t.decimal  "actual_budget_amount", :precision => 15, :scale => 2
   end
 
   add_index "funding_source_allocations", ["created_by_id"], :name => "funding_source_allocations_created_by_id"
@@ -226,10 +258,16 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.string   "name"
-    t.decimal  "amount",        :precision => 15, :scale => 2
+    t.decimal  "amount",                        :precision => 15, :scale => 2
     t.datetime "start_at"
     t.datetime "end_at"
-    t.boolean  "retired",                                      :default => false, :null => false
+    t.boolean  "retired",                                                      :default => false,      :null => false
+    t.decimal  "overhead_amount",               :precision => 15, :scale => 2
+    t.decimal  "net_available_to_spend_amount", :precision => 15, :scale => 2
+    t.integer  "narrative_lead_user_id"
+    t.string   "state",                                                        :default => "approved", :null => false
+    t.decimal  "amount_requested",              :precision => 15, :scale => 2
+    t.decimal  "amount_budgeted",               :precision => 15, :scale => 2
   end
 
   create_table "geo_cities", :force => true do |t|
@@ -325,7 +363,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "updated_by_id"
     t.string   "name",                              :null => false
     t.text     "description"
-    t.integer  "sub_program_id"
+    t.integer  "sub_program_id",                    :null => false
     t.boolean  "retired",        :default => false, :null => false
     t.integer  "migrate_id"
   end
@@ -353,18 +391,20 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "user_id"
     t.integer  "request_id"
     t.integer  "organization_id"
-    t.boolean  "delta",                                                            :default => true
+    t.boolean  "delta",                                                                             :default => true
     t.string   "tax_id"
-    t.decimal  "amount_requested",                  :precision => 15, :scale => 2
+    t.decimal  "amount_requested",                                   :precision => 15, :scale => 2
     t.integer  "sub_program_id"
     t.integer  "duration_in_months"
     t.datetime "grant_begins_at"
     t.string   "street_address2"
-    t.string   "city",               :limit => 100
+    t.string   "city",                               :limit => 100
     t.integer  "geo_state_id"
     t.integer  "geo_country_id"
-    t.string   "postal_code",        :limit => 100
+    t.string   "postal_code",                        :limit => 100
     t.integer  "migrate_id"
+    t.string   "organization_name_foreign_language", :limit => 1500
+    t.string   "state"
   end
 
   add_index "lois", ["created_by_id"], :name => "lois_created_by_id"
@@ -382,15 +422,20 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.string   "category"
     t.text     "document"
     t.datetime "deleted_at"
-    t.boolean  "delta",                 :default => true,  :null => false
-    t.boolean  "display_in_adhoc_list", :default => false, :null => false
+    t.boolean  "delta",                              :default => true,  :null => false
+    t.boolean  "display_in_adhoc_list",              :default => false, :null => false
     t.string   "generate_state"
+    t.string   "document_content_type"
+    t.string   "disposition"
+    t.integer  "related_model_document_template_id"
+    t.boolean  "do_not_insert_page_break"
   end
 
   add_index "model_document_templates", ["category"], :name => "index_model_document_templates_on_category"
   add_index "model_document_templates", ["created_by_id"], :name => "modeldoctemplate_created_by_id"
   add_index "model_document_templates", ["document_type"], :name => "index_model_document_templates_on_document_type"
   add_index "model_document_templates", ["model_type"], :name => "index_model_document_templates_on_model_type"
+  add_index "model_document_templates", ["related_model_document_template_id"], :name => "mdt_related_model_doc_templt_id"
   add_index "model_document_templates", ["updated_by_id"], :name => "modeldoctemplate_updated_by_id"
 
   create_table "model_document_types", :force => true do |t|
@@ -398,17 +443,20 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "name",                                :null => false
-    t.string   "model_type",                          :null => false
-    t.boolean  "required",          :default => true, :null => false
+    t.string   "name",                                     :null => false
+    t.string   "model_type",                               :null => false
+    t.boolean  "required",          :default => true,      :null => false
     t.integer  "program_id"
     t.integer  "sub_program_id"
     t.integer  "initiative_id"
     t.integer  "sub_initiative_id"
+    t.string   "doc_label",         :default => "default", :null => false
   end
 
   add_index "model_document_types", ["created_by_id"], :name => "model_document_types_created_by_id"
+  add_index "model_document_types", ["doc_label"], :name => "index_model_document_types_on_doc_label"
   add_index "model_document_types", ["initiative_id"], :name => "model_document_types_initiative_id"
+  add_index "model_document_types", ["model_type", "doc_label"], :name => "mod_docs_type_docid_label"
   add_index "model_document_types", ["model_type"], :name => "index_model_document_types_on_model_type"
   add_index "model_document_types", ["program_id"], :name => "model_document_types_program_id"
   add_index "model_document_types", ["sub_initiative_id"], :name => "model_document_types_sub_initiative_id"
@@ -424,17 +472,22 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.string   "documentable_type",                              :null => false
-    t.integer  "documentable_id",                                :null => false
+    t.string   "documentable_type",                                 :null => false
+    t.integer  "documentable_id",                                   :null => false
     t.datetime "locked_until"
     t.integer  "locked_by_id"
     t.integer  "model_document_type_id"
     t.string   "document_type",              :default => "file"
     t.text     "document_text"
     t.integer  "model_document_template_id"
+    t.string   "doc_label",                  :default => "default", :null => false
+    t.string   "s3_permission"
   end
 
+  add_index "model_documents", ["doc_label"], :name => "index_model_documents_on_doc_label"
   add_index "model_documents", ["documentable_id", "documentable_type"], :name => "model_documents_docid_type"
+  add_index "model_documents", ["documentable_type", "documentable_id", "doc_label"], :name => "mod_docs_type_docid_label"
+  add_index "model_documents", ["documentable_type", "documentable_id"], :name => "model_documents_doc_type_id"
   add_index "model_documents", ["model_document_template_id"], :name => "model_documents_template_id"
   add_index "model_documents", ["model_document_type_id"], :name => "model_documents_model_document_type_id"
 
@@ -519,15 +572,49 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.string   "vendor_number"
     t.boolean  "is_grantor",                             :default => false
     t.integer  "migrate_id"
+    t.string   "name_foreign_language",  :limit => 1500
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "state_str"
+    t.string   "state_code"
+    t.string   "country_str"
+    t.string   "country_code"
   end
 
   add_index "organizations", ["created_by_id"], :name => "organizations_created_by_id"
   add_index "organizations", ["geo_country_id"], :name => "organizations_geo_country_id"
   add_index "organizations", ["geo_state_id"], :name => "organizations_geo_state_id"
-  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>"255"}
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :length => {"name"=>255}
   add_index "organizations", ["parent_org_id", "deleted_at"], :name => "index_organizations_on_parent_org_id_and_deleted_at"
   add_index "organizations", ["parent_org_id"], :name => "index_organizations_on_parent_org_id"
   add_index "organizations", ["updated_by_id"], :name => "organizations_updated_by_id"
+
+  create_table "program_budgets", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "program_id"
+    t.integer  "sub_program_id"
+    t.integer  "initiative_id"
+    t.integer  "sub_initiative_id"
+    t.integer  "spending_year"
+    t.decimal  "amount",            :precision => 15, :scale => 2
+    t.integer  "locked_by_id"
+    t.datetime "locked_until"
+    t.datetime "deleted_at"
+  end
+
+  add_index "program_budgets", ["created_by_id"], :name => "program_budgets_created_by_id"
+  add_index "program_budgets", ["initiative_id"], :name => "program_budgets_initiative_id"
+  add_index "program_budgets", ["program_id"], :name => "program_budgets_program_id"
+  add_index "program_budgets", ["spending_year", "initiative_id"], :name => "index_program_budgets_on_spending_year_and_initiative_id"
+  add_index "program_budgets", ["spending_year", "program_id"], :name => "index_program_budgets_on_spending_year_and_program_id"
+  add_index "program_budgets", ["spending_year", "sub_initiative_id"], :name => "index_program_budgets_on_spending_year_and_sub_initiative_id"
+  add_index "program_budgets", ["spending_year", "sub_program_id"], :name => "index_program_budgets_on_spending_year_and_sub_program_id"
+  add_index "program_budgets", ["sub_initiative_id"], :name => "program_budgets_subinitiative_id"
+  add_index "program_budgets", ["sub_program_id"], :name => "program_budgets_sub_program_id"
+  add_index "program_budgets", ["updated_by_id"], :name => "program_budgets_updated_by_id"
 
   create_table "programs", :force => true do |t|
     t.datetime "created_at"
@@ -669,10 +756,19 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "duration"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.decimal  "amount_recommended", :precision => 15, :scale => 2
-    t.boolean  "original",                                          :default => false
+    t.decimal  "amount_recommended",     :precision => 15, :scale => 2
+    t.boolean  "original",                                              :default => false
     t.integer  "request_id"
     t.string   "request_type"
+    t.string   "state"
+    t.text     "note"
+    t.boolean  "delta",                                                 :default => true,  :null => false
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "old_duration"
+    t.datetime "old_start_date"
+    t.datetime "old_end_date"
+    t.decimal  "old_amount_recommended", :precision => 15, :scale => 2
   end
 
   create_table "request_evaluation_metrics", :force => true do |t|
@@ -681,8 +777,8 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "request_id",    :null => false
-    t.text     "description",   :null => false
-    t.text     "comment",       :null => false
+    t.text     "description"
+    t.text     "comment"
     t.boolean  "achieved"
     t.string   "timeframe"
   end
@@ -736,7 +832,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
   end
 
   add_index "request_organizations", ["organization_id"], :name => "request_organizations_organization_id"
-  add_index "request_organizations", ["request_id", "organization_id"], :name => "index_request_organizations_on_request_id_and_organization_id", :unique => true
+  add_index "request_organizations", ["request_id", "organization_id"], :name => "request_organizations_req_org_id", :unique => true
 
   create_table "request_programs", :force => true do |t|
     t.datetime "created_at"
@@ -772,11 +868,23 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.datetime "locked_until"
     t.datetime "deleted_at"
     t.boolean  "delta",               :default => true,            :null => false
-    t.text     "tactical_results"
-    t.text     "strategic_results"
   end
 
   add_index "request_reports", ["request_id"], :name => "index_request_reports_on_request_id"
+
+  create_table "request_reviewer_assignments", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "request_id"
+    t.integer  "user_id"
+  end
+
+  add_index "request_reviewer_assignments", ["created_by_id"], :name => "request_reviewer_assignments_created_by_id"
+  add_index "request_reviewer_assignments", ["request_id"], :name => "request_reviewer_assignments_request_id"
+  add_index "request_reviewer_assignments", ["updated_by_id"], :name => "request_reviewer_assignments_updated_by_id"
+  add_index "request_reviewer_assignments", ["user_id"], :name => "request_reviewer_assignments_user_id"
 
   create_table "request_reviews", :force => true do |t|
     t.datetime "created_at"
@@ -794,6 +902,8 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "locked_by_id"
     t.datetime "locked_until"
     t.datetime "deleted_at"
+    t.boolean  "conflict_reported"
+    t.boolean  "delta",             :default => false
   end
 
   add_index "request_reviews", ["created_by_id"], :name => "request_reviews_created_by_id"
@@ -908,10 +1018,6 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "grantee_signatory_id"
     t.integer  "fiscal_signatory_id"
     t.integer  "grantee_org_owner_id"
-    t.text     "request_purpose"
-    t.boolean  "multi_year_support_expected"
-    t.integer  "multi_year_support_years"
-    t.integer  "risks_and_probability"
     t.integer  "initiative_id"
     t.integer  "sub_initiative_id"
     t.string   "po_number"
@@ -920,6 +1026,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "grant_cycle_id"
     t.integer  "migrate_id"
     t.boolean  "skip_hgrant_flag",                                                 :default => false, :null => false
+    t.integer  "reviewer_group_id"
   end
 
   add_index "requests", ["fiscal_org_owner_id"], :name => "index_requests_on_fiscal_org_owner_id"
@@ -968,6 +1075,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "check_ts"
+    t.boolean  "delta",      :default => true, :null => false
   end
 
   create_table "sub_initiatives", :force => true do |t|
@@ -977,7 +1085,7 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.integer  "updated_by_id"
     t.string   "name",                             :null => false
     t.text     "description"
-    t.integer  "initiative_id"
+    t.integer  "initiative_id",                    :null => false
     t.boolean  "retired",       :default => false, :null => false
     t.integer  "migrate_id"
   end
@@ -1111,6 +1219,13 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
     t.string   "linkedin_url"
     t.string   "facebook_url"
     t.integer  "migrate_id"
+    t.string   "first_name_foreign_language",  :limit => 500
+    t.string   "middle_name_foreign_language", :limit => 500
+    t.string   "last_name_foreign_language",   :limit => 500
+    t.string   "perishable_token"
+    t.boolean  "active",                                       :default => true
+    t.boolean  "approved",                                     :default => true
+    t.boolean  "confirmed",                                    :default => true
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -1204,6 +1319,6 @@ ActiveRecord::Schema.define(:version => 20110918061339) do
 
   add_index "workflow_events", ["created_by_id"], :name => "workflow_events_created_by_id"
   add_index "workflow_events", ["updated_by_id"], :name => "workflow_events_updated_by_id"
-  add_index "workflow_events", ["workflowable_id", "workflowable_type"], :name => "index_workflow_events_on_workflowable_id_and_workflowable_type"
+  add_index "workflow_events", ["workflowable_id", "workflowable_type"], :name => "workflow_events_flowid_type"
 
 end

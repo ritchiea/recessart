@@ -12,3 +12,11 @@ gem 'faker', '>= 0.3.1'
 gem 'mocha', '>= 0.9'
 gem 'rcov'
 gem 'ruby-debug', '>= 0.10.3'
+
+group :development do
+  gem 'mysql2', '0.2.19b4'
+end
+
+group :production do
+  gem 'pg'
+end
