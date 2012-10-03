@@ -1,0 +1,11 @@
+- wiki_title ||= 'Wiki Document'
+%table.tabular{:cellspacing => 0}
+  %thead
+    %tr
+      %th
+        %span Wiki Documents
+        .actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class=> 'add-button'), new_wiki_document_path(:suppress_wiki_input => true, :wiki_document => {:model_id => model.id, :model_type => model.class.name}), :class => 'to-modal', 'data-on-success' => 'refreshCaller,close,openDetail', 'data-insert' => 'after', :title => "add a wiki doc", 'title'=>wiki_title
+
+        - partial_data_src_url = url_for(wiki_documents_path({:model_id => model.id, :model_type => model.class.name, :skip_wrapper => true}))
+        %div{:class => 'partial wiki-document-partial-span', 'data-src' => partial_data_src_url}
+          = render :partial => 'wiki_documents/wiki_document_list', :locals => {:models => (model.wiki_documents), :model => model}

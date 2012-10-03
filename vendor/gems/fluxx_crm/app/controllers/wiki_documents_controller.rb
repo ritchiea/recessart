@@ -1,0 +1,3 @@
+class WikiDocumentsController < ApplicationController
+  include FluxxWikiDocumentsController
+end

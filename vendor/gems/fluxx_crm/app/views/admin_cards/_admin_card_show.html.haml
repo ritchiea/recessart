@@ -1,0 +1,15 @@
+= render :partial => 'admin_cards/pre_extra_admin'
+
+- if current_user.is_admin?
+  %ul
+    %li= link_to 'Groups', groups_path, :class => 'new-listing', 'data-insert' => 'after', :title => 'Groups'
+    %li= link_to "New Group", new_group_path, :class => 'to-modal', 'data-on-success' => 'close'
+
+%ul
+  %li= link_to 'Alerts', alerts_path, :class => 'new-listing', 'data-insert' => 'after', :title => 'Alerts'
+
+- unless defined?(ModelAttribute)
+  %ul
+    %li= link_to 'Multi-element Groups', multi_element_groups_path, :class => 'new-listing', 'data-insert' => 'after', :title => 'Multi-element Groups'
+  
+= render :partial => 'admin_cards/extra_admin'

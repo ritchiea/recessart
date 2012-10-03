@@ -1,0 +1,3 @@
+- partial_data_src_url = url_for(project_users_path({:project_id => model.id, :skip_wrapper => true}))
+%div.relations{:class => 'project-user-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'project_users/project_user_list', :locals => {:models => (model.project_users), :project => model}

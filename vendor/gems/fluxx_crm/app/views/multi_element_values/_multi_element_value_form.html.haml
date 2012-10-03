@@ -1,0 +1,6 @@
+%fieldset.inputs
+  %ol
+  = form.input :multi_element_group_id, :as => :hidden
+  = form.input :value, :label => "Value"
+  = form.input :description, :as => :text, :label => "Description"
+  = form.commit_button

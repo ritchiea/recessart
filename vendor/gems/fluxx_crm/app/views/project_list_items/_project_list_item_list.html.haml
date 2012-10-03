@@ -1,0 +1,34 @@
+- project_list ||= nil
+- unless project_list
+  - project_list = ProjectList.find(grab_param(:project_list_item, :project_list_id)) rescue nil
+- if project_list    
+  - order_open_element, order_close_element = project_list.is_numbered? ? ['<ol>', '</ol>'] : ['<ul>', '</ul>']
+  - order_open_element, order_close_element = ['<ul class="todo">', '</ul>'] if project_list.is_todo?
+  - order_open_element, order_close_element = ['<ul class="bullets">', '</ul>'] if project_list.is_bulleted?
+- if project_list && project_list.is_todo?
+  - models = project_list.work_tasks
+- if !models || models.empty?
+  - if project_list && project_list.is_todo?
+    %p.add-item= link_to "Add an item", new_work_task_path(:work_task => {:taskable_type => ProjectList.name, :taskable_id => project_list.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.project-list-item-partial-span', :title => "add an item"
+  - else
+    %p.add-item= link_to "Add an item", new_project_list_item_path(:project_list_item => {:project_list_id => project_list.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.project-list-item-partial-span', :title => "add an item"
+- else
+  != order_open_element
+  - models.each do |model|
+    %li.action-item
+      - if project_list && project_list.is_todo?
+        %input{:type=>"checkbox", :class => 'as-put', 'data-on-success' => 'refreshCaller', :href => work_task_path(:id => model.id, :work_task => {:task_completed => !model.task_completed}), :checked => model.task_completed}
+        = model.task_text
+      - else
+        = model.list_item_text
+      - if current_user.has_delete_for_model? model
+        %span.actions
+          - if project_list && project_list.is_todo?
+            = link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), work_task_path(model), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}
+          - else
+            = link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), project_list_item_path(model), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}
+  != order_close_element
+  - if project_list && project_list.is_todo?
+    %p.add-item= link_to "Add an item", new_work_task_path(:work_task => {:taskable_type => ProjectList.name, :taskable_id => project_list.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.project-list-item-partial-span', :title => "add an item"
+  - else
+    %p.add-item= link_to "Add an item", new_project_list_item_path(:project_list_item => {:project_list_id => project_list.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.project-list-item-partial-span', :title => "add an item"

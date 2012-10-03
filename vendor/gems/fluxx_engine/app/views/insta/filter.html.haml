@@ -1,0 +1,17 @@
+%h1
+
+#card-header= @filter_title
+
+#card-body
+
+  = semantic_form_for ModelStub.generate_class_instance(@model_class), :url => current_index_path, :html => {:class => 'to-listing filters-form ignore-empty', :method => 'get'} do |form|
+    = render :partial => @filter_template, :locals => { :form => form} if @filter_template
+    = form.commit_button 'Create'
+    
+
+#card-footer
+  %ul.buttons
+    %li
+      %a.open-filters{:href => '#'} Close
+  %ul.workflow
+      

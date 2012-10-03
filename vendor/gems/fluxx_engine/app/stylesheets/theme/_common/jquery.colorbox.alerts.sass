@@ -1,0 +1,49 @@
+@import _helpers
+.simplemodal-overlay
+  background: #{inline_image("/images/fluxx_engine/theme/default/modal/overlay-bg.png")} black 
+.simplemodal-close
+  display: block
+  position: absolute
+  right: -8px
+  top: -8px
+  text-indent: -9999px
+  background: #{inline_image("/images/fluxx_engine/theme/default/modal/modal_close.png") } no-repeat top left
+  height: 21px
+  width: 21px
+  z-index: 1500
+.jquery-alert
+  +bg(rgba(0,0,0,0.7),#fff)
+  +box-shadow
+  +rounded(8px)
+  text-align: left
+  padding: 12px
+  .content
+    +bg(#fff,#000)
+    +linear-gradient(#fff,#f9f9f9)
+    +rounded(4px)
+    padding: 12px
+  .title-bar
+    font-size: 28px
+    font-weight: 500
+    width: 450px
+
+  .prompt-form
+    margin: 0px
+    padding: 0px
+
+    .prompt-input
+      width: 100%
+      height: 24px * 3
+      line-height: 24px
+      margin: 20px 0px
+
+  .ok-buttons
+    +buttons(24px, 3px, #9f9)
+    +inline-block
+    float: right
+
+  .cancel-button
+    line-height: 24px
+    float: left
+  .clear
+    clear: both

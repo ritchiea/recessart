@@ -1,0 +1,10 @@
+-# Pass in organization_name as a local variable
+- organization_name ||= :organization
+- organization_label ||= 'Organization:'
+- org = form.object.send(organization_name)
+- org = org.parent_org if org && org.parent_org # Dont display a satellite as a HQ
+- form.object.organization_lookup = (org ? org.display_name : '')
+- hidden_attribute_class = "#{organization_name}_hidden_value"
+= form.input :organization_lookup, :label => organization_label, :as => :autocomplete, :aft => (link_to 'Add New', new_organization_path, :class => 'to-modal', 'data-on-success' => 'close,populateField', 'target' => ".#{organization_name.to_s}_organization_lookup_select", 'data-src' => '/organizations.autocomplete'), :hidden_attribute_class => hidden_attribute_class, :autocomplete_url => organizations_path(:format => :autocomplete, :parent_org_id => 0, :name_method => 'to_s'), :related_attribute_name => :name, :input_html => {:class => "#{organization_name.to_s}_organization_lookup_select", 'data-related-child' => ".program-org-sat-select"}
+- organization_satellites = org ? org.satellites : []
+= form.input organization_name, :label => 'Location: ', :as => :select, :input_html => {:class => 'program-org-sat-select', 'data-param'.to_sym => 'related_org_ids', 'data-src'.to_sym => organizations_path(:format => 'autocomplete'), 'data-cache'.to_sym => 'org_sat_select', 'data-required' => '1'}, :collection => organization_satellites.map {|org| [org.autocomplete_to_s, org.id]}

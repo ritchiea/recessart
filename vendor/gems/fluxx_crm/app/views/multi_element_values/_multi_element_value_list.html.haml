@@ -1,0 +1,16 @@
+- multi_element_group_id ||= params[:multi_element_group_id]
+%h3
+  Events
+  %span.actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class => 'add-button'), new_multi_element_value_path(:multi_element_value => {:multi_element_group_id => multi_element_group_id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.multi-element-value-partial-span', :title => "Add Value"
+- if !models || models.empty?
+  %p.caption= "There are no events."
+- else
+  - models.each do |model|
+    %ul.list
+      %li
+        %div.action-item
+          %strong= link_to(model.value, edit_multi_element_value_path(model, :as_modal => '1'), :class => 'to-modal', :title => "Update value", 'data-on-success' => 'refreshCaller,close')
+          - if model.description
+            %div.descr= model.description
+          - if current_user.has_delete_for_model? model
+            %span.delete-button= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), multi_element_value_path(model), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}

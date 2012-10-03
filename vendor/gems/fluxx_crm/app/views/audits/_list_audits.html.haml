@@ -1,0 +1,24 @@
+%table.tabular{:cellspacing => 0}
+  %thead
+    %tr
+      %th
+        = "History"
+        %span.actions
+          = link_to image_tag('/images/fluxx_engine/theme/default/icons/report_magnify.png'), '#', :class => 'toggle-visible', 'data-selector' => '.audit-detail', :title => "Show/Hide History Details" + "History"
+  %tbody
+    - if !model.respond_to?(:audits) || model.audits.empty?
+      %tr
+        %td= "No history available"
+    - else
+      - load_audits(model).each do |audit|
+        %tr
+          %td
+            - audit_summary, audit_table = build_audit_table_and_summary model, audit
+            - if audit.full_model.blank?
+              %div= raw(audit_summary + audit_table)
+            - else
+              %div
+                %span= raw(audit_summary)
+                = raw audit_table
+    %tr
+      %td{:colspan=>"4"}

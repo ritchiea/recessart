@@ -1,0 +1,10 @@
+.visualizations
+  - if @from_request_card
+    %select.visualization-selector
+      %option= '- Select One -'
+      - @report_list.each do |report|
+        %option{:value => report.report_id}= report.report_label
+
+  %ul.buttons
+    %li= link_to 'Export', '#', :target => "_blank", :class => 'btn area-url' if Fluxx.config(:show_printable_button) == "1"
+    %li= link_to 'PDF', '#', :target => "_blank", :class => 'btn area-url pdf' if Fluxx.config(:show_pdf_button) == "1"

@@ -1,0 +1,3 @@
+class ModelDocumentsController < ApplicationController
+  include FluxxModelDocumentsController
+end

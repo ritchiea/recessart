@@ -1,0 +1,16 @@
+= form.input :user_id, :as => :hidden
+
+- current_org = form.object.organization
+- current_org = current_org.parent_org if current_org && current_org.parent_org # Dont display a satellite as a HQ
+- form.object.organization_lookup = (current_org ? current_org.name : '')
+= form.input :organization_lookup, :label => "Organization", :as => :autocomplete, :autocomplete_url => organizations_path(:format => :autocomplete, :parent_org_id => 0, :name_method => 'to_s'), :related_attribute_name => :name, :input_html => {:class => 'organization_lookup_select', 'data-related-child' => ".program-org-sat-select"}
+- organization_satellites = current_org ? current_org.satellites : []
+= form.input :organization, :label => 'Location: ', :as => :select, :input_html => {:class => 'program-org-sat-select', 'data-param'.to_sym => 'related_org_ids', 'data-src'.to_sym => organizations_path(:format => 'autocomplete'), 'data-cache'.to_sym => 'org_sat_select', 'data-required' => '1'}, :collection => organization_satellites.map {|org| [org.autocomplete_to_s, org.id]}
+
+
+= form.input :title
+= form.input :department
+= form.input :email
+= form.input :phone
+
+= form.commit_button

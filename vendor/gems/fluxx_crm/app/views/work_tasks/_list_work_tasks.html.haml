@@ -1,0 +1,3 @@
+- partial_data_src_url = url_for(work_tasks_path({:taskable_id => model.id, :taskable_type => model.class.name, :skip_wrapper => true}))
+%div{:class => 'partial work-task-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'work_tasks/work_task_list',  :locals => {:models => (model.work_tasks.where(:deleted_at => nil)), :taskable => model}

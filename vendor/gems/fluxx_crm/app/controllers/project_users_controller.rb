@@ -1,0 +1,3 @@
+class ProjectUsersController < ApplicationController
+  include FluxxProjectUsersController
+end

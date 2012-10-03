@@ -1,0 +1,19 @@
+- project ||= nil
+- unless project
+  - if params[:project_id]
+    - project = Project.find(grab_param(:project_list, :project_id)) rescue nil
+- if project
+  %h3 
+    Lists
+    %span.actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class=> 'add-button'), new_project_list_path(:project_list => {:project_id => project.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.project-list-partial-span', :title => "Add Project List"
+  - if !models || models.empty?
+    %p.caption= "There are no lists."
+  - else
+    - models.each do |model|
+      %ul.list
+        %li
+          %div.action-item
+            %strong= model.title
+            - if current_user.has_delete_for_model? model
+              %span.actions= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), project_list_path(model), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}
+            = render :partial => "project_list_items/list_project_list_items", :locals => { :model => model}

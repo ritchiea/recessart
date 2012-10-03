@@ -1,0 +1,12 @@
+%div.filter
+  .report-title
+    = @report.report_label
+  = semantic_form_for ModelStub.generate_class_instance(ActiveRecord::Base), :url => {:controller => controller.controller_name, :action => 'show'}, :html => {:method => 'get', 'data-title' => @report.report_label} do |form|
+    %input{:type=>'hidden', :name=>'id', :value => @report.report_id}
+
+    = render :partial => @filter_template, :locals => { :form => form} if @filter_template
+    
+    - if @report.has_plot?
+      %input{:type => 'button', :name => 'commit', :class => 'commit new-detail', :value => 'View Report'}
+    - if @report.has_document?
+      %input{:type => 'button', :name => 'commit', :class => 'commit new-page', :value => 'View Document'}

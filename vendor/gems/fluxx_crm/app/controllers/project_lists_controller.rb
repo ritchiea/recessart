@@ -1,0 +1,3 @@
+class ProjectListsController < ApplicationController
+  include FluxxProjectListsController
+end

@@ -1,0 +1,3 @@
+= form.input :project_type, :label => "Project Type:", :as => :select
+= form.input :lead_user, :label => "Project Lead:", :as => :select, :collection => User.employees.map{|employee| [employee.full_name, employee.id]}
+= form.input :favorite_user_ids, :label => 'Marked as Favorite', :required => false, :as => :boolean, :checked_value => (current_user ? current_user.id : nil), :unchecked_value => ''

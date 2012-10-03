@@ -1,0 +1,8 @@
+- if model.is_file?
+  - document_types = ModelDocumentType.where(:model_type => model.documentable_type).all
+  = form.input :model_document_type, :label => "Document Type", :as => :select, :collection => ([['  ', '  ']] + document_types.map{|dt| [dt.name, dt.id]}), :include_blank => nil
+- elsif model.is_text?
+  = form.input :document_text, :label => "Document Text", :as => :text
+
+
+= form.commit_button

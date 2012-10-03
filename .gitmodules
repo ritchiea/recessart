@@ -1,9 +1,0 @@
-[submodule "vendor/gems/fluxx_engine"]
-	path = vendor/gems/fluxx_engine
-	url = git://github.com/solpath/fluxx_engine.git
-[submodule "vendor/gems/fluxx_crm"]
-	path = vendor/gems/fluxx_crm
-	url = git://github.com/solpath/fluxx_crm.git
-[submodule "vendor/gems/fluxx_grant"]
-	path = vendor/gems/fluxx_grant
-	url = git://github.com/solpath/fluxx_grant.git
