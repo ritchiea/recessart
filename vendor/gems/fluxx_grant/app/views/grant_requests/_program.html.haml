@@ -1,0 +1,12 @@
+- labels ||= {}
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :program, :label => labels[:program_label] || I18n.t(:program_name), :as => :select, :collection => Program.load_all_nonrollup.map{|program| [program.name, program.id]}, :input_html => {:class => 'program-dropdown-select', 'data-related-child' => ".program-lead-select,.sub_program-select"}
+
+- sub_programs = []
+- sub_programs = form.object.program.load_sub_programs if form.object.program
+- unless Fluxx.config(:hide_sub_program) == "1"
+  = form.input :sub_program, :label => labels[:sub_program_label] || I18n.t(:sub_program_name), :as => :select, :collection => sub_programs.map{|sub_program| [sub_program.name, sub_program.id]}, :input_html => {:class => 'sub_program-select', 'data-param'.to_sym => 'program_id', 'data-src'.to_sym => sub_programs_path(:format => 'autocomplete', :all_results => 1)}
+
+- program_leads = []
+- program_leads = form.object.program.load_users if form.object.program
+= form.input :program_lead, :label => labels[:program_lead_label] || I18n.t(:program_lead_name), :as => :select, :collection => program_leads.map{|user| [user.full_name, user.id]}, :input_html => {:class => 'program-lead-select', 'data-param'.to_sym => 'grant_program_ids', 'data-src'.to_sym => users_path(:format => 'autocomplete', :test_user_flag => 0, :all_results => 0), 'data-cache'.to_sym => 'program_lead_select'}

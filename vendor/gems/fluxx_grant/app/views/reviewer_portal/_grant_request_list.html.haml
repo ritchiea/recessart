@@ -1,0 +1,47 @@
+.titlebar
+  %h4
+    = @title
+.content
+  - if @data.count == 0
+    %p.caption
+      No requests
+  - else
+    %table{:cellspacing => 0}
+      %thead
+        %tr
+          %th
+            Request
+          %th
+            Date Submitted
+          %th
+            Amount
+          %th
+            Program
+          %th
+            Status
+          %th
+            Reviewed On
+      -@data.each do |model|
+        - if model.is_grant?
+          - state = "Closed"
+          - state = "Active" if model.in_state_with_category?("become_grant")
+        - else
+          - state = "Submitted"
+          - state = "Draft" if model.in_state_with_category?("draft")
+          - state = "More info Requested" if model.in_state_with_category?("sent_back")
+          - state = "Decision Pending" if model.in_state_with_category?("approval")
+          - state = "Declined" if model.in_state_with_category?("rejected")
+        %tbody
+          %tr
+            %td
+              = model.grant_or_request_id.nil? ? '' : link_to(model.grant_or_request_id, portal_grant_request_path(:id => model.id))
+              <br/>
+              %p= model.project_summary
+            %td= mdy_date_format(model.request_received_at)
+            %td= dollars_format(model.granted ? model.amount_recommended : model.amount_requested)
+            %td= (model.program ? model.program.name : '')
+            %td
+              = state
+            %td
+              = mdy_date_format(model.request_reviews.where(:created_by_id => current_user.id).first.created_at) rescue ""
+    = render :partial => "paging_actions"

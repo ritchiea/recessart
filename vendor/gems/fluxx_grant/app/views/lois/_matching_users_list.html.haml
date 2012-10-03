@@ -1,0 +1,18 @@
+%h3 Matches
+-if model.user_matches(params[:loi]).count > 0
+  %table.dark-table
+    -model.user_matches(params[:loi]).each do |user|
+      %tr
+        %td
+          = user.first_name
+          = user.last_name
+          %h4
+            = user.primary_user_organization.title if user.primary_user_organization
+          %p
+            = user.primary_user_organization.organization_name if user.primary_user_organization
+        %td
+          %ul.buttons.float_right
+            %li= link_to "Connect", loi_path(:link_user => user.id), :class => "btn as-put"
+
+-else
+  %h4 no matches

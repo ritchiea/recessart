@@ -1,0 +1,88 @@
+=border-box
+  -webkit-box-sizing: bordered-box
+  -moz-box-sizing: bordered-box
+  box-sizing: bordered-box
+
+$arrow_block_size: 40px
+$arrow_multiplier: 0.9
+$arrow_color: rgb(174,213,135)
+.funnel
+  +border-box
+  margin-top: 20px
+  .slice-0
+    .arrow
+      height: $arrow_block_size * 1 + 15
+      .avg
+        line-height: $arrow_block_size * 1 + 15
+  .slice-1
+    .arrow
+      height: $arrow_block_size * 1 + 15
+      .avg
+        line-height: $arrow_block_size * 1 + 15
+  .slice-2
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 2)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 2)
+  .slice-3
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 3)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 3)
+  .slice-4
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 4)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 4)
+  .slice-5
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 5)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 5)
+  .slice-6
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 6)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 6)
+  .slice-7
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 7)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 7)
+  .slice-8
+    .arrow
+      height: $arrow_block_size * ($arrow_multiplier * 8)
+      .avg
+        line-height: $arrow_block_size * ($arrow_multiplier * 8)
+  .state
+    border-bottom: 1px solid $arrow_color
+    .stats
+      +border-box
+      display: inline-block
+      width: 66%
+      .name
+        font-weight: bold
+      .desc
+        font-size: 85%
+    .arrow
+      vertical-align: top
+      +border-box
+      display: inline-block
+      width: 33%
+      background: $arrow_color
+      color: white
+      background: transparent #{inline_image("/images/fluxx_grant/theme/default/funnel/arrow.png")} center bottom no-repeat
+      
+      .avg
+        background: transparent #{inline_image("/images/fluxx_grant/theme/default/funnel/arrow-tip.png")} center -1px no-repeat
+        text-align: center
+        font-size: $arrow_block_size
+        font-weight: bold
+    &.first
+      float: none
+      .avg
+        background: none
+    &.last
+      border-bottom: none
+      .arrow
+        background: none

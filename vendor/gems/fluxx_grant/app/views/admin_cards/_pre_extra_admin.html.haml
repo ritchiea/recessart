@@ -1,0 +1,25 @@
+%ul
+  %li= link_to 'Funding Sources', funding_sources_path, :class => 'new-listing', 'data-insert' => 'after', :title => 'Funding Sources'
+  - if current_user.is_admin?
+    %li= link_to "New Funding Source", new_funding_source_path, :class => 'to-modal', 'data-on-success' => 'close'
+  
+- if current_user.is_admin?
+  %ul
+    - unless Program.is_hidden?
+      %li= link_to "New #{I18n.t(:program_name)}", new_program_path, :class => 'to-modal', 'data-on-success' => 'close'
+    - unless SubProgram.is_hidden?
+      %li= link_to "New #{I18n.t(:sub_program_name)}", new_sub_program_path, :class => 'to-modal', 'data-on-success' => 'close'
+    - unless Initiative.is_hidden?
+      %li= link_to "New #{I18n.t(:initiative_name)}", new_initiative_path, :class => 'to-modal', 'data-on-success' => 'close'
+    - unless SubInitiative.is_hidden?
+      %li= link_to "New #{I18n.t(:sub_initiative_name)}", new_sub_initiative_path, :class => 'to-modal', 'data-on-success' => 'close'
+
+%ul
+  - unless Program.is_hidden?
+    %li= link_to (I18n.t(:program_name)).pluralize, programs_path, :class => 'new-listing', 'data-insert' => 'after', :title => (I18n.t(:program_name)).pluralize
+  - unless SubProgram.is_hidden?
+    %li= link_to (I18n.t(:sub_program_name)).pluralize, sub_programs_path, :class => 'new-listing', 'data-insert' => 'after', :title => (I18n.t(:sub_program_name)).pluralize
+  - unless Initiative.is_hidden?
+    %li= link_to (I18n.t(:initiative_name)).pluralize, initiatives_path, :class => 'new-listing', 'data-insert' => 'after', :title => (I18n.t(:initiative_name)).pluralize
+  - unless SubInitiative.is_hidden?
+    %li= link_to (I18n.t(:sub_initiative_name)).pluralize, sub_initiatives_path, :class => 'new-listing', 'data-insert' => 'after', :title => (I18n.t(:sub_initiative_name)).pluralize

@@ -1,0 +1,10 @@
+.form-row
+  =req_trans.input :_destroy, :value => 0, :as => :hidden, :class => 'hidden-destroy'
+  =req_trans.input :id, :as => :hidden, :class => 'hidden-id'
+  =req_trans.input :request_document_linked_to, :as => :hidden
+  =req_trans.input :amount_due, :label => "Amount",  :aft => ('<a href="#" class="delete-parent" data-parent=".form-row" data-hidden-destroy=".hidden-destroy" data-hidden-id=".hidden-id"><img src="/images/fluxx_engine/theme/default/icons/delete.png" /></a>')
+  =req_trans.input :due_at, :label => "Due", :id => nil
+  - if req_trans.object.amount_due.blank? && req_trans.object.state.blank?
+    - req_trans.object.state = 'due'
+  =req_trans.input :state, :as => :hidden
+  =req_trans.input :condition, :label => "Please note any conditions or milestones associated to this payment", :input_html => { :rows => 5 }

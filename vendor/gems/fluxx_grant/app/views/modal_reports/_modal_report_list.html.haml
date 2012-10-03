@@ -1,0 +1,13 @@
+.report-modal
+  .report-modal-title
+    Live Reports
+  .report-list
+    - @models.compact.each do |model|
+      .report-info{'data-filter-url' => url_for(:action => :show, :id => model.report_id, :fluxxreport_filter => (model.filter_template ? 1 : nil))}
+        .report-title
+          = model.report_label
+        .report-description
+          = model.report_description
+        %span.open-report-filter
+          = link_to image_tag('/images/fluxx_engine/theme/default/modal/circle-arrow-right.png')
+  .report-filter

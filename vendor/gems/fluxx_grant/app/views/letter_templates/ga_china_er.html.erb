@@ -1,0 +1,109 @@
+<div class="printed_letter no_letterhead">  
+<% # available vars
+   # fluxx_request: request
+   # request_addressee_org: fiscal org || primary org
+   # request_primary_contact: primary contact at the request_addressee_org
+   # project_primary_contact: primary project contac
+   # program_lead_contact: lead at EF
+   # request_program: the program associated with this request
+   # report_details: <report type> report due no later than: <report due date>
+   # initial_payment: first transaction amount
+   # final_payment: second transaction amount
+ %>
+
+ <p><center>Grant Agreement<br>
+ Terms and Conditions</center></p>
+
+<p align='left'>Date: <%=fluxx_request.grant_agreement_at.full%></p>
+<p align='left'>We are pleased to award the following grant.</p>
+
+
+<table>
+<tr><td width=150>Grant number:</td><td><%=fluxx_request.grant_id%></td></tr>
+<tr><td>Grantee:</td><td><%=render_text_program_name(fluxx_request)%>
+<tr><td>Address:</td><td><%=request_addressee_org.street_address%><br>
+                        <% unless request_addressee_org.street_address2.blank? %>
+                          <%=request_addressee_org.street_address2%><br>
+                        <% end %>
+                        <%=request_addressee_org.city%>, <%=request_addressee_org.state_abbreviation%> <%=request_addressee_org.postal_code%><br>
+                        <%=request_addressee_org.country_name unless request_addressee_org.country_name == 'United States'%></td></tr>
+<tr><td>Project Contact:</td><td><%=project_primary_contact.full_name%><br>
+                        <%=project_primary_contact_title%></td></tr>
+<tr><td>Phone:</td><td><%=project_primary_contact.main_phone%></td></tr>
+<tr><td>Email:</td><td><%=project_primary_contact.email%></td></tr>
+<tr><td>Grant Sector:</td><td><%=request_program.description%></td></tr>
+<%= payment_header_text %>
+
+<tr height='25'><td height='25' colspan='2'><table height='25'><tr height='25'><td width='250' height='25'><hr></td></table></td></tr>
+<tr><td>Total:</td><td><%=fluxx_request.amount_recommended.to_currency_no_cents%></td></tr>
+<tr><td>Time Period:</td><td><%=fluxx_request.duration_in_months.to_english.capitalize if fluxx_request.duration_in_months%> months, from <%=fluxx_request.grant_begins_at.full%> to <%=fluxx_request.grant_ends_at.full%></td></tr>
+</table>
+
+<p>Grantee agrees and consents to this Grant Agreement (the "Agreement"), which includes: (1) this "Grant Agreement Terms and Conditions," (2) the attached "China Sustainable Energy Program Standard Conditions," <%= ga_proposal_and_budget_date %>, <%=request_project_summary %>. 
+These documents are attached hereto and incorporated herein by this reference.</p>
+
+<p>Grantee shall use this grant solely for the purposes outlined in the attached proposal description and it is understood that these grant funds will be used for such purposes in accordance with the budget submitted. Grantee shall repay to the Energy Foundation any portion of the amount granted which is not used for the purposes of this grant.</p>
+
+<p>The grantee agrees that no funds provided pursuant to this Grant Agreement may be used to contact, or urge the public to contact, members of a legislative body for the purpose of proposing, supporting, or opposing legislation; or to advocate the adoption or rejection of legislation.  See Treasury Regulation section 1.501(c)(3)-1(c)(3)(ii).</p>
+
+<p>Grantee shall submit to the Energy Foundation narrative progress reports and financial progress reports, according to the reporting schedule which follows.</p>
+
+<p class='page-break'>The interim reports should set forth (a) a brief description of progress to date toward completing the work
+described in the proposal, and (b) how the proceeds of the grant have been spent to date i.e., a financial
+report showing actual expenditures according to the budget categories as originally proposed.</p>
+
+<p>The Energy Foundation will require a final report (including a final narrative and financial report) at the end of the project. The final reports, both narrative and financial, shall be due no later than one month after the termination of the grant period. The financial report should show revenues and expenses for both this grant and the project. Clearly show the amount funded by the Energy Foundation and how these funds have been spent according to the categories of the initial budget. Use three columns for the report:</p>
+
+<table>
+<tr><td width='40'></td><td width='75' valign="top">Column 1 -</td><td valign="top">Present the entire project budget (all sources of revenue and expenditures) as included in the original proposal;</td></tr>
+<tr><td></td><td valign="top">Column 2 -</td><td valign="top">Present the actual revenue and expenditures for the project in total;</td></tr>
+<tr><td></td><td valign="top">Column 3 -</td><td valign="top">Present the actual revenue and expenditures funded by the Energy Foundation grant only.</td></tr>
+</table>
+
+<p>Reports are due as follows:</p>
+
+<table>
+<tr height=1><td width='40' valign="top"></td><td width='320' valign="top"></td><td></td></tr>
+<%= report_details %>
+</table>
+
+
+<p>Proposed schedule of payments:</p>
+
+<table>
+<tr height=1><td width='60' valign="top"></td><td width='75' valign="top"></td><td></td></tr>
+<%= payment_schedule_text %>
+</table>
+
+<p>Grantee ensures that grant funds under this award will be used in compliance with all applicable antiterrorist financing and asset control laws, regulations, rules, and executive orders. Grantee also agrees to take all reasonable precautions to ensure that any person or group expected to receive money from the grantee will neither make any payment nor provide any material support to any person on any United States government list of suspected terrorists.</p>
+
+<p>Grantee shall not use any portion of the funds granted to influence specific legislation, to engage in private profit-making or private gain, nor for any non-charitable or non-educational purpose and will include a positive disclaimer stating that no Energy Foundation funds were used for lobbying purposes on all narrative and financial reports.</p>
+
+<p>Grantee shall notify the Energy Foundation of any organizational changes during the term of the grant, including, but not limited to, changes in key personnel, changes in tax status, and changes in project timing. The grantee is responsible for completing the agreed deliverables in a diligent and timely manner.  At the discretion of the grantee, significant changes affecting these deliverables can be proposed to the Energy Foundation for discussion and endorsement. Changes requiring transfers between budget categories must be approved in advance by the Energy Foundation.</p>
+
+<p>Grantee shall permit representatives of the Energy Foundation to visit the premises and review the activities of the Grantee with respect to the programs supported by this grant.</p>
+
+<p>Grantee may announce receipt of this grant.  Please furnish the Energy Foundation with a copy in advance of this announcement.</p>
+
+<p>Please refer to grant number <b><%= fluxx_request.grant_id %></b> in all future correspondence and reports which relate to this grant.</p>
+
+<p>The board and staff of the Energy Foundation are pleased to be able to make this grant to your organization.  Please sign and return one copy of this grant agreement as evidence of your understanding and agreement with the terms and conditions defined in this letter.</p>
+
+
+<table>
+  <tr height='50'><td width='500'></td><td width='25'></td><td width='500'></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Robert J. O'Connor</td><td></td><td>Date</td></tr> 
+<tr><td>Sr. Vice President and COO</td> <td></td> <td></td></tr>
+  <tr height='20'><td></td><td></td> <td></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Signature</td><td></td><td>Date</td><td></tr>
+  <tr height='20'><td></td><td></td> <td></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Print Name/Title</td><td></td> <td>Direct Phone</td></tr>
+  <tr><td><%=request_addressee_org.name%></td><td></td> <td>Grant Number:  <%=fluxx_request.grant_id%></td></tr>
+</table>
+
+
+<p align='right'>Agreement <%= fluxx_request.grant_id %>, Page 2 of 2</p>
+</div>

@@ -1,0 +1,13 @@
+= render :partial => 'grant_requests/program_filter',  :locals => {:form => form, :prefix => '', :label_prefix => '', :rollup => 'request_hierarchy'}
+= form.input :request_type, :required => false, :label => 'Request Type:', :as => :select, :collection => [['Grants', GrantRequest.name], [(I18n.t(:fip_name)).pluralize, FipRequest.name]], :input_html => {:class => 'add-another'}
+= form.input :filter_state, :label => 'Status:', :required => false, :as => :select, :collection => (RequestTransaction.all_states.map{|state|[RequestTransaction.state_to_english_translation(state), state]}), :input_html => {:class => 'add-another'}
+= form.input :due_within_days, :label => 'Due within:', :required => false, :as => :select, :collection => (0..91).step(7).map{|num| [num, num]}, :aft => 'Days'
+= form.input :overdue_by_days, :label => 'OverDue By:', :required => false, :as => :select, :collection => (0..91).step(7).map{|num| [num, num]}, :aft => 'Days'
+= form.input :lead_user_ids, :label => 'PO/Lead', :required => false, :as => :select, :collection => Program.all_program_users.map {|user|[user.full_name, user.id]}, :input_html => {:class => 'add-another'}
+= form.input :date_range_selector, :label => 'Date Type', :required => false, :collection => [['Due Date', 'due_at'], ['Paid Date', 'paid_at']], :include_blank => nil
+= form.input :request_from_date, :label => 'From:', :required => false, :input_html => {:size => 40}, :as => :date
+= form.input :request_to_date, :label => 'To:', :required => false, :input_html => {:size => 40}, :as => :date
+= render :partial => "request_transactions/more_trans_filter", :locals => { :form => form}
+= form.input :favorite_user_ids, :label => 'Marked as Favorite', :required => false, :as => :boolean, :checked_value => (current_user ? current_user.id : nil), :unchecked_value => ''
+= form.input :sort_attribute, :label => 'Sort Field', :required => false, :as => :select, :include_blank => nil, :collection => [['Due Date', 'due_at'], ['Paid Date', 'paid_at'], ['Amount Due', 'amount_due'], ['Amount Paid', 'amount_paid'], ['Org Name', 'request_org_name']]
+= form.input :sort_order, :label => 'Sort Order', :required => false, :as => :select, :include_blank => nil, :collection => [['Descending', 'desc'], ['Ascending', 'asc']]

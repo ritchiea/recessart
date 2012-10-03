@@ -1,0 +1,13 @@
+%h1.titlebar Fluxx Administration
+%ul.list
+  - @models.compact.each do |model|
+    %li.entry{:href => model.url, :class => "to-admin"}
+      = render :partial => @markup,  :locals => {:model => model}
+%ul
+  %li{:class => "card ignore-empty admin-card", :id => "fluxx-admin-card"}
+    .detail.area.partial.fluxx-admin-partial
+      .body
+%ul{:id => "admin-buttons", :class => "buttons"}
+  %li
+    =link_to "Save Changes", "#", :class => "admin-submit"
+    =link_to "Cancel", "#", :class => "refresh-partial"

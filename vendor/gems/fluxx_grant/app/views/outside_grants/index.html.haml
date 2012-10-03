@@ -1,0 +1,14 @@
+- if @data && @data.count > 0
+  - @data.each do |element|
+    %li.entry
+      %span.fluxx-card-content-metadata-section-title= (element["amount_authorized"].nil? ? '$0.00' : element["amount_authorized"].to_currency)
+      %span.fluxx-card-content-metadata-section-info
+        = "Granted #{element['year_authorized']} - #{element['duration_months']} months"
+        %br
+        = element["foundation_name"]        
+  - if @show_paging
+    %li.entry
+      %span.paging
+        = link_to("« Prev", "#", :class => "prev-page #{@show_prev_link ? '' : 'disabled'}")
+        %span= "Page #{@pagenum} of #{@total_pages}"
+        = link_to("Next »", "#", :class => "next-page #{@show_next_link ? '' : 'disabled'}")

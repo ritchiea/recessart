@@ -1,0 +1,20 @@
+- grant_request ||= nil
+- unless grant_request
+  - if params[:request_id]
+    - grant_request = Request.find params[:request_id] rescue nil
+
+%table.tabular{:cellspacing => 0}
+  %thead
+    %tr
+      %th
+        = "Budget Line Items"
+        %span.actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class=> 'add-button'), new_budget_request_path(:budget_request => {:request_id => grant_request.id}), :class => 'to-modal', 'data-on-success' => 'refreshNamed,close', 'target' => '.budget-request-list-span', :title => "Add Budget Request Item"
+  %tbody
+    - if !defined?(models) || models.empty?
+      %tr
+        %td
+          %p.caption= "Click the green '+' sign in order to create your itemized grant budget request."
+    - else
+      = render :partial => "budget_requests/budget_request_list_details", :locals => {:models => models, :grant_request => grant_request}
+    %tr
+      %td

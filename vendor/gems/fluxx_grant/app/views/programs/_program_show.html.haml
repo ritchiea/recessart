@@ -1,0 +1,8 @@
+%h1= model.name
+
+- current_year = params[:spending_year] ?  params[:spending_year].to_i : Time.now.year
+- year_range = ((current_year-25)..(current_year + 2))
+= semantic_form_for FundingSourceAllocation.new(:spending_year => current_year), :html => {:class => ''} do |form|
+  = form.input :spending_year, :label => "Spending Year", :as => :select, :collection => year_range.to_a.reverse, :input_html => {"data-target".to_sym => ".funding-source-allocations-partial-span", :class => "refresh-partial"}
+
+= render :partial => 'funding_source_allocations/list_funding_source_allocations', :locals => {:models => (model.funding_source_allocations(:spending_year => current_year)), :program_id => model.id, :program_attributes => {:spending_year => current_year, :program_id => model.id}, :parent_model => "program", :do_suppress_add => Fluxx.config(:suppress_funding_source_allocation_at_program) == "1"}

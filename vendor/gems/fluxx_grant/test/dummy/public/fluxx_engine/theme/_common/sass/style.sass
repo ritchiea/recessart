@@ -1,0 +1,204 @@
+@import ../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css
+@import ../../_common/css/colorbox/example3/colorbox.css
+@import ../../_common/css/plupload/css/plupload.queue.css
+@import _helpers
+
+#colorbox
+  color: white
+
+$icon_dimension: 48px
+$icon_margin_top:    10px
+$icon_margin_bottom:    20px
+$footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
+$header_height:  50px
+
+=bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
+  background-color: $bg
+  color: $fg
+  a
+    color: $fg
+=header-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=footer-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=body-bg($bg: #eee, $fg: #000)
+  +bg($bg, $fg)
+
+body,table
+  +default-font
+
+div,ul,ol,li,table,td,th,dl,dt,dd
+  +border-box
+
+html,body
+  margin: 0px
+  padding: 0px
+  height: 100%
+  background: white
+  color: black
+body
+  overflow-x: scroll
+
+#fluxx
+  #stage
+    position: relative
+    height: auto
+    height: 100%
+    min-height: 100%
+    #header
+      +header-bg
+      height: $header_height
+      position: fixed
+      top: 0px
+      width: 100%
+      #logo
+        +inline-block
+      .actions
+        +inline-block
+        +non-list
+        float: right
+        li
+          +inline-block
+          margin-right: 10px
+          vertical-align: top
+    #card-table
+      +body-bg(#ccc)
+      margin-top: $header_height
+      margin-bottom: $footer_height
+      position: absolute
+      top: 0px
+      bottom: 0px
+      overflow: hidden
+      #hand
+        +non-list
+        height: 100%
+        .card
+          +inline-block
+          margin: 10px
+          position: relative
+          .card-box
+            .card-header
+              +header-bg
+              .toolbar
+              .titlebar
+                position: relative
+                .title
+                .content-actions
+                  +non-list
+                  display: inline-block
+                  position: absolute
+                  right: 0px
+                  top: 0px
+                  li
+                    display: inline-block
+                    a
+                      display: block
+                      width: 16px
+                      height: 16px
+                      margin: 2px
+            .card-body
+              position: relative
+              .filters
+                position: absolute
+                top: 0px
+                bottom: 0px
+                left: 0px
+                right: 0px
+                +bg(#333, #eee)
+              .listing,.detail,.modal,.filters
+                +inline-block
+                vertical-align: top
+                .header,.footer
+                  &.empty
+                    display: none
+                .header
+                  +header-bg(#666)
+                .body
+                  +bg
+                  overflow: auto
+                .footer
+                  +footer-bg(#666)
+              .listing
+                width: 200px
+                .header
+                  .actions
+                    +non-list
+                    li
+                      +inline-block
+                .body
+                  +bg(#f9f9f9)
+                .footer
+                  .paginate
+                    +non-list
+                    li
+                      +inline-block
+                  .no-pagination
+                    text-align: center
+                    width: 100%
+              .detail
+                width: 400px
+                position: relative
+              .modal
+                +bg(#333,#fff)
+                width: 300px
+                position: absolute
+                top: 0px
+                left: 0px
+                bottom: 0px
+                .arrow
+                  +bg(#333)
+                  height: 25px
+                  width: 25px
+                  position: absolute
+                  &.left
+                    left: -25px
+                    top: 0px
+            .card-footer
+              +footer-bg
+          .drawer
+            &.empty
+              display: none
+            +bg(#eee)
+            overflow: auto
+            width: 200px
+            position: absolute
+            top: 47px
+            right: 0px
+            bottom: 7px
+            border: 1px solid #999
+            border-left: none
+    #footer
+      +footer-bg
+      height: $footer_height
+      position: fixed
+      bottom: 0
+      width: 100%
+      #viewport
+        +inline-block
+      #quicklinks
+        +inline-block
+        position: absolute
+        right: 0px
+        top: 0px
+      #iconlist,.qllist
+        +non-list
+        +inline-block
+      .icon
+        +inline-block
+        position: relative
+        .link
+          +bg(#666)
+          +inline-block
+          +border-box
+          height: $icon_dimension
+          width:  $icon_dimension
+          margin: $icon_margin_top 10px $icon_margin_bottom 10px
+          .label
+          .badge
+        .popup
+          +bg(#aaa)
+          display: none
+          position: absolute
+          left: 0px
+          bottom: 0px
+            

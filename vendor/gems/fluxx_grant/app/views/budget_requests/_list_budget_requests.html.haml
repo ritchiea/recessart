@@ -1,0 +1,4 @@
+- if model.respond_to?(:budget_requests) && model.id
+  - partial_data_src_url = url_for(budget_requests_path({:request_id => model.id, :skip_wrapper => true}))
+  .budget-request-list-span.partial{'data-src' => partial_data_src_url}
+    = render :partial => 'budget_requests/budget_request_list',  :locals => {:models => model.budget_requests.where(:deleted_at => nil), :grant_request => model}

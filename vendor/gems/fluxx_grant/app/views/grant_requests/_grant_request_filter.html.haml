@@ -1,0 +1,19 @@
+= render :partial => 'grant_requests/program_filter',  :locals => {:form => form, :prefix => '', :label_prefix => '', :rollup => 'request_hierarchy'}
+= render :partial => 'grant_requests/program_filter',  :locals => {:form => form, :prefix => 'funding_source_allocation_', :label_prefix => 'Request Funding Source ', :rollup => 'allocation_hierarchy'}
+
+= form.input :request_program_ids, :label => 'Secondary Program', :required => false, :as => :select, :collection => Program.load_all.map{|prog| [prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+= form.input :filter_type, :label => 'Request Type', :required => false, :as => :select, :collection => Request.form_types, :input_html => {:class => 'add-another'}
+= form.input :filter_state, :label => 'Status:', :required => false, :as => :select, :collection => (GrantRequest.all_states - GrantRequest.all_states_with_category('granted')).map{|state|[GrantRequest.state_to_english_translation(state), state]}.reject{|state| state[1].to_sym == :rejected}, :input_html => {:class => 'add-another'}
+= form.input :lead_user_ids, :label => 'PO/Lead', :required => false, :as => :select, :collection => Program.all_program_users.sort_by{|user| user.full_name ? user.full_name.downcase : ''}.map {|user|[user.full_name, user.id]}, :input_html => {:class => 'add-another'}
+= form.input :created_by_id, :as => :select, :required => false, :collection => Program.all_program_users.sort_by{|user| user.full_name ? user.full_name.downcase : ''}.map {|user|[user.full_name, user.id]}, :input_html => {:class => 'add-another'}
+= form.input :funding_source_ids, :label => "Funding Source", :as => :select, :required => false, :collection => FundingSource.load_all.sort_by{|source| source.name || ''}.map {|source|[source.name, source.id]}, :input_html => {:class => 'add-another'}
+Amount Recommended:
+= form.input :greater_amount_recommended, :label => 'Greater Than:', :required => false
+= form.input :lesser_amount_recommended, :label => 'Less Than:', :required => false
+= form.input :has_been_rejected, :label => 'Include Rejected Requests', :required => false, :as => :boolean, :checked_value => 1, :unchecked_value => ''
+= form.input :favorite_user_ids, :label => 'Marked as Favorite', :required => false, :as => :boolean, :checked_value => (current_user ? current_user.id : nil), :unchecked_value => ''
+= form.input :missing_request_id, :label => 'Missing Request ID', :required => false, :as => :boolean, :checked_value => 1, :unchecked_value => ''
+= render :partial => "grant_requests/more_grant_request_filter", :locals => { :form => form}
+= form.input :sort_attribute, :label => 'Sort Field', :required => false, :as => :select, :include_blank => nil, :collection => [['Last Updated (Default)', 'updated_at'], ['Date', 'request_received_at'], ['Amount', 'amount_requested'], ['Org Name', 'program_org_name'], ['Program', 'program_name']]
+= form.input :sort_order, :label => 'Sort Order', :required => false, :as => :select, :include_blank => nil, :collection => [['Descending', 'desc'], ['Ascending', 'asc']]
+

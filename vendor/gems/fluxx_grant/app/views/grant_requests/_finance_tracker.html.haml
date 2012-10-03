@@ -1,0 +1,136 @@
+%h1
+  Finance Tracker - 
+  = render_grant_or_request_id model
+- unless model.project_summary.blank?
+  %div.description= simple_format(model.project_summary)
+
+%hr
+
+- if model.is_a? FipRequest
+  %p
+    %b
+      =model.fip_title
+- else
+  - program_org = model.program_organization
+  - fiscal_org = model.fiscal_organization if model.fiscal_organization != model.program_organization
+
+  %b= program_org.name
+  %br
+  =program_org.street_address
+  %br
+  - unless program_org.street_address2.blank?
+    =program_org.street_address2
+    %br
+  =program_org.city
+  , 
+  =program_org.state_abbreviation
+  =program_org.postal_code
+  %br
+  =program_org.country_name unless program_org.country_name == 'United States'
+  %br
+  %br
+
+  - if fiscal_org
+    %b
+      A project of 
+      =fiscal_org.name
+    %br
+    =fiscal_org.street_address
+    %br
+    - unless fiscal_org.street_address2.blank?
+      =fiscal_org.street_address2
+      %br
+    =fiscal_org.city
+    , 
+    =fiscal_org.state_abbreviation
+    =fiscal_org.postal_code
+    %br
+    =fiscal_org.country_name unless fiscal_org.country_name == 'United States'
+    %br
+    %br
+
+- if model.is_a? FipRequest
+  .pairs
+    .key
+      Fip Type:
+    .value
+      = model.fip_type if model.fip_type
+.pairs
+  .key
+    Program:
+  .value= model.program.name if model.program
+
+.pairs
+  .key
+    Sub-Program:
+  .value= model.sub_program.name if model.sub_program
+
+- unless model.secondary_programs.empty?
+  .pairs
+    .key
+      Secondary Programs
+    .value= model.secondary_programs.map(&:name).to_sentence
+
+.pairs
+  .key
+    Lead Program Officer/Director:
+  .value= model.program_lead.full_name if model.program_lead
+
+.pairs
+  .key
+    Primary Signatory
+  .value= model.grantee_signatory.full_name if model.grantee_signatory
+
+.pairs
+  .key
+    Amount Funded:
+  .value= number_to_currency(model.amount_recommended, :precision => 0) if model.amount_recommended
+
+  %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+.pairs{:class => model.granted ? nil : "section_end" }
+  - if model.is_a? GrantRequest
+    .key
+      Duration:
+    .value
+      - if model.duration_in_months
+        = model.duration_in_months
+        months
+  - elsif model.is_a? FipRequest
+    .key
+      Projected End Date:
+    .value
+      = model.fip_projected_end_at.mdy if model.fip_projected_end_at
+
+- if model.is_grant?
+  .pairs
+    .key
+      Agreement Date:
+    .value= model.grant_agreement_at.mdy if model.grant_agreement_at
+  .pairs.section_end
+    .key
+      Grant Start Date:
+    .value= model.grant_begins_at.mdy if model.grant_begins_at
+
+- if model.grantee_org_owner
+  - main_contact_user = model.grantee_org_owner
+  .pairs
+    .key
+      Main Contact:
+    .value= main_contact_user.full_name
+  .pairs
+    .key
+      Phone:
+    .value= main_contact_user.main_phone
+  - if main_contact_user.main_fax
+    .pairs
+      .key
+        Fax:
+      .value= main_contact_user.main_fax
+  .pairs
+    .key
+      Email:
+    .value= email_link(main_contact_user.email)
+
+= render :partial => "request_reports/list_request_reports", :locals => { :models => model.request_reports}
+= render :partial => "request_transactions/list_request_transactions", :locals => { :models => model.request_transactions}
+= render :partial => "notes/list_notes", :locals => { :model => @model, :class_type => Request.name}

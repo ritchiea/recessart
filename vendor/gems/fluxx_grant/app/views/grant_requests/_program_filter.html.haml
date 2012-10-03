@@ -1,0 +1,40 @@
+- programs = Program.load_all
+- sub_programs = []
+- initiatives = []
+- sub_initiatives = []
+- funding_source_allocations = []
+
+- if form.object.funding_source_allocation
+  - form.object.program = form.object.funding_source_allocation.derive_program
+  - form.object.sub_program = form.object.funding_source_allocation.derive_sub_program if !Fluxx.config(:no_funding_source_ripple_sub_program) == "1"
+  - form.object.initiative = form.object.funding_source_allocation.derive_initiative if !Fluxx.config(:no_funding_source_ripple_initiative) == "1"
+  - form.object.sub_initiative = form.object.funding_source_allocation.derive_sub_initiative if !Fluxx.config(:no_funding_source_ripple_sub_initiative) == "1"
+
+  - form.object.program_id = form.object.program.id if form.object.program
+  - form.object.sub_program_id = form.object.sub_program.id if form.object.sub_program && !Fluxx.config(:no_funding_source_ripple_sub_program) == "1"
+  - form.object.initiative_id = form.object.initiative.id if form.object.initiative && !Fluxx.config(:no_funding_source_ripple_initiative) == "1"
+  - form.object.sub_initiative_id = form.object.sub_initiative.id if form.object.sub_initiative && !Fluxx.config(:no_funding_source_ripple_sub_initiative) == "1"
+
+  - if form.object.program
+    - sub_programs = form.object.program.load_sub_programs
+    - if form.object.sub_program
+      - initiatives = form.object.sub_program.load_initiatives
+      - if form.object.initiative
+        - sub_initiatives = form.object.initiative.load_sub_initiatives
+  - # If the funding source allocation is for a retired element, make sure that it is included in the list of dropdowns
+  - programs << form.object.program if form.object.program && (!programs.include?(form.object.program))
+  - sub_programs << form.object.sub_program if form.object.sub_program && (!sub_programs.include?(form.object.sub_program))
+  - initiatives << form.object.initiative if form.object.initiative && (!initiatives.include?(form.object.initiative))
+  - sub_initiatives << form.object.sub_initiative if form.object.sub_initiative && (!sub_initiatives.include?(form.object.sub_initiative))
+
+.program_filter{:class => 'hierarchical-filter', "data-rollup" => rollup}
+  = form.input "#{prefix}program_id".to_sym, :label => "#{label_prefix}#{I18n.t(:program_name)}", :as => :select, :collection => programs.map{|program| [program.description || program.name, program.id]}, :input_html => {:class => "#{prefix}program-dropdown-select add-another show-child-if-selected", 'data-related-child-param' => 'program_id', 'data-related-child' => ".#{prefix}sub-program-select"}
+  - unless Fluxx.config("#{prefix}hide_sub_program".to_sym) == "1"
+    .sub_program_filter
+      = form.input "#{prefix}sub_program_id".to_sym, :label => "#{label_prefix}#{I18n.t(:sub_program_name)}", :as => :select, :collection => sub_programs.map{|sub_program| [sub_program.description || sub_program.name, sub_program.id]}, :input_html => {:class => "#{prefix}sub-program-select add-another show-child-if-selected", 'data-related-child-param' => 'sub_program_id', 'data-related-child' => ".#{prefix}initiative-select", 'data-param'.to_sym => 'program_id', 'data-src'.to_sym => sub_programs_path(:format => 'autocomplete', :retired => 0)}
+      .initiative_filter
+        - unless Fluxx.config("#{prefix}hide_initiative".to_sym) == "1"
+          = form.input "#{prefix}initiative_id".to_sym, :label => "#{label_prefix}#{I18n.t(:initiative_name)}", :as => :select, :collection => initiatives.map{|initiative| [initiative.description || initiative.name, initiative.id]}, :input_html => {:class => "#{prefix}initiative-select add-another show-child-if-selected", 'data-related-child-param' => 'initiative_id', 'data-related-child' => ".#{prefix}sub-initiative-select", 'data-param'.to_sym => 'sub_program_id', 'data-src'.to_sym => initiatives_path(:format => 'autocomplete', :retired => 0)}
+          .sub_initiative_filter
+            - unless Fluxx.config("#{prefix}hide_sub_initiative".to_sym) == "1"
+              = form.input "#{prefix}sub_initiativeid".to_sym, :label => "#{label_prefix}#{I18n.t(:sub_initiative_name)}", :as => :select, :collection => sub_initiatives.map{|sub_initiative| [sub_initiative.description || sub_initiative.name, sub_initiative.id]}, :input_html => {:class => "#{prefix}sub-initiative-select add-another", 'data-related-child-param' => 'sub_initiative_id', 'data-param'.to_sym => 'initiative_id', 'data-src'.to_sym => sub_initiatives_path(:format => 'autocomplete', :retired => 0)}

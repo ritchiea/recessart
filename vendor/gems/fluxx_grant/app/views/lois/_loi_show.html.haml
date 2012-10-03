@@ -1,0 +1,55 @@
+%h1= model.project_title
+%hr
+%table
+  %tr
+    %td Main Contact:
+    %td
+      = model.applicant
+      %br
+      = email_link(model.email)
+      %br
+      = model. phone
+      -if model.user
+        %br
+        connected to
+        = link_to model.user.full_name, model.user, :class => "new-detail", "data-insert" => "after"
+    %td
+      -if model.user
+        = link_to "Disconnect", loi_path(model, :disconnect_user => 1, :as_modal => 1), :class => 'as-put', 'data-on-success' => 'refreshCaller', "data-confirm" => "Are you sure you with to disconnect the user?"
+      -else
+        = link_to "Connect", edit_loi_path(model, :connect_user => 1, :as_modal => 1), :class => 'to-modal hide-footer', 'data-on-success' => 'close,refreshCaller'
+  %tr
+    %td
+  %tr
+    %td Organization:
+    %td
+      = model.organization_name
+      %br
+      = model.address
+      -if model.organization
+        %br
+        connected to
+        = link_to model.organization.name, model.organization, :class => "new-detail", "data-insert" => "after"
+    %td
+      -if model.organization
+        = link_to "Disconnect", loi_path(model, :disconnect_organization => 1, :as_modal => 1), :class => 'as-put', 'data-on-success' => 'refreshCaller', "data-confirm" => "Are you sure you with to disconnect the organization?"
+      -else
+        = link_to "Connect", edit_loi_path(model, :connect_organization => 1, :as_modal => 1), :class => 'to-modal hide-footer', 'data-on-success' => 'close,refreshCaller'
+    %tr
+      %td
+    %tr
+      %td Request:
+      %td
+        = "Amount Requested: #{as_currency model.amount_requested}"
+        %br
+        = "Grant Start Date: #{model.grant_begins_at ? model.grant_begins_at.mdy : nil}"
+        %br
+        = "Duration: #{model.duration_in_months}"
+        -if model.request
+          %br
+          connected to
+          = link_to render_grant_or_request_id(model.request), model.request, :class => "new-detail", "data-insert" => "after"
+
+%h3 Project Summary
+%p= model.project_summary
+= render :partial => 'lois/loi_show_extra',  :locals => {:model => model}

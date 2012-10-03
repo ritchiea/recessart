@@ -1,0 +1,13 @@
+- if params[:request_project]
+  - request_id = params[:request_project][:request_id].to_i
+  = form.input :granted, :as => :hidden, :value => params[:request_project][:granted]
+  = form.input :request_id, :as => :hidden, :value => params[:request_project][:request_id]
+- else 
+  - request_id = model.request_id
+  = form.input :granted, :as => :hidden
+  = form.input :request_id, :as => :hidden
+
+= form.input :project, :label => "Title", :as => :select, :collection => (Project.where(:deleted_at => nil) - Request.find(request_id).projects)
+= form.input :description, :as => :text
+
+= form.commit_button

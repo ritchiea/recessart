@@ -1,0 +1,48 @@
+<div class="printed_letter">  
+<% # available vars
+   # fluxx_request: request/grant
+   # request_addressee_org: fiscal org || primary org
+   # request_primary_contact: primary contact at the request_addressee_org
+   # signatory_contact: signatory contact at the request_addressee_org
+   # program_lead_contact: lead at EF
+   # request_program: the program associated with this request
+   # report_details: <report type> report due no later than: <report due date>
+   # initial_payment: first transaction amount
+   # final_payment: second transaction amount
+ %>
+
+
+<p><%= fluxx_request.grant_agreement_at.full %></p>
+<%=signatory_contact.full_name%><br>
+<%=signatory_contact_title%><br>
+<%=request_addressee_org.name%><br>
+<%=request_addressee_org.street_address%><br>
+<% unless request_addressee_org.street_address2.blank? %>
+  <%=request_addressee_org.street_address2%><br>
+<% end %>
+<%=request_addressee_org.city%>, <%=request_addressee_org.state_abbreviation %> <%=request_addressee_org.postal_code%><br>
+<%=request_addressee_org.country_name unless request_addressee_org.country_name == 'United States'%><br>
+
+<p>RE: <%=fluxx_request.grant_id%></p>
+
+<p>Dear <%=signatory_contact.first_name%>,</p>
+
+<p>I am pleased to inform you that the Energy Foundation has approved a grant to <%=render_text_program_name(fluxx_request)%>, in the amount of <%=fluxx_request.amount_recommended.to_currency_no_cents%> to <%=request_project_summary%>, as expressed in your <%= al_proposal_and_budget_date %> to the Energy Foundation.  The grant period is <%=fluxx_request.duration_in_months.to_english if fluxx_request.duration_in_months%> months, from <%=fluxx_request.grant_begins_at.full%> to <%=fluxx_request.grant_ends_at.full%>.</p>
+
+<p>The success of the Energy Foundation will depend on the success of our grantees.  In order to make the largest impact with our limited funds, we will rely on you and your colleagues to keep us informed of progress and trends in the field, and of your work in particular.  For this reason, we ask that your reports tell us the good and the bad, the success and the failure.  This will strengthen and speed our learning.</p>
+
+<p>Since your organization has not been recognized as a public charity by the Internal Revenue Service as defined in the Tax Code, this award is granted as an expenditure responsibility grant, and it is imperative that all deadlines, schedules for reporting, and all other terms set forth in the enclosed grant agreement be strictly observed. In addition, at any time during the course of this grant period, any changes to the original proposal and budget or to your organization with respect to this grant are required to be specifically detailed and promptly submitted to Energy Foundation staff.</p>
+
+<p>Please carefully review the terms and conditions explained in the enclosed grant agreement.</p>
+
+<p>If you are in agreement with the conditions of the grant, please sign one copy and mail it back to us. Upon receipt of the agreement, the initial payment of <%= initial_payment_in_currency %> will be forwarded directly to you. The final payment will be a reimbursement of <%= final_payment_in_currency %> upon Energy Foundation staff receipt and approval of your final report that shows <%=fluxx_request.amount_recommended.to_currency_no_cents%> expended for purposes of this project.</p>
+
+<p>Please refer to grant <b><%=fluxx_request.grant_id%></b> in all future correspondence and reports which relate to this grant.</p>
+
+<p>Please do not hesitate to call us if you have any questions about this grant or our policies.</p>
+  
+<p>Sincerely,</p>
+<br><br><br>
+Robert J. O'Connor<br>
+Sr. Vice President and Chief Operating Officer
+</div>

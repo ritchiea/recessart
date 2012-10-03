@@ -1,0 +1,3 @@
+class RequestTransactionsController < ApplicationController
+  include FluxxRequestTransactionsController
+end

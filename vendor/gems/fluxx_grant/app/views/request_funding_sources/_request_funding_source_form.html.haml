@@ -1,0 +1,5 @@
+= form.input :request_id, :as => :hidden
+
+= render :partial => "request_funding_sources/program_form", :locals => { :form => form}
+
+= form.commit_button

@@ -1,0 +1,18 @@
+-# INPUTS:
+-# org_lookup_name: name of the method to call for the org lookup
+-# org_name: name of the method to call for the org
+-# org_owner: name of the method to call for the org owner
+-# org_signatory: name of the method to call for the org owner
+-# labels: map of overrides for the labels [org_name_label, org_sat_label, org_owner_label, signatory_label]
+%ol
+  - labels ||= {}
+  - hidden_attribute_class = "#{org_name}_hidden_value"
+  - current_location = Organization.find(current_user.primary_organization.id)
+  - current_org = Organization.find(current_user.primary_organization.id)
+
+  = form.input :program_organization_id, :as => :hidden, :value => current_user.primary_organization.id
+  - program_users = []
+  - program_users = current_location.users if current_location
+  = form.input org_owner, :label => labels[:org_owner_label] || 'Primary Contact', :as => :select, :collection => program_users, :input_html => {:class => "#{org_name}-org-contact", 'data-cache'.to_sym => 'contact_select', 'data-required' => 1, 'data-src'.to_sym => users_path(:format => 'autocomplete'), 'data-param'.to_sym => 'related_organization_id'}
+
+  = form.input org_signatory, :label => labels[:signatory_label] || 'Primary Signatory', :as => :select, :collection => program_users, :input_html => {:class => "#{org_name}-org-signatory", 'data-cache'.to_sym => "#{org_name}_signatory_select", 'data-required' => 1, 'data-src'.to_sym => users_path(:format => 'autocomplete'), 'data-param'.to_sym => 'related_organization_id'}

@@ -1,0 +1,28 @@
+- unless current_user.is_portal_user?
+  - invoked_from_template ||= false
+  - model ||= nil
+  - unless model
+    - if params[:request_id]
+      - model = BlobStruct.new :id => params[:request_id], :class => Request
+  %h3
+    Evaluation Metrics
+    - unless invoked_from_template
+      %span.actions
+        = link_to image_tag("/images/fluxx_engine/theme/default/icons/add.png"), new_request_evaluation_metric_path(:request_evaluation_metric => {:request_id => model.id}), :class => 'to-modal', :title => "Add Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+  - display_achieved ||= nil
+  - unless display_achieved
+    - display_achieved = params[:display_achieved]
+  %table.eval_metrics{:cellspacing => 0}
+    %thead
+      %tr
+        %th
+        %th Timeframe
+        %th Expected Impact
+        %th Progress Indicator
+        %th
+    %tbody
+      - if !models || models.empty?
+        %tr
+          %td{:colspan => 4}  <span style="padding-left:10px;">No Metrics</span>
+      - else
+        = render :partial => "request_evaluation_metrics/request_evaluation_metrics_show", :collection => models, :as => :model, :locals => {:display_achieved => display_achieved, :invoked_from_template => invoked_from_template}

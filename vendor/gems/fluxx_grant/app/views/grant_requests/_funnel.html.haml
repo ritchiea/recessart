@@ -1,0 +1,29 @@
+- grant_count = @funnel_map[:total_workflowables]
+- avg_grant_time = @funnel_map[:avg_total_time_per_workflowable]
+- if @granted
+  %h1.total_avg= "#{grant_count} Grants at an average of #{(avg_grant_time.to_f/1.day).round} days."
+- else
+  %h1.total_avg= "#{grant_count} Requests at an average of #{(avg_grant_time.to_f/1.day).round} days."
+  %p Note that requests may be in varying states and thus affect the average.
+
+- total_days = @funnel.map{|m| m[:avg_time_lag]}.sum/1.day
+- total_days = 1.day if total_days == 0
+
+.funnel
+  - @funnel.each_index do |i|
+    - fun_map = @funnel[i]
+    - avg_days = (fun_map[:avg_time_lag].to_f/1.day).round
+    %div{:class => ("state slice-%i %s" % [(((avg_days/total_days.to_f) * 100)/5).round, (fun_map==@funnel.first ? 'first' : '')])}
+      .stats
+        .name= Request.old_state_complete_english_translation(fun_map[:old_state])
+        .desc
+          = pluralize avg_days, 'day'
+          (
+          %span>= pluralize(fun_map[:total_workflowable_ids], (@granted ? 'grant' : 'request'))
+          )
+      .arrow
+        .avg= avg_days
+  .state.slice-1.last
+    .stats &nbsp;
+    .arrow
+      .avg &nbsp;

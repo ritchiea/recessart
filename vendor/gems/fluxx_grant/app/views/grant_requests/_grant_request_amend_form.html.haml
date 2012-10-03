@@ -1,0 +1,15 @@
+%fieldset.inputs
+  %ol 
+    = hidden_field_tag :amend, true
+    = hidden_field_tag :as_modal, true
+    = form.input :amend, :as => :hidden, :input_html => { :value => true }
+    
+    - unless Fluxx.config(:dont_use_duration_in_requests) == "1"
+      = form.input :duration_in_months, :label => "New Duration:", :as => :select, :collection => 1..36
+    - else  
+      = form.input :grant_begins_at, :label => "New Grant Start Date:"
+      = form.input :grant_closed_at, :label => "New Grant End Date:"
+      
+    = form.input :amount_recommended, :label => "New Amount:"
+    = form.input :amend_note, :label => "Additional Notes:", :as => :text      
+    = form.commit_button

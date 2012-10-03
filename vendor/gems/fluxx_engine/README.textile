@@ -1,0 +1,66 @@
+h1. FLUXX Engine
+
+h2. Purpose
+
+The FLUXX engine is a rails engine that created as a building block for basic FLUXX functionality.
+Its application is not limited to FLUXX, it could be used for other applications that have similar base requirements.
+It replaces and extends basic rails scaffolding to provide a starting point for any model-intensive application.
+
+h2. Elements of the FLUXX Engine
+
+h3. CRUD view support
+* Controller
+** Parameterized way of configuring model-based views within a controller
+*** Allows you to configurably list the fields to be displayed within an index listing, show, or form.  Allows simple fields as well as partials.  Leverages formtastic to generate style-able HTML for forms.
+** Display a list of records with support for searching using sphinx baked in
+*** May filter by keyword or search attribute
+** Show a record 
+*** Configurable view template to display as HTML
+*** Export as configurable CSV via a custom query
+*** Export as configurable XLS via a custom query
+* Model
+
+h3. Real time updates
+* Make it possible to send out real time updates
+
+h3. Related data
+* Track and make available for display related elements.  For example if the model being displayed is a contract, the users or organizations that are named on the contract.
+
+h3. Record locking
+* Records are locked with a timestamp when the user clicks edit.  The lock is released when the time passes or when the user hits cancel or save
+
+h3. Multi Elements
+* Store choices for a fixed set of lists
+* TODO ESH: should we have a specific admin screen to manage these?  Seems like a really good idea...
+
+h3. Admin Screen
+* Allow add/edit/delete of admin models and their attributes 
+
+h3. Auto-complete 
+* jquery-based autocomplete
+* Server-side support for doing a search
+
+h3. Pluggable search??
+* Note: this has not yet been created
+* This would allow users to substitute other search engines besides sphinx
+
+h3. Model functions
+* Method to configure specific date/time attributes to be stored in UTC as a day with no hours
+
+
+h2. Installation
+
+h3. Bundle
+In your Gemfile add
+  gem "fluxx_engine", :git => "git@github.com:energyfoundation/fluxx_engine.git"
+
+h3. Generator
+  rails generate audited_migration
+  rails generate fluxx_engine_locale
+  rails generate fluxx_engine_migration
+  rails generate fluxx_engine_public
+
+
+h2. Tests
+
+h3. Jose Valim's EngineX (http://github.com/josevalim/enginex) was used to generate a dummy application that uses the rails engine to test it

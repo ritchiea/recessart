@@ -1,0 +1,25 @@
+= javascript_include_tag '/javascripts/fluxx_grant/jquery.validate.pack.js'
+= javascript_include_tag '/javascripts/fluxx_grant/fluxx.simple-validation.js'
+= javascript_include_tag '/javascripts/fluxx_grant/fluxx.portal.js'
+.container.loi-form
+  = render :partial => "lois/client_logo"
+  %h1.ac= "Welcome to the #{Fluxx.config(:grantor_name)}'s Grants Portal"
+  .loi-information
+    = render :partial => "lois/loi_information"
+  %fieldset.inputs
+    %ol
+      = semantic_form_for Loi.new(), :html => {:class => ''} do |form|
+        = form.input :applicant, :label => "Your Name"
+        = form.input :organization_name, :label => "Applicant/Organization Name"
+        = form.input :email
+        = form.input :phone
+        = form.input :address, :label => 'Mailing Address'
+        = form.input :project_title
+        = form.input :project_summary
+        = form.input :amount_requested
+        = form.input :grant_begins_at, :label => "Projected Start Date"
+        = form.input :duration_in_months, {:label => 'Projected Duration (months)', :as => :select, :collection => (1..60).to_a, :input_html => {:class => 'select_short'}}
+        = form.input :program_id, :required => false, :as => :select, :collection => Program.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}
+        = render :partial => 'lois/new_extra',  :locals => {:form => form}
+        = form.submit :value => "Submit Request"
+        %input{:type => 'submit', :name => 'cancel', :class => 'create open-link float_left', :value => 'Cancel', 'data-href'.to_sym => portal_path}

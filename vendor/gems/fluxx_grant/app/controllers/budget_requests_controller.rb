@@ -1,0 +1,3 @@
+class BudgetRequestsController < ApplicationController
+  include FluxxBudgetRequestsController
+end

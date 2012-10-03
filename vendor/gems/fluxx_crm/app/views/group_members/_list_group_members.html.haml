@@ -1,0 +1,5 @@
+- if model.respond_to?(:group_members)
+  - partial_data_src_url = url_for(group_members_path({:groupable_id => model.id, :groupable_type => model.class.name, :skip_wrapper => true}))
+  .partial{'data-src' => partial_data_src_url}
+    = render :partial => 'group_members/group_member_list',  :locals => {:models => model.group_members, :groupable => model}
+

@@ -1,0 +1,5 @@
+%span.actions
+  - if current_user.has_update_for_model? model
+    %span.edit_link= link_to image_tag("/images/fluxx_engine/theme/default/icons/page_edit.png"), edit_budget_request_url(:id => model.id, :as_modal => '1'), :class => 'to-modal', :title => "Edit Budget Request Item", 'data-on-success' => 'refreshNamed,close', 'target' => '.budget-request-list-span'
+  - if current_user.has_delete_for_model? model
+    %span.delete-button= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), budget_request_path(model), {:class => 'as-delete', :title => "Delete Budget Request Item", 'data-on-success' => 'refreshCaller', 'target' => '.budget-request-list-span'}

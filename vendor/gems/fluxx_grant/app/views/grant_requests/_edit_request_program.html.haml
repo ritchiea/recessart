@@ -1,0 +1,5 @@
+.form-row
+  =req_program.input :_destroy, :value => 0, :as => :hidden, :class => 'hidden-destroy'
+  =req_program.input :id, :as => :hidden, :class => 'hidden-id'
+  =req_program.input :program, {:label => 'Program:', :as => :select, :collection => Program.load_all_nonrollup.sort_by{|prog| prog.name}, :label_method => :name,  :aft => ('<a href="#" class="delete-parent" data-parent=".form-row" data-hidden-destroy=".hidden-destroy" data-hidden-id=".hidden-id"><img src="/images/fluxx_engine/theme/default/icons/delete.png"/></a>')}
+  =req_program.input :state, :as => :hidden

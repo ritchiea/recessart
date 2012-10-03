@@ -1,0 +1,3 @@
+- partial_data_src_url = url_for(project_requests_path({:project_id => model.id, :skip_wrapper => true, :granted => 'false'}))
+%div.relations{:class => 'project-request-item-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'project_requests/project_request_list', :locals => {:models => (model.project_requests.where("granted=0 OR granted IS NULL")), :project => model}

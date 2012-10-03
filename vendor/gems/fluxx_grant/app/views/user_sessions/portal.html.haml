@@ -1,0 +1,26 @@
+.container.portal-login
+  = render :partial => "lois/client_logo"
+  %h1.ac= "Welcome to the #{Fluxx.config(:grantor_name)}'s Grants Portal"
+  %div.c60l
+    - if @user_session.errors.any?
+      %div.error_explanation
+        -@user_session.errors.full_messages.each do |msg|
+          %ul
+            %li= msg
+
+    %h3 Login Now:
+    = form_for(@user_session, :url => user_sessions_path) do |f|
+      = f.hidden_field :portal, :value => 1
+      %p
+        = f.text_field :login, :placeholder => 'Username'
+      %p
+        = f.password_field :password, :placeholder => 'Password'
+      %p= f.submit "Sign in"
+    
+  %div.c40r
+    = render :partial => "lois/loi_information"
+    - unless Fluxx.config(:hide_loi) == "1"
+      = form_for(@user_session, :url => new_loi_path, :html => { :method => :get}) do |f|
+        %p= f.submit "Create an account now"
+= render :partial => "extra_portal"
+

@@ -1,0 +1,16 @@
+- invoked_from_template ||= false
+- display_achieved ||= false
+%tr
+  %td.check
+    - if display_achieved && !invoked_from_template
+      - unless model.achieved
+        %input{:type=>"checkbox", :class => 'as-put', 'data-on-success' => 'refreshCaller', :href => request_evaluation_metric_path(:id => model.id, :request_evaluation_metric => {:achieved => true}), :checked => model.achieved}
+      - else
+        %input{:type=>"checkbox", :class => 'as-put', 'data-on-success' => 'refreshCaller', :href => request_evaluation_metric_path(:id => model.id, :request_evaluation_metric => {:achieved => false}), :checked => model.achieved}
+  %td= model.timeframe
+  %td= model.description
+  %td= model.comment
+  - unless invoked_from_template
+    %td.actions
+      %span.edit_link= link_to image_tag("/images/fluxx_engine/theme/default/icons/page_edit.png"), edit_request_evaluation_metric_path(model), :class => 'to-modal', :title => "Edit Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+      %span.delete-button= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), request_evaluation_metric_path(model), {:class => 'as-delete', :title => "Delete Evaluation Metric", 'data-on-success' => 'refreshCaller'}

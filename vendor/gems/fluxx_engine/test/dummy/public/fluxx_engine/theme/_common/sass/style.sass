@@ -1,0 +1,103 @@
+@import ui-lightness/jquery-ui-1.8.2.custom.css
+@import _helpers
+
+$footer_height: 50px
+$header_height: 50px
+
+=bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
+  background-color: $bg
+  color: $fg
+  a
+    color: $fg
+=header-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=footer-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=body-bg($bg: #eee, $fg: #000)
+  +bg($bg, $fg)
+
+body,table
+  +default-font
+
+div,ul,ol,li,table,td,th,dl,dt,dd
+  +border-box
+
+html,body
+  margin: 0px
+  padding: 0px
+  height: 100%
+  background: white
+  color: black
+body
+  overflow-x: scroll
+
+#fluxx
+  #stage
+    position: relative
+    height: auto
+    height: 100%
+    min-height: 100%
+    #header
+      +header-bg
+      height: $header_height
+      position: fixed
+      top: 0px
+      width: 100%
+      #logo
+        +inline-block
+      .actions
+        +inline-block
+        +non-list
+        float: right
+        li
+          +inline-block
+          margin-right: 10px
+          vertical-align: top
+    #card-table
+      +body-bg(#ccc)
+      margin-top: $header_height
+      margin-bottom: $footer_height
+      position: absolute
+      top: 0px
+      bottom: 0px
+      overflow: hidden
+      #hand
+        +non-list
+        height: 100%
+        .card
+          +inline-block
+          margin: 10px
+          .card-box
+            .card-header
+              +header-bg
+              .toolbar
+              .titlebar
+            .card-body
+              .listing,.detail
+                +inline-block
+                .header
+                  +header-bg(#666)
+                .body
+                  +bg
+                  overflow: auto
+                .footer
+                  +footer-bg(#666)
+              .listing
+                width: 200px
+                .header
+                  .actions
+                    +non-list
+                    li
+                      +inline-block
+                .body
+                  +bg(#f9f9f9)
+              .detail
+                width: 400px
+            .card-footer
+              +footer-bg
+    #footer
+      +footer-bg
+      height: $footer_height
+      position: fixed
+      bottom: 0
+      width: 100%

@@ -1,0 +1,3 @@
+class SubProgramsController < ApplicationController
+  include FluxxSubProgramsController
+end

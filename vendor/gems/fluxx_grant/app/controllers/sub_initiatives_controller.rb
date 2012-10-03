@@ -1,0 +1,3 @@
+class SubInitiativesController < ApplicationController
+  include FluxxSubInitiativesController
+end

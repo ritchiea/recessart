@@ -1,0 +1,5 @@
+- current_year = Time.now.year
+- year_range = ((current_year-25)..(current_year + 2))
+- form.object.funding_year = current_year
+= form.input :funding_year, :as => :select, :required => true, :include_blank => false, :collection => year_range.to_a.reverse
+= form.input :program_id, :label => I18n.t(:program_name), :as => :select, :required => true, :multiple => true, :include_blank => false, :wrapper_html => {:class => 'multiple-select-transfer'}, :collection => Program.load_all_without_children_programs.sort_by{|prog| prog.name}.map {|prog|[prog.name, prog.id]}

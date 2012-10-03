@@ -1,0 +1,30 @@
+!!!
+%html
+  %head
+    %title Fluxx Grant
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/style.css', :media => "all"
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_crm/theme/default/style.css', :media => "all"
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_grant/theme/default/style.css', :media => "all"
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/printable.css', :media => "all"
+    = stylesheet_link_tag '/javascripts/fluxx_engine/lib/jqplot/jquery.jqplot.css', :media => "all"
+    - preload_javascripts = Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.select{|filename| filename =~ /lib\/jquery/}
+    - preload_javascripts.sort.each do |filename|
+      =javascript_include_tag filename
+    - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/src/fluxx.visualizations.js").sort.map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
+      =javascript_include_tag filename
+    - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/jqplot.*.js").sort.map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
+      =javascript_include_tag filename
+
+
+
+
+  %body{:id => 'fluxx'}
+    %div{:id => 'card-table'}
+      %div{:id => 'hand'}
+        = yield
+        :javascript
+          $(document).ready(function() {
+            if ($.fluxx.hasOwnProperty('visualizations')) {
+              $('.chart').renderChart();
+            }
+          });

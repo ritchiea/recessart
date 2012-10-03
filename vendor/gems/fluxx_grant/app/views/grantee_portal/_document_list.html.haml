@@ -1,0 +1,26 @@
+- if FileTest.exists? "#{Rails.root}/public/documents/documents.yaml"
+  - @data = YAML::load(File.open( "#{Rails.root}/public/documents/documents.yaml" ))
+- else
+  - @data = Dir.glob("#{Rails.root}/public/documents/*.pdf").map{|filename| filename.gsub("#{Rails.root}/public/documents/", '')}.sort.paginate
+
+.titlebar
+  %h4
+.content
+- if @data.count == 0
+  %p.caption="No Documents"
+- else
+  %table{:cellspacing => 0}
+    %thead
+      %tr
+        %th
+          Additional Forms
+  .documents
+    %table{:cellspacing => 0}
+      %tbody
+        -@data.each do |file|
+          %tr
+            %td
+              - filename = file["filename"] ? file["filename"] : file
+              - name = file["name"] ? file["name"] : filename.humanize.gsub('.pdf', '')
+              = link_to name, "/documents/#{filename}", :target => "_blank", :class => "file-type file-type-pdf"
+  = render :partial => "grantee_portal/paging_actions"

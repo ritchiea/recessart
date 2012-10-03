@@ -1,0 +1,44 @@
+- documentable_class = "RequestReport"
+.titlebar
+  %h4
+    Reports
+.content
+  - if @data.count == 0
+    %p.caption= "No reports"
+  - else
+    %table{:cellspacing => 0}
+      %thead
+        %tr
+          %th
+          %th
+            Due Date
+          %th
+            Status
+      %tbody
+      -@data.each do |model|
+        - documentable_id = model.id
+        - state = model.state.nil? ? "" : model.state
+        %tr
+          %td{:width => '70%'}
+            = "#{model.type_to_english} for #{model.request.grant_id}"
+            %ul
+              -model.model_documents.each do |doc|
+                - if doc
+                  %li
+                    = link_to doc.document_file_name, doc.document.url, :target => '_blank', :class => mime_type_to_class(doc.document_content_type)                    
+                    
+                    - if state == 'Due' && current_user.has_role?(Program.grantee_role_name, model.request.program)
+                      %span.actions
+                        = link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png", :class => 'delete-button'), model_document_path(doc), :class => "delete-report"
+              - if state == 'Due' && current_user.has_role?(Program.grantee_role_name, model.request.program)
+                %li.upload
+                  = link_to image_tag("/images/fluxx_engine/theme/default/icons/add.png", :class => 'add-button'), model_documents_path(:model_document => {:documentable_id => documentable_id, :documentable_type => documentable_class}), :class => 'to-upload', 'data-extensions'.to_sym=>"txt,zip,gz,pdf,png,jpg,gif,xls,doc,xlsx,docx,ppt,pptx", :title => "Add Document", 'data-document-type-url' => model_document_types_path(:model_type => documentable_class, :name => 'associated_request_documents', :format => :json), 'data-document-type-param' => 'model_document[model_document_type_id]'
+                  = 'Upload A File'
+          %td= mdy_date_format(model.due_at)
+          %td
+            = state
+            - model.actions(current_user).each do |button_clause|
+              - event_name, english_event_name = button_clause
+              %span= link_to english_event_name, grant_request_path(@model.id, {:event_action => event_name}, "grant_request[workflow_note]".to_sym => "Submitted from Grantee Portal"), :class => 'submit-workflow', 'data-confirm'.to_sym => 'Are you sure you want to submit this request?', 'data-success-message'.to_sym => "Your grant request #{model.request.grant_or_request_id} has been submitted."
+
+  = render :partial => "grantee_portal/paging_actions"

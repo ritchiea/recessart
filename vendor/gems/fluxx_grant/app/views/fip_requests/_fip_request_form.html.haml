@@ -1,0 +1,39 @@
+%fieldset.inputs
+  %ol
+    = form.input :fip_title, :label => "Title" 
+    = form.input :fip_projected_end_at, :label => "Projected End Date" 
+    = form.input :fip_type, :label => "#{I18n.t(:fip_name)} Type"
+
+    = form.input :amount_requested, :label => "Amount Requested" 
+
+    = render :partial => "grant_requests/program",  :locals => { :model => model, :form => form }
+
+    = form.input :project_summary, :label => "Project Summary", :as => :text
+
+    = render :partial => "model_documents/list_model_documents", :locals => { :model => model} unless model.in_new_state?
+    = render(:partial => "grant_requests/approve_grant_details", :locals => { :model => model, :form => form}) if model.granted
+
+    - unless model.in_new_state?
+      = form.input :initiative_types, :label => "Initiative types.", :label_class=>''
+      = form.input(:amount_recommended, :label => "Recommended amount to fund.", :label_class=>'')
+      - unless model.granted
+        = form.input :grant_begins_at, :label => "Start Date:"
+      = form.input :ierf_proposed_end_at, :label => "Final Proposal Date:"
+      = form.input :ierf_budget_end_at, :label => "Final Budget Date:"
+      = render :partial => "grant_requests/funding_sources", :locals => { :model => model, :form => form}
+      = form.input :constituents, :label => "Constituents:", :as => :select, :wrapper_html => {:class => 'multiple-select-transfer'}
+      = form.input :usa_means, :label => "Means:", :as => :select, :wrapper_html => {:class => 'multiple-select-transfer'}
+      = form.input :china_means, :label => "Type of Organization (China use only):", :as => :select, :wrapper_html => {:class => 'multiple-select-transfer'}
+
+    - unless model.in_new_state?
+      = form.input :ierf_goals, :label => "Goals: How does this grant or cluster of grants fit into your logic model?  What will this grant or cluster of grants accomplish if it is successful?", :label_class=>'wide_label'
+      = form.input :ierf_tactics, :label => "Tactics: What are the primary means the grantee(s) will use?  How are the tactics linked to the strategy?", :label_class=>'wide_label'
+      = form.input :ierf_probability, :label => "Probability: What is the likelihood that the grantee(s) will succeed in the tactics they lay out?  What are the possible failure scenarios?", :label_class=>'wide_label'
+
+    - unless model.in_new_state?
+      = form.input :ierf_due_diligence_overlap, :label => "Does this grant overlap with other sectors or key funders?  If so, please explain which sectors/funder, and provide any scheduled meetings.", :label_class=>'wide_label'
+      = form.input :ierf_due_diligence_risks, :label => "Does this grant pose any institutional risks to EF?  If yes, please explain how these issues will be addressed.", :label_class=>'wide_label'
+      = form.input :ierf_due_diligence_noc4_work, :label => "Have you carefully reviewed the proposal and budget to make sure that they contain no C4 work?", :label_class=>'wide_label'
+      = form.input :ierf_due_diligence_board_review, :label => "Does this grant warrant input and/or review by board members?  If yes, please list board member name and any related information.", :label_class=>'wide_label'
+
+    = form.commit_button

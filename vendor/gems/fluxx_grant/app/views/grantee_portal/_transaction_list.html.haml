@@ -1,0 +1,29 @@
+.titlebar
+  %h4
+    Transactions
+.content
+  - if @data.count == 0
+    %p.caption="No transactions"
+  - else
+    %table{:cellspacing => 0}
+      %thead
+        %tr
+          %th
+            Grant
+          %th
+            Amount
+          %th
+            Scheduled
+          %th
+            Paid
+          %th
+            Status
+      %tbody
+      -@data.each do |model|            
+        %tr
+          %td= model.request.grant_id
+          %td= dollars_format(model.amount_paid)
+          %td= mdy_date_format(model.due_at)
+          %td= mdy_date_format(model.paid_at)
+          %td= model.state.humanize
+  = render :partial => "grantee_portal/paging_actions"

@@ -1,0 +1,58 @@
+<p>{{value variable='request' method='grant_agreement_at' as='date_mdy'/}}
+</p>
+<p>{{value variable='request' method='signatory_contact.salutation'/}} {{value variable='request' method='signatory_contact.full_name'/}}<br/>
+{{value variable='request' method='signatory_contact.title'/}}<br/>
+{{value variable='request' method='address_org.name'/}}<br/>
+{{value variable='request' method='address_org.street_address'/}}<br/>
+{{value variable='request' method='address_org.street_address2'/}}<br/>
+{{value variable='request' method='address_org.city'/}}, {{value variable='request' method='address_org.geo_state.name'/}}, {{value variable='request' method='address_org.postal_code'/}}
+</p>
+<p>Re: Grant Number {{value variable='request' method='grant_id'/}}
+</p>
+<p>Dear {{value variable='request' method='signatory_contact.salutation'/}} {{value variable='request' method='signatory_contact.last_name'/}}
+</p>
+<p>The Foundation (“Foundation”) is pleased to inform you that {{value variable='request' method='address_org.name'/}} (“the Grantee”) has been awarded a grant in the amount of {{value variable='request' method='amount_recommended'/}} from {{value variable='request' method='grant_begins_at' as='date_mdy'/}} to {{value variable='request' method='grant_ends_at' as='date_mdy'/}}.  The purpose of the grant is {{value variable='request' method='project_summary'/}} as described in your proposal dated {{value variable='request' method='request_received_at' as='date_mdy'/}}.
+</p>
+<table>
+<tr>
+  <td>Date (approx.)</td>
+  <td>Amount</td>
+</tr>
+{{iterator method='request_transactions' new_variable='request_transaction' variable='request'}}
+  <tr>
+    <td>{{value variable='request_transaction' method='due_at', as='date_mdy'/}}</td>
+    <td>{{value variable='request_transaction' method='amount_due'/}}</td>
+  </tr>
+{{/iterator}}
+</table>
+				
+<p>The grant is made only for the purpose stated in this letter and the proposal document submitted by you and subsequent discussions held and it is understood that this grant will be used for such purpose only.</p>
+
+<table>
+<tr>
+  <td>Type of Report</td>
+  <td>Date Due</td>
+</tr>
+{{iterator method='request_reports' new_variable='request_report' variable='request'}}
+  <tr>
+    <td>{{value variable='request_report' method='type_to_english'/}}</td>
+    <td>{{value variable='request_report' method='due_at' as='date_mdy'/}}</td>
+  </tr>
+{{/iterator}}
+</table>
+
+<p>
+On behalf of Foundation, may I extend my best wishes for the success of your organization’s endeavors.
+</p>
+<p>Best regards,
+</p>
+The Chief<br/>
+Chief Executive Officer<br/>
+Foundation Sustainable Energy Foundation<br/>
+
+<p>Agreed and accepted to on behalf of {{value variable='request' method='address_org.name'/}}
+</p>
+
+Signed: _____________________________________________Date:_____________________<br/>
+<p>{{value variable='request' method='signatory_contact.salutation'/}} {{value variable='request' method='signatory_contact.full_name'/}}, {{value variable='request' method='signatory_contact.title'/}}<br/>
+

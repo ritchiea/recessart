@@ -1,0 +1,10 @@
+- due = true unless defined? due
+%h2
+  = model.type_to_english
+  %span.caption= "(due #{model.due_at.mdy})" if due != false && model.due_at
+%h4
+  - if model.approved_at
+    = "Approved #{model.approved_at.mdy}"
+  - elsif model.state != RequestReport.new_state
+    = "Status: #{model.state_to_english} "
+    = "(#{model.updated_at.mdy})" if model.updated_at

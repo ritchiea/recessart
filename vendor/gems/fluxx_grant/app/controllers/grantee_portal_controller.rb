@@ -1,0 +1,3 @@
+class GranteePortalController < ApplicationController
+  include FluxxGranteePortalController
+end

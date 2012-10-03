@@ -1,0 +1,3 @@
+class PortalGrantRequestsController < ApplicationController
+  include FluxxPortalGrantRequestsController
+end

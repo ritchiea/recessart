@@ -1,0 +1,25 @@
+h1. FLUXX CRM
+
+h2. Purpose
+
+FLUXX CRM is a rails engine that provides a layer of basic CRM functionality on top of the Fluxx Engine.
+
+h2. Elements of FLUXX CRM
+
+h3. User
+Ready to use extensible user model, controller, view
+
+h3. Organization
+Ready to use extensible organization model, controller, view
+
+h3. User/Organization relationship
+Track relationships between users and organizations
+
+h3. History
+Record the history of all model object types
+
+h3. Documents
+Attach documents to model objects.  Based on paperclip, can be stored locally on disk or in the cloud
+
+h3. Countries, States
+Leverage the GeoCities library to let users choose countries and states from a dropdown rather than free-form

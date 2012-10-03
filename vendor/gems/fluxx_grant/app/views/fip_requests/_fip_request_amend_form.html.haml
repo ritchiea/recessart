@@ -1,0 +1,12 @@
+%fieldset.inputs
+  %ol 
+    = hidden_field_tag :amend, true
+    = hidden_field_tag :as_modal, true
+    = form.input :amend, :as => :hidden, :input_html => { :value => true }
+
+    = form.input :grant_begins_at, :label => "New Grant Start Date:"      
+    = form.input :fip_projected_end_at, :label => "New Projected End Date:"
+      
+    = form.input :amount_recommended, :label => "New Amount:"
+    = form.input :amend_note, :label => "Additional Notes:", :as => :text      
+    = form.commit_button

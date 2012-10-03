@@ -1,0 +1,29 @@
+- if @skip_wrapper
+  = render :partial => @markup,  :locals => {:models => @models}
+- else
+  %h1
+    Listing #{@plural_model_name}
+
+  #card-header
+    = form_for :q, :url => current_index_path, :html => { :method => :get, :class => 'search area-url listing-search' } do |f|
+      = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
+    %ul.actions
+      = render :partial => 'insta/list_actions',  :locals => {:models => @models, :model_class => @model_class}
+
+  - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
+  #card-body
+    - if @suppress_model_iteration
+      = render :partial => @markup,  :locals => {:models => @models, :suppress_model_iteration => true, :index_listing_display => true}
+    - else
+      %ul.list
+        - @models.compact.each do |model|
+          %li.entry{'data-model-id' => model.id}
+            - unless @suppress_model_anchor_tag
+              %a.to-detail{:href => current_show_path(model.id)}
+                = render :partial => @markup,  :locals => {:model => model, :index_listing_display => true}
+            - else
+              = render :partial => @markup,  :locals => {:model => model, :suppress_model_anchor_tag => true, :index_listing_display => true}
+
+  #card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
+
+  = render :partial => 'insta/card_settings'

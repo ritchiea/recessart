@@ -1,0 +1,27 @@
+- user ||= nil
+- unless user
+  - if params[:user_id]
+    - user = User.find(grab_param(:user_organization, :user_id)) rescue nil
+%ul
+  - if(models.size > 0)
+    - models.each do |user_org|
+      %li.relationship{:class=>"action-item"}
+        - if current_user.has_delete_for_model? user_org
+          %span.actions
+            = link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), user_organization_path(user_org), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}
+        = image_tag("/images/fluxx_engine/theme/default/card-icons/button_card_orgs.png", :class=> 'float_left', :width=> '18px')
+        = user_org.organization.name if user_org.organization
+        - if current_user.has_update_for_model? user_org
+          %span.float_right= link_to "edit", edit_user_organization_path(:id => user_org, :as_modal => '1'), :class => 'to-modal', 'data-on-success' => 'refreshCaller,close'
+        - if user.primary_user_organization == user_org
+          %span.float_right= "Primary Org"
+        - else
+          - if current_user.has_update_for_model? user_org
+            %span.float_right= link_to 'make primary', user_path({:id => user.id, :user => {:primary_user_organization_id => user_org.id}}), :class => 'as-put'
+        <br/>
+        %p.caption
+          - unless user_org.title.blank?
+            = user_org.title
+            -
+          - unless user_org.department.blank?
+            = user_org.department

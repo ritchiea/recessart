@@ -1,0 +1,23 @@
+%h3
+  Programs
+%p= render_alert_field(model.program_id){|p| Program.find(p).name }
+
+%h3
+  Report Type
+%p= render_alert_field(model.report_type){|rt| RequestReport.type_to_english_translation(rt) }
+
+%h3
+  State
+%p= render_alert_field(model.state){|rt| RequestReport.state_to_english_translation(rt) }
+
+%h3
+  Due In
+%p= render_alert_field(model.due_within_days){|di| pluralize(model.due_within_days, "day") }
+
+%h3
+  Overdue By
+%p= render_alert_field(model.overdue_by_days){|ob| pluralize(model.overdue_by_days, "day") }
+
+%h3
+  Lead Users
+%p= render_alert_field(model.lead_user_ids){|l| User.find(l).full_name }

@@ -1,0 +1,74 @@
+// Fonts
+
+@import ../../_common/css/Quicksand-fontfacekit/stylesheet.css
+
+=fluxx-font
+  font-family: 'QuicksandBook', Helvetica, sans-serif
+
+=default-font
+  font-family: Helvetica, sans-serif
+
+// Styles for inline properties
+=chiseled-text($color: rgba(255,255,255,0.5), $left: 0px, $top: 1px, $spread: 0px)
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
+=chiseled-text-light($color: rgba(0,0,0,0.5), $left: 0px, $top: -1px, $spread: 0px)
+  +chiseled-text($color, $left, $top, $spread)
+
+// Styles for box properties
+
+=non-list
+  list-style: none
+  padding: 0
+  margin: 0
+
+=border-box
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  -o-box-sizing: border-box
+  box-sizing: border-box
+
+=inline-block
+  display: inline-block
+  *display: inline
+  zoom: 1
+
+=rounded-left($radius: 10px)
+  -webkit-border-top-left-radius: $radius
+  -webkit-border-bottom-left-radius: $radius
+
+=rounded-right($radius: 10px)
+  -webkit-border-top-right-radius: $radius
+  -webkit-border-bottom-right-radius: $radius
+
+=rounded-top($radius: 10px)
+  -webkit-border-top-left-radius: $radius
+  -webkit-border-top-right-radius: $radius
+
+=rounded-bottom($radius: 10px)
+  -webkit-border-bottom-left-radius: $radius
+  -webkit-border-bottom-right-radius: $radius
+
+=rounded($radius: 10px)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
+  behavior: url(border-radius.htc)
+
+=box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+
+=box-shadow-inset($left: 0px, $top: 1px, $spread: 3px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+
+=box-shadow-with-inset($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+
+=linear-gradient($top: rgb(255,255,255), $bottom: rgb(0,0,0))
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))")
+  background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)")

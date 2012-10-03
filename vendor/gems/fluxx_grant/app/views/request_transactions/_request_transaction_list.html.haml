@@ -1,0 +1,13 @@
+%h2
+  = number_to_currency model.amount_due, :precision => 0
+  %span.caption= "(due #{model.due_at.mdy})" if model.due_at
+- if model.paid_at
+  %h4= number_to_currency model.amount_paid, :precision => 0 if (model.amount_due != model.amount_paid)
+  %span.caption="Paid #{model.paid_at.mdy}"
+%h4
+  = model.request.grant_id if model.request
+  <br />
+  - if model.request && model.request.is_a?(FipRequest)
+    = model.request.fip_title
+  - else
+    = model.request.program_organization.display_name if model.request && model.request.program_organization

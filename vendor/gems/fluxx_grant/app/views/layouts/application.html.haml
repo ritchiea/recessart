@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %title Fluxx Grant
+    %meta{:name => "application-name", :content => "Fluxx" }
+    %meta{:name => "description", :content => "Fluxx - The Open Source Grants Management Platform" }
+    %link{:rel => "icon", :href => "/images/fluxx_engine/theme/default/icons/fluxx_128x128.png", :sizes => "128x128" }
+    = stylesheet_link_tag :all
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/login.css'
+    = hoptoad_javascript_notifier
+    = csrf_meta_tag
+    - (Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/jquery-*.js").sort.map{|filename| filename.gsub("#{Rails.root}/public", '')}).each do |filename|
+      =javascript_include_tag filename
+  %body
+    .container
+      .pinwheel
+      .content= yield

@@ -1,0 +1,17 @@
+%fieldset.inputs
+  %ol
+    = form.input :applicant, :label => "Your Name"
+    = form.input :organization_name, :label => "Applicant/Organization Name"
+    = form.input :tax_id, :label => "Applicant/Organization EIN"
+    = form.input :email
+    = form.input :phone
+    = form.input :address, :label => 'Mailing Address'
+    = form.input :project_title
+    = form.input :project_summary
+    = form.input :amount_requested
+    = form.input :grant_begins_at, :label => "Projected Start Date"
+    = form.input :duration_in_months, {:label => 'Projected Duration (months):', :as => :select, :collection => (1..60).to_a, :input_html => {:class => 'select_short'}}
+    = form.input :program_id, :required => false, :as => :select, :collection => Program.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}
+    = render :partial => 'lois/new_extra',  :locals => {:form => form, :prefix => '', :label_prefix => '', :rollup => 'request_hierarchy'}
+
+  = form.commit_button

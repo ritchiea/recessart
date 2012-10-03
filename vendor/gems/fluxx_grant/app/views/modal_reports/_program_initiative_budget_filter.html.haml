@@ -1,0 +1,8 @@
+- current_year = Time.now.year
+- year_range = ((current_year-25)..(current_year + 2))
+- form.object.spending_year = current_year
+= form.input :spending_year, :as => :select, :required => true, :include_blank => false, :collection => year_range.to_a.reverse
+= form.input :granted, :as => :select, :required => true, :multiple => false, :include_blank => false, :collection => { "Requests" => 0, "Grants" => 1}
+= form.input :include, :as=> :check_boxes, :collection => ["Grants", I18n.t(:fip_name).pluralize]
+
+

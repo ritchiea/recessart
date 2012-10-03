@@ -1,0 +1,61 @@
+- request_transaction_list = model.request.request_transactions
+%h1= number_to_currency model.amount_due, :precision => 0 if model.amount_due
+%h4.subhead
+  = "Payment #{request_transaction_list.index(model) + 1} of #{request_transaction_list.size}"
+%h4.subhead
+  = render_request_or_grant_amount model.request, 'total granted'
+%p.description= raw "#{render_grant_or_request_id model.request} - #{render_program_name model.request}"
+
+%p= model.state_to_english
+%div.partial
+  .pairs
+    .key Due:
+    .value= model.due_at.mdy if model.due_at
+  - if model.user_payee
+    .pairs
+      .key Payee (Person):
+      .value= model.user_payee.full_name
+  - if model.organization_payee
+    .pairs
+      .key Payee (Organization):
+      .value= model.organization_payee.name
+%div.partial
+  %h3 Funding Sources
+  %div
+    - model.request.request_funding_sources.each do |rfs|
+      - if rfs.funding_source_allocation && rfs.funding_source_allocation.funding_source
+        %h4= "#{rfs.funding_source_allocation.funding_source.name}"
+        %p= render :partial => "request_funding_sources/request_funding_source_initiatives", :locals => { :funding_source => rfs }
+        %dl.inline
+          %dt= "Allocated:"
+          %dd= as_currency(rfs.funding_amount)
+          - rtfs = RequestTransactionFundingSource.where(:request_transaction_id => model.id, :request_funding_source_id => rfs.id).first
+          %dt= "Spent:"
+          %dd= "#{(rfs.amount_spent || 0).to_currency}"
+          %dt= "Available:"
+          %dd= "#{(rfs.amount_remaining || 0).to_currency}"  
+%div.partial
+  - if model.paid_at
+    .pairs
+      .key Paid:
+      .value
+        = as_currency(model.amount_paid) if model.amount_paid
+        on
+        = model.paid_at.mdy
+        by
+        = model.payment_type
+        = model.payment_confirmation_number
+  
+  .pairs
+    .key Payment Recorded by:
+    .value= model.payment_recorded_by.full_name if model.payment_recorded_by
+
+%div.partial
+  %dl.qa
+    %dt Please note any conditions or milestones associated to this payment
+    %dd= model.condition
+
+
+= render :partial => "model_documents/list_model_documents", :locals => { :model => model}
+= render :partial => "notes/list_notes", :locals => { :model => model, :class_type => RequestTransaction.name}
+= render :partial => "audits/list_audits", :locals => { :model => model}

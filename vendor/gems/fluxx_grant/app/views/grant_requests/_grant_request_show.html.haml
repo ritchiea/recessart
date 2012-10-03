@@ -1,0 +1,150 @@
+%h1
+  = raw render_program_name model
+  = raw render_grant_or_request_id model
+%h4.subhead= raw render_request_or_grant_amount model
+- unless model.project_summary.blank?
+  %p= simple_format(model.project_summary)
+
+= render :partial => "grant_requests/grant_request_show_warnings", :locals => { :model => model } unless model.granted?
+  
+%div.partial
+  - if model.is_a? FipRequest
+    .pairs
+      .key= I18n.t(:fip_name) + ' Type:'
+      .value= model.fip_type if model.fip_type
+  .pairs
+    .key Status:
+    .value.with-more-info
+      - if (current_user.is_portal_user?)
+        = model.state_to_english
+      - else
+        = link_to model.state_to_english,  url_for(:action => :show, :view_states => true, :id => model.id), :class => 'to-modal', :title => 'View Workflow', 'data-on-success' => 'refreshCaller'
+  .pairs
+    .key Request Submitted:
+    .value= model.request_received_at.mdy if model.request_received_at
+  - if model.is_grant?
+    .pairs
+      .key Agreement Date:
+      .value= model.grant_agreement_at.mdy if model.grant_agreement_at
+  .pairs
+    .key Grant Start Date:
+    .value= model.grant_begins_at.mdy if model.grant_begins_at
+  - unless model.is_a?(FipRequest)
+    .pairs
+      .key Grant End Date:
+      .value= model.grant_ends_at.mdy if model.grant_ends_at
+  - if model.is_a? GrantRequest
+    .pairs
+      .key Duration:
+      .value= "#{model.duration_in_months} months" if model.duration_in_months
+  - elsif model.is_a? FipRequest
+    .pairs
+      .key Projected End Date:
+      .value= model.fip_projected_end_at.mdy if model.fip_projected_end_at 
+  .pairs
+    .key Final Proposal Date:
+    .value= model.ierf_proposed_end_at.mdy if model.ierf_proposed_end_at
+  .pairs
+    .key Final Proposal Date:
+    .value= model.ierf_proposed_end_at.mdy if model.ierf_proposed_end_at
+  .pairs
+    .key Final Budget Date:
+    .value= model.ierf_budget_end_at.mdy if model.ierf_budget_end_at
+  .pairs
+    .key Tax Status:
+    .value= model.program_organization.tax_class.value if model.program_organization && model.program_organization.tax_class
+
+%div.partial
+  .pairs
+    .key Main Contact:
+    .value
+      = model.grantee_org_owner.full_name if model.grantee_org_owner
+  - unless Fluxx.config(:hide_program) == "1"
+    .pairs
+      .key= "#{I18n.t(:program_name)}:"
+      .value= model.program.name if model.program
+  - unless Fluxx.config(:hide_sub_program) == "1"
+    .pairs
+      .key= "#{I18n.t(:sub_program_name)}:"
+      .value= model.sub_program.name if model.sub_program
+  - if model.secondary_programs
+    .pairs
+      .key= "Secondary #{(I18n.t(:program_name)).pluralize}:"
+      .value= model.secondary_programs.map(&:name).to_sentence
+  .pairs
+    .key Lead Program Officer/Director:
+    .value= model.program_lead.full_name if model.program_lead
+  .pairs
+    .key Primary Signatory:
+    .value= model.grantee_signatory.full_name if model.grantee_signatory
+  .pairs
+    .key Request Created By:
+    .value= "#{model.created_by.full_name if model.created_by} (#{model.created_at.mdy if model.created_at})"
+
+%div.partial
+  .pairs
+    .key Amount Requested:
+    .value= as_currency(model.amount_requested) if model.amount_requested
+  .pairs
+    .key Amount Recommended:
+    .value= as_currency(model.amount_recommended) if model.amount_recommended
+  - if model.is_grant?
+    .pairs
+      .key Amount Paid to Date:
+      .value= number_to_currency(model.amount_funded, :precision => 0) if model.amount_funded
+
+= render :partial => "request_funding_sources/list_request_funding_sources", :locals => { :model => model}
+%div.partial
+  = render :partial => "grant_requests/grant_request_show_relationships", :locals => { :model => model}
+
+%div.partial
+  %h3= "#{model.is_grant? ? "Grant" : "Request"} Details"
+  .pairs
+    .key Funds Expended:
+    .value
+      - if model.funds_expended_amount
+        = as_currency(model.funds_expended_amount)
+        = " on #{model.funds_expended_at.mdy}" if model.funds_expended_at
+  .pairs
+    .key= "Initiative #{plural_by_list model.initiative_types, 'Type', 'Types'}:"
+    .value= model.initiative_types.map(&:value).join(', ')
+  .pairs
+    .key= "#{plural_by_list model.constituents, 'Constituent', 'Constituents'}:"
+    .value= model.constituents.map(&:value).join(', ')
+  .pairs
+    .key= "#{plural_by_list model.usa_means, 'Means', 'Means'}:"
+    .value= model.usa_means.map(&:value).join(', ')
+  .pairs
+    .key= "#{plural_by_list model.china_means, 'Type', 'Types'} of Organization:"
+    .value= model.china_means.map(&:value).join(', ')
+- if (!current_user.is_portal_user?)
+  = render :partial => "model_documents/list_model_documents", :locals => { :model => model}
+  - if model.program_organization
+    = render :partial => "model_documents/list_model_documents", :locals => { :model => model.program_organization}
+
+  %div
+    %div.partial
+      - unless model.in_new_state?
+        %h3 Strategic Assessment
+        %dl.qa
+          %dt Goals: How does this grant or cluster of grants fit into your logic model?  What will this grant or cluster of grants accomplish if it is successful?
+          %dd= simple_format(model.ierf_goals)
+          %dt Tactics: What are the primary means the grantee(s) will use?  How are the tactics linked to the strategy?
+          %dd= simple_format(model.ierf_tactics)
+          %dt Probability: What is the likelihood that the grantee(s) will succeed in the tactics they lay out?  What are the possible failure scenarios?
+          %dd= simple_format(model.ierf_probability)
+    %div.partial
+      - unless model.in_new_state?
+        %h3 Due Diligence Assessment
+        %dl.qa
+          %dt Does this grant overlap with any other sectors or key funders?  If so, please explain which sectors/funder, and provide any scheduled meetings.
+          %dd= simple_format(model.ierf_due_diligence_overlap)
+          %dt Does this grant pose any institutional risks to EF?  If yes, please explain how these issues will be addressed.
+          %dd= simple_format(model.ierf_due_diligence_risks)
+          %dt Have you carefully reviewed the proposal and budget to make sure that they contain no C4 work?
+          %dd= simple_format(model.ierf_due_diligence_noc4_work)
+          %dt Does this grant warrant input and/or review by board members?  If yes, please list board member name and any related information.
+          %dd= simple_format(model.ierf_due_diligence_board_review)
+
+  = render :partial => "notes/list_notes", :locals => { :model => model, :class_type => Request.name}
+  = render :partial => "audits/list_audits", :locals => { :model => model}

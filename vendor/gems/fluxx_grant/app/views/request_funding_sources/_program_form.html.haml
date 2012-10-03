@@ -1,0 +1,58 @@
+- programs = Program.load_all_nonrollup
+- sub_programs = []
+- initiatives = []
+- sub_initiatives = []
+- funding_source_allocations = []
+
+- if form.object.funding_source_allocation
+  - form.object.program = form.object.funding_source_allocation.derive_program
+  - form.object.sub_program = form.object.funding_source_allocation.derive_sub_program if Fluxx.config(:no_funding_source_ripple_sub_program) != "1"
+  - form.object.initiative = form.object.funding_source_allocation.derive_initiative if Fluxx.config(:no_funding_source_ripple_initiative) != "1"
+  - form.object.sub_initiative = form.object.funding_source_allocation.derive_sub_initiative if Fluxx.config(:no_funding_source_ripple_sub_initiative) != "1"
+
+  - form.object.program_id = form.object.program.id if form.object.program
+  - form.object.sub_program_id = form.object.sub_program.id if form.object.sub_program && Fluxx.config(:no_funding_source_ripple_sub_program) != "1"
+  - form.object.initiative_id = form.object.initiative.id if form.object.initiative && Fluxx.config(:no_funding_source_ripple_initiative) != "1"
+  - form.object.sub_initiative_id = form.object.sub_initiative.id if form.object.sub_initiative && Fluxx.config(:no_funding_source_ripple_sub_initiative) != "1"
+
+  - if form.object.program
+    - sub_programs = form.object.program.load_sub_programs
+    - if form.object.sub_program
+      - initiatives = form.object.sub_program.load_initiatives
+      - if form.object.initiative
+        - sub_initiatives = form.object.initiative.load_sub_initiatives
+  - # If the funding source allocation is for a retired element, make sure that it is included in the list of dropdowns
+  - programs << form.object.program if form.object.program && (!programs.include?(form.object.program))
+  - sub_programs << form.object.sub_program if form.object.sub_program && (!sub_programs.include?(form.object.sub_program))
+  - initiatives << form.object.initiative if form.object.initiative && (!initiatives.include?(form.object.initiative))
+  - sub_initiatives << form.object.sub_initiative if form.object.sub_initiative && (!sub_initiatives.include?(form.object.sub_initiative))
+
+= form.input :funding_amount, :input_html => {:class => 'funding-amount-input', 'data-related-child' => ".funding-source-allocation-select"}
+- current_year = Time.now.year
+- year_range = ((current_year-25)..(current_year + 2))
+- form.object.spending_year = form.object.funding_source_allocation ? form.object.funding_source_allocation.spending_year : current_year
+= form.input :spending_year, :label => "Spending Year", :as => :select, :collection => year_range.to_a.reverse, :input_html => {:class => 'spending-year-input', 'data-related-child' => '.funding-source-allocation-select'}
+= form.input :program_id, :label => I18n.t(:program_name), :as => :select, :collection => programs.map{|program| [program.description || program.name, program.id]}, :input_html => {:class => 'program-dropdown-select', 'data-related-child-param' => 'program_id', 'data-related-child' => ".sub-program-select,.funding-source-allocation-select"}
+- unless SubProgram.is_hidden?
+  = form.input :sub_program_id, :label => I18n.t(:sub_program_name), :as => :select, :collection => sub_programs.map{|sub_program| [sub_program.description || sub_program.name, sub_program.id]}, :input_html => {:class => 'sub-program-select', 'data-related-child-param' => 'sub_program_id', 'data-related-child' => ".funding-source-allocation-select,.initiative-select", 'data-param'.to_sym => 'program_id', 'data-src'.to_sym => sub_programs_path(:format => 'autocomplete', :retired => 0)}
+- unless Initiative.is_hidden?
+  = form.input :initiative_id, :label => I18n.t(:initiative_name), :as => :select, :collection => initiatives.map{|initiative| [initiative.description || initiative.name, initiative.id]}, :input_html => {:class => 'initiative-select', 'data-related-child-param' => 'initiative_id', 'data-related-child' => ".funding-source-allocation-select,.sub-initiative-select", 'data-param'.to_sym => 'sub_program_id', 'data-src'.to_sym => initiatives_path(:format => 'autocomplete', :retired => 0)}
+- unless SubInitiative.is_hidden?
+  = form.input :sub_initiative_id, :label => I18n.t(:sub_initiative_name), :as => :select, :collection => sub_initiatives.map{|sub_initiative| [sub_initiative.description || sub_initiative.name, sub_initiative.id]}, :input_html => {:class => 'sub-initiative-select', 'data-related-child-param' => 'sub_initiative_id', 'data-related-child' => '.funding-source-allocation-select', 'data-param'.to_sym => 'initiative_id', 'data-src'.to_sym => sub_initiatives_path(:format => 'autocomplete', :retired => 0)}
+
+- funding_source_allocations = if form.object.sub_initiative && Fluxx.config(:no_funding_source_ripple_sub_initiative) != "1"
+  - form.object.sub_initiative.funding_source_allocations
+- elsif form.object.initiative && Fluxx.config(:no_funding_source_ripple_initiative) != "1"
+  - form.object.initiative.funding_source_allocations
+- elsif form.object.sub_program && Fluxx.config(:no_funding_source_ripple_sub_program) != "1"
+  - form.object.sub_program.funding_source_allocations
+- elsif form.object.program
+  - form.object.program.funding_source_allocations
+- funding_source_allocations = [] unless funding_source_allocations
+
+-# Build a list of parameters to send to the URL
+- param_list = ['program_id=.program-dropdown-select']
+- param_list << 'sub_program_id=.sub-program-select' unless Fluxx.config(:no_funding_source_ripple_sub_program) == "1"
+- param_list << 'initiative_id=.initiative-select' unless Fluxx.config(:no_funding_source_ripple_initiative) == "1"
+- param_list << 'sub_initiative_id=.sub-initiative-select' unless Fluxx.config(:no_funding_source_ripple_sub_initiative) == "1"
+= form.input :funding_source_allocation, :label => "Funding Source", :as => :select, :collection => funding_source_allocations.map{|fsa| [fsa.funding_source_title(form.object.funding_amount), fsa.id]}, :input_html => {:class => 'funding-source-allocation-select', 'data-require-parent-id' => 'true', 'data-param-list'.to_sym => "#{param_list.join(',')},spending_year=.spending-year-input,funding_amount=.funding-amount-input", 'data-src'.to_sym => funding_source_allocations_path(:format => 'autocomplete')}

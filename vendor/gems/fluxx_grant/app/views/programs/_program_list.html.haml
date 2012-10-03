@@ -1,0 +1,6 @@
+- spending_year = Time.now.year
+
+%h2= model.name
+%h4 
+  = model.total_allocation(:spending_year => spending_year).to_currency
+  Current Year Funding

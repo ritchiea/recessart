@@ -1,0 +1,420 @@
+@import ../../_common/sass/style.sass
+
+=icon-36
+  .link
+    height: 36px
+    width: 36px
+    margin-bottom: $icon_margin_bottom + 6px
+    margin-top: $icon_margin_top + 6px
+    margin-left: 16px
+    margin-right: 16px
+    .label
+      top: 42px
+      margin-left: -16px
+
+
+=btn-color($color: #ccc, $hover: true, $textColor: #000)
+  $top: $color * 1.5
+  $mid: $color * 0.80
+  $bot: $color * 0.70
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))")
+  color: $textColor
+  border-color: $color - ($color * .5)
+  @if $hover
+    &:hover
+      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top + #111}), color-stop(0.51, #{$color + #111}),    color-stop(0.51, #{$mid + #111}), color-stop(0.88, #{$bot + #111}))")
+      color: $textColor + #111
+    &:active
+      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$bot + #111}), color-stop(0.51, #{$mid + #111}),    color-stop(0.51, #{$color + #111}), color-stop(0.88, #{$top + #111}))")
+
+=buttons($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
+  +non-list
+  +rounded($rounding + 1)
+  +inline-block
+  +btn-color($bgcolor/3, false)
+  font-size: $size
+  line-height: $size
+  li
+    +btn-color($bgcolor)
+    color: $color
+    margin: 1px 1px 1px 0px
+    display: block
+    float: left
+    a,span
+      +border-box
+      +chiseled-text($tscolor, 0px, $tspos)
+      color: $color
+      text-decoration: none
+      text-align: center
+      padding: $padding
+      display: block
+      min-width: $size+($padding*2)
+    &:first-child
+      +rounded-left($rounding)
+      margin-left: 1px
+    &:last-child
+      +rounded-right($rounding)
+
+.disabled
+  opacity: 0.5
+
+#fluxx
+  #stage
+    +bg(#eee)
+    #header
+      +box-shadow
+      z-index: 2
+      border-bottom: 3px white solid
+      #logo
+        a
+          +inline-block
+          +fluxx-font
+          font-size: 24px
+          line-height: $header_height + 3px
+          height: $header_height
+          background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left
+          padding: 0px 0px 0px 46px
+          margin: 0px 10px
+          text-decoration: none
+    #card-table
+      +bg(transparent)
+      #hand
+        +bg(transparent)
+        .card
+          .card-box
+            border: 1px solid #999
+            +box-shadow
+            +rounded(6px)
+            .card-header
+              +rounded-top(6px)
+              .toolbar
+                +linear-gradient(#999, #666)
+                +rounded-top(6px)
+                position: relative
+                padding: 0px 5px
+                border-bottom: 1px solid #333
+                height: 20px
+                .updates
+                  +inline-block
+                  +bg(#000, #fff)
+                  +linear-gradient(#333, #000)
+                  +rounded
+                  text-decoration: none
+                  font-size: 12px
+                  font-weight: 100
+                  height: 16px
+                  line-height: 16px
+                  padding: 0px 4px 0px 2px
+                  margin-bottom: 6px
+                  vertical-align: middle
+                  .available
+                    background: transparent url("../../default/images/icons/arrow_refresh_small.png") no-repeat center left
+                    padding-left: 16px
+                .loading-indicator
+                  +inline-block
+                  height: 11px
+                  width: 43px
+                  margin-right: 10px
+                  margin-top: 4px
+                  &.loading
+                    background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+                .controls
+                  +buttons(10px, 2px, #777, #eee, rgba(0,0,0,0.5), -1px, 2px)
+                  position: absolute
+                  right: 0px
+                  top: 0px
+                  margin-top: 2px
+                  margin-right: 5px
+              .titlebar
+                +bg(#ccc, #333)
+                +linear-gradient(#ccc, #aaa)
+                +chiseled-text
+                border-top: 1px solid #eee
+                border-bottom: 1px solid #333
+                text-transform: uppercase
+                font-weight: 100
+                line-height: 24px
+                font-size: 18px
+                padding: 0px 10px
+                .content-actions
+                  margin-right: 10px
+            .card-body
+              background: url(../../default/images/cards/body-bg.png)
+              border-bottom: 1px solid #333
+              .filters
+                background: #666
+                border: 3px solid #ccc
+                color: #fff
+                .header,.body,.footer
+                  padding: 4px 10px
+                .header
+                  background: transparent
+                  +linear-gradient(#777, #555)
+                  +box-shadow-inset
+                  color: #fff
+                .body
+                  +box-shadow-inset
+                  background: #333
+                  color: #fff
+                  a
+                    color: #fff
+                .footer
+                  background: transparent
+                  +linear-gradient(#777, #555)
+                  color: #fff
+                  border-left: 1px solid #666
+                  border-right: 1px solid #666
+                  .buttons
+                    +buttons
+                    margin-top: 3px
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    margin-top: 3px
+                    float: right
+              .listing,.detail,.modal
+                .header
+                  +linear-gradient(#ccc, #aaa)
+                  border-bottom: 1px solid #333
+                  border-top: 1px solid #eee
+                .body
+                .footer
+                  +bg(#ccc, #333)
+                  +linear-gradient(#ccc, #aaa)
+                  border-top: 1px solid #eee
+                  padding: 3px
+                  min-height: 26px
+              .listing
+                .header
+                  padding: 2px
+                  .search
+                    +inline-block
+                    margin: 0px
+                    width: auto
+                    .filter
+                      width: 156px
+                  .actions
+                    +inline-block
+                    vertical-align: middle
+                .body
+                  +bg(transparent)
+                  .list
+                    +non-list
+                    .entry
+                      +linear-gradient(#fff,#eee)
+                      &:hover
+                        +linear-gradient(#fff,#f6f6f6)
+                      border-top: 1px solid #eee
+                      border-bottom: 1px solid #666
+                      a
+                        +linear-gradient(#fff,#eee)
+                        &:hover
+                          +linear-gradient(#fff,#f6f6f6)
+                        font-size: 14px
+                        line-height: 16px
+                        color: black
+                        border-left: 1px solid transparent
+                        display: block
+                        margin-left: 5px
+                        padding: 5px 5px
+                        text-decoration: none
+                        .lines
+                          +non-list
+                          li
+                            display: block
+                            color: #666
+                            font-size: 12px
+                            &:first-child
+                              color: black
+                              font-size: 14px
+                      &.red
+                        +linear-gradient(#fcc, #ebb)
+                        a
+                          border-left: 1px solid #f66
+                      &.green,&.selected
+                        +linear-gradient(#6c6, #5b5)
+                        &:hover
+                          +linear-gradient(#6c6, #5bc45b)
+                          a
+                            border-left: 1px solid #3aa13a
+                        a
+                          border-left: 1px solid #393
+                      &.orange,&.latest
+                        +linear-gradient(#fc0, #eb0)
+                        &:hover
+                          +linear-gradient(#fc0, #f6c407)
+                          a
+                            border-left: 1px solid #ffb207
+                        a
+                          border-left: 1px solid #fa0
+                      &.blue
+                        +linear-gradient(#ccf, #bbe)
+                        a
+                          border-left: 1px solid #66f
+                .footer
+                  .paginate
+                    +buttons(12px, 3px)
+                    width: 100%
+                    .prev
+                      width: 50px
+                    .info
+                      width: 90px
+                    .next
+                      width: 50px
+                  .no-pagination
+                    +chiseled-text
+                    +border-box
+                    +inline-block
+                    font-size: 12px
+                    padding: 3px
+              .detail
+                .header
+                .body
+                  +box-shadow-inset
+                  padding: 20px
+                .footer
+                  border-left: 1px solid rgba(170,170,170,0.6)
+                  .buttons
+                    +buttons
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    float: right
+              .modal
+                +box-shadow
+                +rounded
+                opacity: 0.95
+                border: 0px solid #333
+                .controls
+                  +buttons(10px, 2px, #333, #eee, rgba(0,0,0,0.5), -1px, 2px)
+                  position: absolute
+                  right: 0px
+                  top: 0px
+                  margin-right: 10px
+                  margin-top: 6px
+                .arrow
+                  +bg(transparent)
+                  $size: 25px
+                  height: $size*2
+                  width: $size*2
+                  &.left
+                    left: $size*-2
+                    border: transparent solid $size
+                    border-right-color: #333
+                .header,.footer,.body
+                  padding: 5px 10px
+                .header
+                  +rounded-top(9px)
+                  +bg(#666,#fff)
+                  +btn-color(#666, false, #fff)
+                  +chiseled-text-light(rgba(0,0,0,0.65))
+                  text-transform: uppercase
+                  font-weight: 100
+                  border-top: none
+                .body
+                  +bg(#333, #fff)
+                .footer
+                  +rounded-bottom(9px)
+                  +bg(#666, #fff)
+                  +linear-gradient(#666, #333)
+                  border-top: none
+                  padding: 3px 10px
+                  .buttons
+                    +buttons(12px,3px)
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    float: right
+            .card-footer
+              +rounded-bottom(6px)
+              +bg(#999)
+              +linear-gradient(#999, #666)
+              min-height: 6px
+              border-top: 1px solid #eee
+    #footer
+      border: 2px solid #fff
+      border-bottom: none
+      +linear-gradient(#fff, #f9f9f9)
+      +rounded-top
+      +box-shadow-with-inset
+      left: 10px
+      right: 10px
+      width: auto
+      .qllist
+        border-left: 1px solid #ddd
+        padding: 0px 5px
+      .icon
+        &.small
+          +icon-36
+        &.blue
+          .link
+            +linear-gradient(#ccf, #99f)
+        &.green
+          .link
+            +linear-gradient(#cfc, #9f9)
+        &.red
+          .link
+            +linear-gradient(#c99, #933)
+        &.purple
+          .link
+            +linear-gradient(#c9c, #939)
+        &.plus
+          .link
+            +box-shadow-with-inset
+            border: 2px solid white
+            +rounded($icon_dimension / 2)
+            background: #666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
+            .label
+              display: none
+        .popup
+          +bg(#68c, #fff)
+          +box-shadow
+          +rounded(5px)
+          position: absolute
+          bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2)
+          border: 2px solid #359
+          ul
+            +non-list
+            padding: 10px 16px
+            li
+              white-space: nowrap
+              display: block
+              font-size: 12px
+              line-height: 24px
+              a
+                text-decoration: none
+                &:hover
+                  text-decoration: underline
+        .link
+          +linear-gradient(#fff, #ddd)
+          border: 1px #666 solid
+          +box-shadow
+          +rounded(6px)
+          text-decoration: none
+          position: relative
+          .label
+            +bg(transparent, #333)
+            position: absolute
+            top: $icon_dimension
+            font-size: $icon_margin_bottom / 2
+            font-weight: 100
+            text-align: center
+            width: $icon_dimension + 20px
+            margin-left: -10px
+            +border-box
+          .badge
+            +border-box
+            +inline-block
+            +rounded(15px)
+            +box-shadow
+            +bg(#f00, #fff)
+            +linear-gradient(#f66, #f00)
+            position: absolute
+            padding: 0px 2px
+            right: -6px
+            top: -6px
+            font-size: 11px
+            font-weight: 200
+            height: 17px
+            min-width: 17px
+            text-align: center
+            line-height: 13px
+            border: 2px solid #fff
+            display: none

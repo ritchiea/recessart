@@ -1,0 +1,3 @@
+class GeoCountriesController < ApplicationController
+  include FluxxGeoCountriesController
+end

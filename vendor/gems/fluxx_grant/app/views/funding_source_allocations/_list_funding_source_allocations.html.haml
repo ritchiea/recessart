@@ -1,0 +1,17 @@
+- parent_model ||= ""
+- do_suppress_add ||= false
+- program_id ||= grab_param(:funding_source_allocation, :program_id)
+- sub_program_id ||= grab_param(:funding_source_allocation, :sub_program_id)
+- initiative_id ||= grab_param(:funding_source_allocation, :initiative_id)
+- funding_source_id ||= grab_param(:funding_source_allocation, :funding_source_id)
+- sub_initiative_id ||= grab_param(:funding_source_allocation, :sub_initiative_id)
+- program_attributes ||= {}
+- program_attributes[:program_id] = program_id unless program_id.blank?
+- program_attributes[:sub_program_id] = sub_program_id unless sub_program_id.blank?
+- program_attributes[:initiative_id] = initiative_id unless initiative_id.blank?
+- program_attributes[:sub_initiative_id] = sub_initiative_id unless sub_initiative_id.blank?
+- program_attributes[:funding_source_id] = funding_source_id unless funding_source_id.blank?
+- program_attributes[:do_suppress_add] = do_suppress_add unless do_suppress_add.blank?
+- partial_data_src_url = url_for(funding_source_allocations_path({:skip_wrapper => true, :parent_model => parent_model}.merge(program_attributes)))
+%div.partial{:class => 'funding-source-allocations-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'funding_source_allocations/funding_source_allocation_list', :locals => {:models => models, :program_id => program_id, :sub_program_id => sub_program_id, :initiative_id => initiative_id, :sub_initiative_id => sub_initiative_id, :funding_source_id => funding_source_id, :do_suppress_add => do_suppress_add, :parent_model => parent_model}

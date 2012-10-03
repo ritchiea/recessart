@@ -1,0 +1,21 @@
+%html
+  %head
+    %title Fluxx Grant
+    %meta{:name => "application-name", :content => "Fluxx" }
+    %meta{:name => "description", :content => "Fluxx - The Open Source Grants Management Platform" }
+    %link{:rel => "icon", :href => "/images/fluxx_engine/theme/default/icons/fluxx_128x128.png", :sizes => "128x128" }
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/portal.css'
+    - preload_javascripts = Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.select{|filename| filename =~ /lib\/(jquery|plupload)/}
+    - preload_javascripts.sort.each do |filename|
+      = javascript_include_tag filename
+    = javascript_include_tag '/javascripts/fluxx_grant/fluxx.portal.js'
+    = javascript_include_tag '/javascripts/fluxx_engine/src/fluxx.uploader.js'
+    = csrf_meta_tag
+  %body
+    .header
+      %p
+        = image_tag("/images/fluxx_engine/theme/_common/pinwheels/logo_pinwheel_24.png", :class => "logo")
+        %span= @current_user.full_name.gsub(/\b\w/){$&.upcase}
+        = link_to 'Logout', portal_path
+    .page
+      = yield

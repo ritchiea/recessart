@@ -1,0 +1,14 @@
+- cc_approval = model.c3_status_approved ? 'Approved' : 'Declined'
+- if model.c3_serialized_response && !model.c3_serialized_response.empty?
+  %h1{:class => cc_approval.downcase} Charity Check #{cc_approval} on #{model.charity_check "DateGenerated"}
+  .pairs= model.charity_check "IRSBMFSubsection"
+  .pairs= model.charity_check "IRSBMFReasonForNonPrivateFoundationStatus"
+  .pairs Advanced Ruling Date: #{model.charity_check "IRSBMFRulingDate"}
+- else
+  %h1{:class => cc_approval.downcase} Charity Check not performed
+- if !defined?(show_recheck) || show_recheck
+  %p
+  %div
+    = link_to "run new charity check", url_for(organization_path({:id => model.id, :run_charity_check => 1})), :class => 'refresh-partial', :title => "run new charity check"
+  %div
+    = link_to "display pdf", url_for(organization_path({:id => model.id, :run_charity_check => 1, :format => :pdf})), :title => "run new charity check", :target => "_blank"

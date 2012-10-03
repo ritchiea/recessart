@@ -1,0 +1,34 @@
+%ol
+  = form.input :parent_org_id, :as => :hidden
+  - parent_org = if form.object.parent_org_id
+    - Organization.find form.object.parent_org_id rescue nil
+  - if parent_org
+    - form.object.name = parent_org.name
+    = form.input :name, :label => "Name", :as => :hidden
+  - else
+    = form.input :name, :label => "Name", :input_html => {"data-duplicate-lookup" => "/organizations.autocomplete?name_method=to_s&parent_org_id=0"}
+  = form.input :acronym, :label => "Alias/Acronym"
+  = form.input :street_address, :label => "Street Address"
+  = form.input :street_address2, :label => "Street Address 2"
+  = form.input :geo_country, :label => 'Country:', :as => :select, :input_html => {:class => 'geo_country_select', 'data-related-child'.to_sym => '.geo-state-select'}, :collection => GeoCountry.order('name asc').all.map {|country| [country.name, country.id]}
+  - state_collection = form.object.geo_country ? form.object.geo_country.find_related_geo_states : []
+  = form.input :geo_state, :label => 'State/Province: ', :as => :select, :input_html => {:class => 'geo-state-select', 'data-param'.to_sym => 'geo_state[geo_country_id]', 'data-src'.to_sym => geo_states_path(:format => 'autocomplete'), 'data-cache'.to_sym => 'geo_state_select'}, :collection => state_collection.map {|state| [state.name, state.id]}
+  = form.input :city, :label => "City"
+  = form.input :postal_code, :label => "Postal Code"
+  = form.input :phone, :label => "Phone"
+  = form.input :fax, :label => "Fax"
+  = form.input :email, :label => "Email"
+  = form.input :url, :label => "URL"
+  = form.input :vendor_number, :label => "Vendor ID"
+  = form.input :blog_url, :label => "Blog URL"
+  = form.input :twitter_url, :label => "Twitter URL"
+  - unless parent_org
+    = form.input :tax_class, :label => "Tax Class"
+    = form.input :tax_id, :label => "Tax ID"
+  = render :partial => "organizations/more_org_form", :locals => { :model => model, :form => form, :parent_org => parent_org}
+  
+  - if parent_org
+    = form.input :force_headquarters, :label => 'Make Headquarters', :as => :boolean, :checked_value => 1, :unchecked_value => '', :required => false
+
+  = form.commit_button
+

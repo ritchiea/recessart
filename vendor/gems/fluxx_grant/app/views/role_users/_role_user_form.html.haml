@@ -1,0 +1,5 @@
+= form.input :user_id, :as => :hidden
+= form.input :role, :label => 'Role', :as => :select, :collection => Program.program_roles.map {|role|[role.name, role.id]}
+= form.input :roleable_id, :label => "Program", :as => :select, :collection => Program.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}
+
+= form.commit_button

@@ -1,0 +1,2 @@
+.container{"data-src".to_sym => url_for({:table => "requests", :page => @requests.current_page})}
+  = render :partial => "grant_request_list", :locals => {:@data => @requests, :@title => "Requests"}

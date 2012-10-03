@@ -1,0 +1,3 @@
+- partial_data_src_url = url_for(funding_sources_path({:skip_wrapper => true}))
+%div{:class => 'partial funding-source-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'funding_sources/funding_source_list', :locals => {:models => []}

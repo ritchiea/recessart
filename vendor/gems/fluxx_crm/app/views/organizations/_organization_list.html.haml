@@ -1,0 +1,3 @@
+%h2= model.name
+%h4= [model.city, (model.geo_state ? (model.geo_state.abbreviation || model.geo_state.name) : nil), (model.geo_country ? model.geo_country.iso3 : nil) ].compact.join(', ')
+%p= model.url

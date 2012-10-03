@@ -1,0 +1,4 @@
+- if model && model.charity_check_applicable?
+  - partial_data_src_url = url_for(organization_path({:id => model.id, :skip_wrapper => true, :run_charity_check => 1}))
+  %div.partial{:class => 'charity-check', 'data-src' => partial_data_src_url}
+    = render :partial => 'organizations/charity_check_show', :locals => {:model => model, :show_recheck => !defined?(show_recheck) || show_recheck}

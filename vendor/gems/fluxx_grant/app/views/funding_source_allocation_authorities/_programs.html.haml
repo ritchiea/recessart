@@ -1,0 +1,19 @@
+- allocation = model.funding_source_allocation
+- program_id ||= grab_param(:funding_source_allocation_authority, :program_id)
+- program_id = allocation.program_id if allocation && allocation.program_id
+- sub_program_id ||= grab_param(:funding_source_allocation_authority, :sub_program_id)
+- sub_program_id = allocation.sub_program_id if allocation && allocation.sub_program_id
+- initiative_id ||= grab_param(:funding_source_allocation_authority, :initiative_id)
+- initiative_id = allocation.initiative_id if allocation && allocation.initiative_id
+- sub_initiative_id ||= grab_param(:funding_source_allocation_authority, :sub_initiative_id)
+- sub_initiative_id = allocation.sub_initiative_id if allocation && allocation.sub_initiative_id
+
+-# We only want to populate the finest designation; if an initiative_id is defined, don't specify a program_id, for example.  In other words EITHER a program_id, sub_program_id, initiative_id OR sub_initiative_id should be defined, never more than one as the hierarchy of program/sub-program/initiatve/sub-initiative may change
+- form.object.program_id = program_id if sub_program_id.blank? && initiative_id.blank? && sub_initiative_id.blank?
+- form.object.sub_program_id = sub_program_id if initiative_id.blank? && sub_initiative_id.blank?
+- form.object.initiative_id = initiative_id if sub_initiative_id.blank?
+- form.object.sub_initiative_id = sub_initiative_id
+= form.input :program_id, :as => :hidden
+= form.input :sub_program_id, :as => :hidden
+= form.input :initiative_id, :as => :hidden
+= form.input :sub_initiative_id, :as => :hidden

@@ -1,0 +1,54 @@
+.titlebar
+  %h4
+    = @title
+    - draft_state = Request.all_states_with_category("draft").first
+    - if @title == 'Requests'
+      %input{:type => 'button', :name => 'new-request', :class => 'open-link float_right', :value => 'Create a Request', 'data-href'.to_sym => new_portal_grant_request_path(:grant_request => {:state => draft_state})}
+.content
+  - if @data.count == 0
+    %p.caption
+      No requests
+  - else
+    %table{:cellspacing => 0}
+      %thead
+        %tr
+          %th
+            
+          %th
+            Amount
+          %th
+            Date Submitted
+          %th
+            Program
+          %th
+            Status
+      %tbody
+        -@data.each do |model|
+          - actions = model.actions(current_user)
+          - if model.is_grant?
+            - state = "Closed"
+            - state = "Active" if model.in_state_with_category?("become_grant")
+          - else
+            - state = "Submitted"
+            - state = "Draft" if model.in_state_with_category?("draft")
+            - state = "More info Requested" if model.in_state_with_category?("sent_back")
+            - state = "Decision Pending" if model.in_state_with_category?("approval")
+            - state = "Declined" if model.in_state_with_category?("rejected")
+          %tr{"data-url".to_sym => edit_portal_grant_request_path(:id => model.id)}
+            %td
+              = model.grant_or_request_id.nil? ? '' : link_to(model.grant_or_request_id, portal_grant_request_path(:id => model.id))
+              - if actions && actions.length > 0
+                %span.actions
+                  = link_to image_tag("/images/fluxx_engine/theme/default/icons/pencil.png", :class => 'edit-button'), edit_portal_grant_request_path(:id => model.id)
+                  = link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png", :class => 'delete-button'), grant_request_path(model), :class => "as-delete"
+              <br/>
+              %p= model.project_summary
+            %td= dollars_format(model.granted ? model.amount_recommended : model.amount_requested)
+            %td= mdy_date_format(model.request_received_at)
+            %td= (model.program ? model.program.name : '')
+            %td
+              = state
+              - actions.each do |button_clause|
+                - event_name, english_event_name = button_clause
+                %span= link_to english_event_name, grant_request_path(model.id, :event_action => event_name, "grant_request[workflow_note]".to_sym => "Submitted from Grantee Portal"), :class => 'submit-workflow', 'data-confirm'.to_sym => 'Are you sure you want to submit this request?', 'data-success-message'.to_sym => "Your grant request #{model.grant_or_request_id} has been submitted."
+    = render :partial => "paging_actions"

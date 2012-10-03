@@ -1,0 +1,55 @@
+%div.partial
+  - if model.new_record? || current_user.is_admin?
+    = form.input :amount_due
+  - if model.new_record?
+    - model.due_at = Time.now
+    = form.input :due_at, :as => :hidden
+    - model.state = 'due'
+    = form.input :state, :as => :hidden
+
+  - model.using_transaction_form = '1'
+  = form.input :using_transaction_form, :as => :hidden
+  = form.input :request_id, :as => :hidden
+  = form.input :user_payee, :label => "Payee (Person)", :as => :autocomplete, :autocomplete_url => users_path(:format => :autocomplete), :related_attribute_name => :full_name, :aft => (link_to 'Add New', new_user_path, :class => 'to-modal', 'data-on-success' => 'close,populateField', :target => '.user_payee_lookup_select'), :input_html => {:class => "user_payee_lookup_select"}
+
+  = render :partial => "organizations/single_org_lookup", :locals => { :model => model, :form => form, :organization_name => :organization_payee, :organization_label => 'Payee (Organization):' }
+
+
+%div.partial
+  %h3 Funding Sources
+  - model.request.request_funding_sources.each do |rfs|
+    - if rfs.funding_source_allocation && rfs.funding_source_allocation.funding_source
+      %li.string
+        %label
+          = "#{rfs.funding_source_allocation.funding_source.name} (#{(rfs.amount_remaining || 0).to_currency} available)"
+          = "Expires #{rfs.funding_source_allocation.funding_source.end_at.mdy}" if rfs.funding_source_allocation.funding_source && rfs.funding_source_allocation.funding_source.end_at
+          %br
+          %small= render :partial => "request_funding_sources/request_funding_source_initiatives", :locals => { :funding_source => rfs }
+        - rtfs = RequestTransactionFundingSource.where(:request_transaction_id => model.id, :request_funding_source_id => rfs.id).first
+        = raw "<input type='text' name='funding_source_value_#{rfs.id}' value='#{rtfs ? rtfs.amount : ''}'>"
+  - if model.errors[:Missing_Funding_source]
+    %li.error
+      %p.inline-errors
+        = model.errors[:Missing_Funding_source]
+
+  - if params['hidden_event_action']
+    = raw "<input type='hidden' name='event_action' value='#{params['hidden_event_action']}'>"
+    - model.amount_paid = model.amount_due
+    - model.payment_recorded_by_id = current_user.id
+    = form.input :payment_recorded_by_id, :as => :hidden
+  - if params['hidden_event_action'] || (current_user.is_admin? && model.has_been_paid)
+    - if current_user.is_admin?
+      = form.input :amount_paid
+    - else
+      = form.input :amount_paid, :as => :hidden
+
+%div.partial
+  %h3 Payment Details
+  - bank_accounts = (model.request.tax_class_org.bank_accounts if model && model.request && model.request.tax_class_org) || []
+  = form.input :bank_account, :as => :select, :collection => bank_accounts.map {|account| [account.autocomplete_to_s, account.id]}
+  = form.input :payment_type, {:label => 'Payment Type:', :as => :select, :collection => ['Check', 'Credit Card', 'Wire']}
+  = form.input :paid_at, :label => 'Date Paid'
+  = form.input :payment_confirmation_number, :label => 'Check/Confirmation Number:'
+  = form.input :comment, :label => 'Comment:', :as => :text
+  = form.input :condition, :label => "Please note any conditions or milestones associated to this payment", :input_html => { :rows => 5 }
+= form.commit_button

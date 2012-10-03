@@ -1,0 +1,16 @@
+- if model.request_amendments.select{|ra| ra.end_date || ra.end_date }.empty?
+  - if model.is_a?(FipRequest)
+    = "#{model.fip_projected_end_at ? model.fip_projected_end_at.mdy : ''} (Original)"
+  - elsif Fluxx.config(:dont_use_duration_in_requests) == "1"
+    = "#{model.end_date ? model.end_date.mdy : ''} (Original)"
+  - else
+    = "#{model.duration_in_months} (Original)"
+- else 
+  - model.request_amendments.reverse.each do |amend|
+    - if amend.duration || amend.end_date
+      %div
+        - if Fluxx.config(:dont_use_duration_in_requests) == "1"
+          = "#{amend.duration} months"
+        - else
+          = "#{amend.end_date ? amend.end_date.mdy : ''}"
+        = "(#{amend.original? ? "Original" : "Amended #{amend.created_at.mdy}"})" if amend.created_at 

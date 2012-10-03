@@ -1,0 +1,45 @@
+= render :partial => 'users/user_form_header',  :locals => {:model => model, :form => form}
+%fieldset.inputs
+  %ol
+    - if current_user.is_admin?
+      = form.input :user_profile, :label => 'Profile', :required => false, :as => :select, :include_blank => true, :collection => UserProfile.all.map{|up| [up.name, up.id]}
+      = form.input :login, :label => 'Login:'
+      = form.input :test_user_flag, :label => 'Omit as a choice from drop-downs'
+    - if current_user.is_admin? || current_user.id == model.id 
+      = form.input :password, :label => 'Password:'
+      = form.input :password_confirmation, :label => 'Password Confirmation:'
+      = form.input :time_zone, :as => :time_zone, :priority_zones => /#{Fluxx.config(:priority_time_zones)}/ || /Pacific Time|Beijing/
+%fieldset.inputs
+  %ol 
+    = form.input :salutation, :label => "Prefix"
+    = form.input :first_name, :label => "First Name", :input_html => {"data-duplicate-lookup" => "/users.autocomplete", "data-related" => "#user_last_name"}
+    = form.input :middle_initial, :label => "Middle Name"
+    = form.input :last_name, :label => "Last Name", :input_html => {"data-duplicate-lookup" => "/users.autocomplete", "data-related" => "#user_first_name"}
+%fieldset.inputs
+  %ol  
+    = form.input :email, :label => "Email"
+    = form.input :work_phone, :label => "Direct Phone"
+    = form.input :personal_mobile, :label => "Mobile Phone"
+    = form.input :work_fax, :label => "Direct Fax"
+%fieldset.inputs
+  %ol
+    = form.input :personal_street_address, :label => "Street Address"
+    = form.input :personal_street_address2, :label => "Street Address 2"
+    = form.input :personal_city, :label => "City"
+    = form.input :personal_geo_country, :label => 'Country:', :as => :select, :input_html => {:class => 'geo_country_select', 'data-related-child'.to_sym => '.geo-state-select'}, :collection => GeoCountry.order('name asc').all.map {|country| [country.name, country.id]}
+    - state_collection = form.object.personal_geo_country ? form.object.personal_geo_country.find_related_geo_states : []
+    = form.input :personal_geo_state, :label => 'State/Province: ', :as => :select, :input_html => {:class => 'geo-state-select', 'data-param'.to_sym => 'geo_country_id', 'data-src'.to_sym => geo_states_path(:format => 'autocomplete'), 'data-cache'.to_sym => 'geo_state_select'}, :collection => state_collection.map {|state| [state.name, state.id]}
+    = form.input :personal_postal_code, :label => "Postal Code"
+    = form.input :personal_phone, :label => "Home Phone"
+%fieldset.inputs
+  %ol
+    = form.input :personal_email, :label => "Personal Email"
+    = form.input :blog_url, :label => "Personal Blog", :placeholder => 'http://'
+    = form.input :twitter_url, :label => 'Personal Twitter:'
+    = form.input :birth_at, :label => 'Birthday:'
+%fieldset.inputs
+  %ol
+    = form.input :assistant_name, :label => 'Assistant Name:'
+    = form.input :assistant_phone, :label => 'Assistant Phone:'
+    = form.input :assistant_email, :label => 'Assistant Email:'
+    = form.commit_button

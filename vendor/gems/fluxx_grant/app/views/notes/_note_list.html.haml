@@ -1,0 +1,51 @@
+- notable ||= nil
+- unless notable
+  - if params[:notable_id] && params[:notable_type]
+    - notable = BlobStruct.new :id => params[:notable_id], :class => Kernel.const_get(params[:notable_type])
+%table.tabular{:cellspacing => 0}
+  - if notable
+    %thead
+      %tr
+        %th
+          = "Notes"
+          %span.actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class=> 'add-button'), new_note_path(:note => {:notable_id => notable.id, :notable_type => notable.class.name}), :class => 'to-modal', 'data-on-success' => 'refreshCaller,close', :title => "Add Note"
+  %tbody
+    - if !models || models.empty?
+      %tr
+        %td= "No Notes"
+    - else
+      - models.sort_by{|note| note.created_at ? (-1 * note.created_at.to_i) : Time.at(0).to_i }.each do |model|
+        %tr
+          %td
+            - if model.respond_to? :note
+              -if model.updated_by_id == current_user.id || current_user.is_admin?
+                = link_to model.note, edit_note_path(:id => model.id, :as_modal => '1'), :class => 'to-modal', 'data-on-success' => 'refreshCaller,close'
+              - else
+                = model.note
+            - else
+              %strong
+                - if model.related_workflowable
+                  = model.related_workflowable.class.state_to_english_translation model.old_state
+                  &#8594;
+                  = model.related_workflowable.class.state_to_english_translation model.new_state
+                - else
+                  = model.workflowable.class.state_to_english_translation model.old_state
+                  &#8594;
+                  = model.workflowable.class.state_to_english_translation model.new_state
+              - unless model.comment.blank?
+                <br/>
+                = model.comment
+            <br/>
+            %span
+              - if model.updated_by
+                By
+                = model.updated_by.full_name 
+              - if model.created_at
+                Added at
+                = model.created_at.ampm_time
+                on
+                = model.created_at.full
+              - else
+                no timestamp
+    %tr
+      %td

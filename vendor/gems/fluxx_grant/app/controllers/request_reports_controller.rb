@@ -1,0 +1,3 @@
+class RequestReportsController < ApplicationController
+  include FluxxRequestReportsController
+end

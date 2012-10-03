@@ -1,0 +1,47 @@
+<div class="printed_letter">  
+<% # available vars
+   # request: request
+   # request_addressee_org: fiscal org || primary org
+   # request_primary_contact: primary contact at the request_addressee_org
+   # signatory_contact: signatory contact at the request_addressee_org
+   # program_lead_contact: lead at EF
+   # request_program: the program associated with this request
+   # report_details: <report type> report due no later than: <report due date>
+   # initial_payment: first transaction amount
+   # final_payment: second transaction amount
+ %>
+
+
+<p><%= fluxx_request.grant_agreement_at.full %></p>
+<%=signatory_contact.full_name%><br>
+<%=signatory_contact_title%><br>
+<%=request_addressee_org.name%><br>
+<%=request_addressee_org.street_address%><br>
+<% unless request_addressee_org.street_address2.blank? %>
+  <%=request_addressee_org.street_address2%><br>
+<% end %>
+<%=request_addressee_org.city%>, <%=request_addressee_org.state_abbreviation%> <%=request_addressee_org.postal_code%><br>
+<%=request_addressee_org.country_name unless request_addressee_org.country_name == 'United States'%><br>
+
+<p>RE: <%=fluxx_request.grant_id%></p>
+
+<p>Dear <%=signatory_contact.first_name%>,</p>
+
+<p>I am pleased to inform you that the Energy Foundation has approved a general support grant in the amount of <%=fluxx_request.amount_recommended.to_currency_no_cents%> for the period from <%=fluxx_request.grant_begins_at.full%> to <%=fluxx_request.grant_ends_at.full%> to fund your charitable operations.</p>
+
+<p>This Grant Award Letter and the attached Grant Conditions are collectively referred to as the “Grant Agreement.” In all correspondence concerning this grant, please refer to the above
+grant identification number.</p>
+
+<p>The grant is subject to the Grant Conditions outlined on the attached form. Please indicate acceptance of the terms of this Grant Award Letter and accompanying Grant Conditions by
+signing and returning the form.</p>
+
+<p>Payment is contingent on receipt by the foundation of the signed Grant Conditions form, which incorporates this Grant Award Letter, and, if applicable, prior fulfillment by your
+organization of any outstanding grant reporting requirements.</p>
+
+<p>On behalf of the foundation, we wish to extend every good wish for the success of this endeavor.</p>
+
+<p>Sincerely,</p>
+<br><br><br>
+Robert J. O'Connor<br>
+Sr. Vice President and Chief Operating Officer
+</div>

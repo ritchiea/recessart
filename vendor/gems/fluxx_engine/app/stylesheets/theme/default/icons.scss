@@ -1,0 +1,332 @@
+@import "../_common/_helpers.scss";
+.dock {
+  #iconlist {
+    .popup {
+      left: 0px;
+      right: auto;
+      .arrow {
+        left: 15px;
+      }
+      li:first-of-type{ font-size: 107%;}
+    }
+  }
+  .icon {
+    &.small { @include icon-32; }
+    &.tiny { @include icon-32; }
+    &.plus {
+      @include icon-34;
+      .link {
+        @include bg(#585858);
+        @include box-shadow(1px, 1px, 2px);
+        border: 2px solid white;
+        @include rounded(($icon_dimension + 2) / 2);
+        background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/plus.png")} #585858 no-repeat 50% 50%;
+        .label {
+          display: none;
+        }
+      }
+    }
+    .popup {
+      $size: 7px;
+      @include bg(transparent);
+      position: absolute;
+      bottom: $icon_dimension + $icon_margin_bottom + $icon_margin_top / 2 + 14 - $size;
+      right: -22px;
+      .arrow {
+        background: transparent url("/images/fluxx_engine/theme/default/dock-modal/arrow.png") no-repeat 0 0;
+        height: 18px;
+        width: 37px;
+        display: block;
+        position: absolute;
+        right: 22px;
+        bottom: -14px;
+        z-index: 3;
+      }
+      ul {
+        // +non-list
+        @include bg(#07b2ef, white);
+        @include box-shadow;
+        @include rounded(10px);
+        border: 4px solid #068cbc;
+        padding: 10px 16px;
+        li {
+          white-space: nowrap;
+          display: block;
+          font-size: 12px;
+          line-height: 22px;
+          h3 {
+            padding-top: 5px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #fff;
+          }
+          a {
+            text-decoration: none;
+            border-bottom: 0px;
+            &:hover { text-decoration: underline; }
+          }
+        }
+      }
+    }
+    .link {
+      @include linear-gradient(white, #dddddd);
+      border: 1px #666666 solid;
+      @include box-shadow;
+      @include rounded(6px);
+      text-decoration: none;
+      position: relative;
+      .label {
+        display: none;
+        @include bg(transparent, #333333);
+        position: absolute;
+        top: $icon_dimension;
+        font-size: $icon_margin_bottom / 2;
+        font-weight: 100;
+        text-align: center;
+        width: $icon_dimension + 20px;
+        margin-left: -10px;
+        @include border-box;
+      }
+      .badge {
+        @include border-box;
+        @include inline-block;
+        @include rounded(15px);
+        @include box-shadow;
+        @include bg(red, white);
+        @include linear-gradient(#ff6666, red);
+        position: absolute;
+        padding: 0px 2px;
+        right: -6px;
+        top: -6px;
+        font-size: 11px;
+        font-weight: 200;
+        height: 17px;
+        min-width: 17px;
+        text-align: center;
+        line-height: 13px;
+        border: 2px solid white;
+        display: none;
+      }
+    }
+    &.style-blue {
+      .link { @include linear-gradient(#ccccff, #9999ff); }
+    }
+    &.style-green {
+      .link { @include linear-gradient(#ccffcc, #99ff99); }
+    }
+    &.style-red {
+      .link { @include linear-gradient(#cc9999, #993333); }
+    }
+    &.style-purple {
+      .link { @include linear-gradient(#cc99cc, #993399); }
+    }
+    &.style-ql-documents {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Documents_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-ql-deal {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Deals_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    
+    &.style-ql-library {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/LibraryFolder_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-ql-user {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/UsersFolder_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-ql-project {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Project_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-organizations {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_orgs.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-users {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_people.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-projects {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_projects.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-work-tasks {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_work_tasks.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-grant-requests {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-deals {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_deals.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-admin-cards {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_admin_cards.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-fip-requests {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-granted-requests {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_grants.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-reports {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_reports.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-modal-reports {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_visuals.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-transactions {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_transactions.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-wiki {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_wiki.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-lois {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_loi.png")} transparent no-repeat 50% 50%;
+      }
+    }
+  }
+}
+
+.card {
+  .titlebar {
+    .icon {
+      @include inline-block;
+      @include rounded(4px);
+      @include linear-gradient(white, #dddddd);
+      border: 1px #666666 solid;
+      height: 24px;
+      width: 24px;
+      vertical-align: bottom;
+      margin-right: 10px;
+      &.style-blue { @include linear-gradient(#ccccff, #9999ff); }
+      &.style-green { @include linear-gradient(#ccffcc, #99ff99); }
+      &.style-red { @include linear-gradient(#cc9999, #993333); }
+      &.style-purple { @include linear-gradient(#cc99cc, #993399); }
+      &.style-organizations {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_orgs.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-users {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_people.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-projects {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_projects.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-work-tasks {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_work_tasks.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-grant-requests {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-deals {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_deals.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-admin-cards {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_admin_cards.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-fip-requests {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-granted-requests {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_grants.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-reports {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_reports.png")} transparent no-repeat 50% 50%;
+      }
+     &.style-modal-reports {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_visuals.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-transactions {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_transactions.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-wiki {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_wiki.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-lois {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_loi.png")} transparent no-repeat 50% 50%;
+      }
+    }
+  }
+}

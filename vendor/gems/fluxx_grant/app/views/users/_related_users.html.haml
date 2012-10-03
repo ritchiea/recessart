@@ -1,0 +1,6 @@
+%span.fluxx-card-content-metadata-section-title= model.full_name
+%span.fluxx-card-content-metadata-section-info
+  - if model.primary_user_organization
+    = model.primary_user_organization.title
+    <br />
+    = model.primary_user_organization.organization.display_name if model.primary_user_organization.organization

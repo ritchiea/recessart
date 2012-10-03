@@ -1,0 +1,203 @@
+h1. FLUXX Dashboard
+
+h2. Description
+
+The FLUXX Dashboard is an independent User Interface Framework. It's a multi-tasking, multi-windowed environment modeled after a typical operating system interface. The FLUXX Dashboard is built on cutting edge web development techniques using standards like HTML5 and CSS3, and sophisticated JavaScript programming using jQuery.
+
+h2. Constructs
+
+Flagship elements of the UI include:
+
+h3. Dashboards
+
+Re-usable, configurable dashboards let you control FLUXX so it works the way you do. Create dashboards modeled for specific tasks, reports, and environments. Switching between dashboards is easy.
+
+h3. Stage
+
+The FLUXX Dashboard has one stage. This is where the cards for your currently loaded dashboards are organized. Cards are placed horizontally and you can scroll through them left to right.
+
+h3. Cards
+
+Cards are the content-type specific windows you use to interact with information in your FLUXX instance. A card can have a list of entries, filters for a listing, a detailed view of one entry, a metadata tray related to the detailed view, and a popup modal specific to that card. You can rename, close, minimize, hide details, and re-arrange cards on your stage.
+
+h3. Dock
+
+The dock lets you see at a glance what cards are on your stage. You can also add new cards using the quick-add list and the card menu buttons.
+
+h2. Detailed Functionality
+
+*This documentation describes the desired functionality and operation of the Open Source FLUXX Dashboard (a work in progress).*
+
+h3. Card Icons
+
+The Dashboard can use a server-side provided Icon mapping to make sure cards are supplied with specific icons pertaining to the URLs that are loaded into the card. The icon map uses this structure:
+
+<pre><code>
+  {
+    '/people': {
+      dock: '/images/cards/icons/people.dock.png',
+      card: '/images/cards/icons/people.card.png'
+    },
+    '/': {
+      dock: '/images/cards/icons/default.dock.png',
+      card: '/images/cards/icons/default.card.png'
+    }
+  }
+</code></pre>
+
+The URL of content loaded into a card when its first rendered will determine which icon is mapped to it. The key of the icon map is a URL fragment which is considered the beginning of the URL being loaded into a card.
+
+h3. Dashboard Initialization Event
+
+Pre-load data, or set-up custom functionality before the Dashboard is loaded by listening to the <code>fluxxDashboardInit</code> event.
+
+<pre><code>
+  $.fluxxDashboard().bind('fluxxDashboardInit', function(e) {
+    // Initialize the dashboard.
+  })
+</code></pre>
+
+h3. Real-Time Update Notification System
+
+h3. Dashboard Switcher
+
+h3. Dashboard Manager
+
+h3. Addressable Cards, Single Card Mode
+
+h3. Dock Quick Links
+
+h3. <code>.fluxx-card-close-parent</code>
+
+h3. Details Meta Tray
+
+h3. <code>.fluxx_add_new_element_form</code>
+
+h3. <code>.fluxx-delete-div</code>
+
+h3. Change Card Title
+
+h3. Minimize Card
+
+h3. Maximize Card
+
+h3. Close Card Details
+
+h3. <code>a[href].fluxx-card-link-with-note</code>
+
+h3. Listing Actions Toolbar
+
+h3. <code>a[href].fluxx-card-link-to-detail</code>
+
+h3. <code>a[href].fluxx-card-link-to-self</code>
+
+h3. <code>a[href].fluxx-card-link-to-new-card</code>
+
+h3. <code>a[href].fluxx-card-link-to-new-card-listing</code>
+
+h3. <code>a[href].fluxx-card-link-to-modal</code>
+
+h3. Close Modals
+
+h3. <code>form.fluxx-card-form-on-complete-refresh</code>
+
+h3. <code>form.fluxx-card-form-on-complete-refresh-partial</code>
+
+h3. <code>form.fluxx-card-form-with-note</code>
+
+h3. <code>form.fluxx-card-form-to-self</code>
+
+h3. <code>form.fluxx-card-form-to-settings</code>
+
+h3. Dock/Minimized Informational Overview of Card Contents
+
+h3. <code>$.fn.fluxxCardAdd()</code> Add New Card
+
+h3. <code>$.fn.fluxxCard()</code> Get Element's Card
+
+h3. <code>$.fn.fluxxCardBox()</code> Get Element's Card Containment Box
+
+h3. <code>$.fn.fluxxCardArea()</code> Get Element's Card Content Area
+
+h3. <code>$.fn.fluxxCardAreaReload()</code> Reload Element's Card Content Area
+
+h3. <code>$.fn.fluxxCardPartial()</code> Get Element's Partial Content Area
+
+h3. <code>$.fn.fluxxCardPartialReload()</code> Reload Element's Partial Content Area
+
+h3. <code>$.fn.fluxxCardStage()</code> Get Element's Stage
+
+h3. <code>$.fn.fluxxCardAreaHistorySlider()</code> Create History Slider for Area's Content
+
+h3. Auto-resize Width of Card
+
+h3. Close Card
+
+h3. Open and Configure Card Settings
+
+h3. Position Settings
+
+h3. Position Metadata Tray
+
+h3. <code>$.fn.fluxxCardListing(url)</code> Load URL in Card's Listing Area
+
+h3. <code>$.fn.fluxxCardDetail(url)</code> Load URL in Card's Detail Area
+
+h3. Auto-resize Height of Card
+
+h3. Load Partial Content in Card Areas
+
+h3. Open and Position Modals for Cards
+
+h3. Auto-resize Height of Stage
+
+h3. Freeze Dashboard Configuration and Store on Backend
+
+h3. Thaw Dashboard Configuration from Backend and Restore
+
+h3. Load a Default Dashboard
+
+h3. Scroll to Focus on Card
+
+h3. Get Card Width
+
+h3. Auto-resize Width of Stage
+
+h3. <code>input.date_field</code> jQuery UI Date Picker
+
+h3. YUI Auto Complete
+
+h3. Generate a Looking Glass Showing Current Field of View on Stage
+
+h3. Update Position of Looking Glass
+
+h3. Make Card (via Dock Icons) Sortable with Drag and Drop
+
+h3. Remove Icon from Dock When Card Leaves Stage
+
+h3. Show Quick Info About Card when Hovering on Icon
+
+h3. Add Icon to Dock When Card Enters Stage
+
+h3. Size Dock Card List with Scroll for Overflow
+
+h2. Dependencies
+
+* famfamfam silk icons
+* jQuery
+* jQuery UI
+* YUI
+* jQuery Colorbox
+* jQuery Uploadify
+* jQuery Transfer
+* jQuery UI TableEdit
+* jQuery Color
+* SWF Object
+* Underscore.js
+* SASS
+
+h2. Requirements
+
+* Works best when rendered using up-to-date Webkit based browsers like Safari, Chrome, Appcelerator Titanium, Adobe AIR, and Mobile Safari.
+* Operational in recent versions of Firefox.
+* Not functional in Internet Explorer.

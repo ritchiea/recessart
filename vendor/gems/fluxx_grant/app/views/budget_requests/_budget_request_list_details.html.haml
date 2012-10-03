@@ -1,0 +1,29 @@
+%tr
+  %td
+    %table.clean-table
+      %thead
+        %tr
+          %th
+          %th= "Budget Item"
+          %th= "Grant Amt Requested"
+          %th= "Grant Amt Recommended"
+          %th= "% of Total Recommended"
+      %tbody
+        -requested_total = 0
+        -recommended_total = 0
+        - models.sort_by{|br| br.created_at ? (-1 * br.created_at.to_i) : Time.at(0).to_i }.each do |model|
+          %tr
+            %td
+              = render :partial => "budget_requests/budget_request_list_edit_actions", :locals => {:model => model, :request => grant_request}
+            %td= model.name
+            %td= number_to_currency(model.amount_requested, :precision => 2) if model.amount_requested
+            %td= number_to_currency(model.amount_recommended, :precision => 2) if model.amount_recommended
+            -requested_total += model.amount_requested.to_f if model.amount_requested
+            -recommended_total += model.amount_recommended.to_f if model.amount_recommended
+            %td= "#{((grant_request.amount_recommended || 0) > 0 ? ((model.amount_recommended || 0) * 100) / grant_request.amount_recommended : 0).to_i}%"
+        %tr
+          %td{:colspan => 2}
+            Total Grant:
+          %td= number_to_currency(requested_total, :precision => 2)
+          %td= number_to_currency(recommended_total, :precision => 2)
+          %td= "#{((grant_request.amount_recommended || 0) > 0 ? ((recommended_total || 0) * 100) / grant_request.amount_recommended : 0).to_i}%"

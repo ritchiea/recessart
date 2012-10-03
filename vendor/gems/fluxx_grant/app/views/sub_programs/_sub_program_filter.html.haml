@@ -1,0 +1,3 @@
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :program_id, :label => I18n.t(:program_name), :as => :select, :required => false, :collection => Program.load_all_nonrollup.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+= form.input :not_retired, :as => :boolean, :label => "Exclude Retired #{(I18n.t(:sub_program_name)).pluralize}"

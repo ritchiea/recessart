@@ -1,0 +1,4 @@
+- if model.respond_to?(:notes)
+  - partial_data_src_url = url_for(notes_path({:notable_id => model.id, :notable_type => model.class.name, :skip_wrapper => true}))
+  .partial{'data-src' => partial_data_src_url}
+    = render :partial => 'notes/note_list',  :locals => {:models => ([model.notes.where(:deleted_at => nil), (model.respond_to?('workflow_events') ? model.send(:workflow_events) : [])].flatten.compact.sort{|x,y| (x.created_at.nil? || y.created_at.nil?) ? 0 : x.created_at <=> y.created_at}), :notable => model}

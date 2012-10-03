@@ -1,0 +1,14 @@
+%h3 
+  = "Relationships"
+  %span.actions
+    - if model && current_user.has_create_for_model?(RequestOrganization)
+      = render :partial => "request_organizations/organization_add", :locals => { :model => model}
+    - if model && current_user.has_create_for_model?(ProjectRequest)
+      &nbsp;|&nbsp;
+      = render :partial => "request_projects/project_add", :locals => { :model => model}
+    - if model && current_user.has_create_for_model?(RequestUser)
+      &nbsp;|&nbsp;
+      = render :partial => "request_users/user_add", :locals => { :model => model}
+= render :partial => "request_organizations/list_request_organizations", :locals => { :model => model}
+= render :partial => "request_users/list_request_users", :locals => { :model => model}
+= render :partial => "request_projects/list_request_projects", :locals => { :model => model}

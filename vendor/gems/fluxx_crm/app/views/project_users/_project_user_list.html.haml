@@ -1,0 +1,12 @@
+- project ||= nil
+- unless project
+  - if params[:project_id]
+    - project = Project.find(grab_param(:project_user, :project_id)) rescue nil
+%ul
+  - models.each do |model|
+    %li.relationship{:class=>"action-item"}
+      - if current_user.has_delete_for_model? model
+        %span.actions= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), project_user_path(model), {:class => 'as-delete', 'data-on-success' => 'refreshCaller'}
+      = image_tag("/images/fluxx_engine/theme/default/card-icons/button_card_people.png", :class=> 'float_left', :width=> '18px')
+      %p= model.user.full_name if model.user
+      %p.caption= model.description

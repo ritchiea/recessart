@@ -1,0 +1,3 @@
+class RequestOrganizationsController < ApplicationController
+  include FluxxRequestOrganizationsController
+end

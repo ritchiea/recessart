@@ -1,0 +1,10 @@
+= form.input :date_range_type, :as => :select, :required => true, :include_blank => false, :collection => [['Custom', 'custom'], ['This Week', 'this_week'], ['Last Week', 'last_week']], :input_html => {:class => "date-presets", 'data-start-date-field' => '#active_record_base_start_date', 'data-end-date-field' => '#active_record_base_end_date'}
+- current_year = Time.now.year
+- form.object.start_date = Time.parse("1/1/#{current_year}")
+- form.object.end_date = Time.parse("1/1/#{current_year+1}")
+= form.input :start_date, :as => :date
+= form.input :end_date, :as => :date
+= form.input :program_id, :label => I18n.t(:program_name), :as => :select, :required => true, :multiple => true, :include_blank => false, :wrapper_html => {:class => 'multiple-select-transfer'}, :collection => Program.load_all_without_children_programs.sort_by{|prog| prog.name}.map {|prog|[prog.name, prog.id]}
+= form.input :sub_program_id, :label => I18n.t(:sub_program_name), :as => :select, :required => true, :multiple => true, :include_blank => false, :wrapper_html => {:class => 'multiple-select-transfer'}, :collection => SubProgram.load_all.sort_by{|sub_prog| sub_prog.name}.map {|sub_prog|[sub_prog.name, sub_prog.id]}
+= form.input :funding_source_ids, :multiple => true, :wrapper_html => {:class => 'multiple-select-transfer'}, :label => "Funding Source", :as => :select, :required => false, :collection => FundingSource.load_all.sort_by{|source| source.name || ''}.map {|source|[source.name, source.id]}
+= form.input :lead_user_ids, :multiple => true, :wrapper_html => {:class => 'multiple-select-transfer'}, :label => 'PO/Lead', :required => false, :as => :select, :collection => Program.all_program_users.sort_by{|user| user.full_name ? user.full_name.downcase : ''}.map {|user|[user.full_name, user.id]}, :input_html => {:class => 'add-another'}

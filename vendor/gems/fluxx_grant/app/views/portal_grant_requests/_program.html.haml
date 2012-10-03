@@ -1,0 +1,3 @@
+- labels ||= {}
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :program, :label => labels[:program_label] || I18n.t(:program_name), :as => :select, :collection => Program.load_all_nonrollup.map{|program| [program.name, program.id]}, :input_html => {:class => 'program-dropdown-select', 'data-related-child' => ".program-lead-select,.sub_program-select"}

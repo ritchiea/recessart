@@ -1,0 +1,34 @@
+- model.promotion_warnings.each do |warning|
+  %div.warning
+    = warning
+
+= render :partial => 'organizations/display_charity_check_details', :locals => {:model => model.tax_class_org, :show_recheck => false}
+
+%h2= "Dates"
+= form.input :granted, :as => :hidden
+= form.input :grant_agreement_at, :label => "Agreement Date", :id => (rand * 999999999).to_i
+= form.input :grant_begins_at, :label => "Start Date", :id => (rand * 999999999).to_i
+
+- unless model.type == 'FipRequest'
+  - if model.state && model.granted
+    = form.input :funds_expended_amount, :label => 'Funds Expended'
+    = form.input :funds_expended_at, :label => 'Funds Expended Date', :id => (rand * 999999999).to_i
+  
+  %div.form-transactions
+    %h2
+      Transactions
+      %span.actions-left= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png'), '#',  :class=> 'clone-template', "data-append-to" => ".form-transactions", "data-template" => generate_template(form, :request_transactions, :partial => 'grant_requests/edit_request_transaction', :form_builder_local => :req_trans) 
+    - unless model.request_transactions.empty?
+      =form.semantic_fields_for :request_transactions do |req_trans|
+        = render :partial => 'grant_requests/edit_request_transaction', :locals => {:req_trans => req_trans}
+
+  %div.form-reports
+    %h2
+      Reports
+      %span.actions-left= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png'), '#', :class=> 'clone-template', "data-append-to" => ".form-reports", "data-template" => generate_template(form, :request_reports, :partial => 'grant_requests/edit_request_report', :form_builder_local => :req_report) 
+    - unless model.request_reports.empty?
+      = form.semantic_fields_for :request_reports do |req_report|
+        = render :partial => 'grant_requests/edit_request_report', :locals => {:req_report => req_report}
+        
+= render :partial => 'grant_requests/extra_approve_grant_details', :locals => { :model => model, :form => form}
+  

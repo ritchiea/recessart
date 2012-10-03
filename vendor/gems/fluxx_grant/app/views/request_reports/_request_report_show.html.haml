@@ -1,0 +1,42 @@
+%h1= model.type_to_english
+
+%h4.subhead= render_request_or_grant_amount model.request, ' granted'
+  
+%h4.subhead= render_program_name model.request
+  
+%p.description= render_grant_or_request_id model.request
+  
+- unless model.request.nil? || model.request.project_summary.blank?
+  %p.description= model.request.project_summary
+
+
+%div
+  .pairs
+    .key= "Status:"
+    .value.with-more-info= link_to model.state_to_english,  url_for(:action => :show, :view_states => true, :id => model.id), :class => 'to-modal', :title => 'View Workflow', 'data-on-success' => 'refreshCaller'
+  .pairs
+    .key= "Program:"
+    .value= model.request.program.name if model.request && model.request.program
+  .pairs
+    - if model.is_approved?
+      .key= 'Approved At:'
+      .value= model.approved_at.mdy if model.approved_at
+    - if model.due_at
+      .key= "Due:"
+      .value= model.due_at.mdy if model.due_at
+  
+  - if model.is_final_eval_report_type?
+    .pairs
+      .keys= "What did the grantee do?"
+      .values= model.what_grantee_did
+    .pairs
+      .keys= "What did the grantee win?"
+      .values= model.what_grantee_won
+    .pairs
+      .keys= "Evaluation Rating:"
+      .values= model.evaluation_rating
+
+- unless model.is_final_eval_report_type?
+  = render :partial => "model_documents/list_model_documents", :locals => { :model => model }
+        
+= render :partial => "notes/list_notes", :locals => { :model => model, :class_type => RequestReport.name}

@@ -1,0 +1,73 @@
+- parent_model ||= grab_param(:funding_source_allocation, :parent_model)
+- do_suppress_add ||= grab_param(:funding_source_allocation, :do_suppress_add)
+- program_id ||= grab_param(:funding_source_allocation, :program_id)
+- sub_program_id ||= grab_param(:funding_source_allocation, :sub_program_id)
+- initiative_id ||= grab_param(:funding_source_allocation, :initiative_id)
+- sub_initiative_id ||= grab_param(:funding_source_allocation, :sub_initiative_id)
+- programs = Program.find((models.map(&:program_id).compact))
+- sub_programs = SubProgram.find((models.map(&:sub_program_id).compact))
+- initiatives = Initiative.find((models.map(&:initiative_id).compact))
+- sub_initiatives = SubInitiative.find((models.map(&:sub_initiative_id).compact))
+- hierarchy = [{:level => 'program', :models => programs}, {:level => "sub_program", :models => sub_programs}, {:level => "initiative", :models => initiatives}, {:level => "sub_initiative", :models => sub_initiatives}]
+- total_funding = 0
+- unless !models || models.empty?
+  -models.each do |funding_source_allocation_model|
+    - funding_source_allocation_model.funding_source_allocation_authorities.each do |model|
+      - total_funding += (model.amount || 0)
+%h3
+  %strong= "#{total_funding.to_currency(:precision => 0)} Current Year Funding"
+  - if current_user.is_admin? && !do_suppress_add
+    %span.actions= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png', :class=> 'add-button'), new_funding_source_allocation_authority_path(:program_id => program_id, :sub_program_id => sub_program_id, :initiative_id => initiative_id, :sub_initiative_id => sub_initiative_id), :class => 'to-modal', 'data-on-success' => 'refreshCaller,close', :title => "Add Funding Source Allocation"
+
+- if !models || models.empty?
+  %p.caption= "There are no funding source allocations."
+- else
+  - hierarchy.each do |level|
+    - level[:models].each do |item|
+      %p
+      %h4= item.name unless level[:level] == parent_model
+      %table{:cellspacing => 0, :class => 'totals-table'}
+        %thead
+          %tr
+            %th Funding Source
+            %th Allocated
+            %th Pipeline
+            %th Granted
+            %th Paid
+            %th Available
+        %tbody
+          -totals = [0,0,0,0,0]
+          -models.each do |funding_source_allocation_model|
+            -next unless funding_source_allocation_model["#{level[:level]}_id"] == item.id
+            %tr
+              %td
+                = funding_source_allocation_model.funding_source.name if funding_source_allocation_model.funding_source
+                %ul
+                  - funding_source_allocation_model.funding_source_allocation_authorities.each do |model|
+                    %li
+                      - if current_user.is_admin? && current_user.has_delete_for_model?(model)
+                        %span.actions= link_to image_tag("/images/fluxx_engine/theme/default/icons/delete.png"), funding_source_allocation_authority_path(model), {:class => "as-delete #{model.can_delete? ? '' : 'disabled'}", 'data-on-success' => 'refreshCaller'}
+                        = raw "#{model.authority} - #{link_to((model.amount || 0).to_currency(:precision => 0), edit_funding_source_allocation_authority_path(model), :class => 'to-modal', :title => 'Update Funding Source Allocation', 'data-on-success' => 'refreshCaller,close')}"
+              - allocated = (funding_source_allocation_model.amount || 0)
+              - totals[0] += allocated
+              %td= allocated.to_currency(:precision => 0)
+              - pipeline = (funding_source_allocation_model.amount_granted_in_queue || 0)
+              - totals[1] += pipeline
+              %td= link_to (pipeline.to_currency(:precision => 0)), grant_requests_path, 'data-filter' => "&request[funding_source_allocation_id][]=#{funding_source_allocation_model.id}", :class => 'new-listing', 'data-insert' => 'after', :title => 'Requests'
+              - granted = (funding_source_allocation_model.amount_granted || 0)
+              - totals[2] += granted
+              %td= link_to (granted.to_currency(:precision => 0)), granted_requests_path, 'data-filter' => "&request[funding_source_allocation_id][]=#{funding_source_allocation_model.id}", :class => 'new-listing', 'data-insert' => 'after', :title => 'Grants'
+              - paid = (funding_source_allocation_model.amount_paid || 0)
+              - totals[3] += paid
+              %td= link_to (paid.to_currency(:precision => 0)), request_transactions_path, 'data-filter' => "&request_transaction[filter_state][]=paid&request_transaction[funding_source_allocation_id][]=#{funding_source_allocation_model.id}", :class => 'new-listing', 'data-insert' => 'after', :title => 'Transactions'
+              - available = (funding_source_allocation_model.amount_remaining || 0);
+              - totals[4] += available
+              %td= available.to_currency(:precision => 0)
+          %tr
+            %td Total
+            %td= totals[0].to_currency(:precision => 0)
+            %td= totals[1].to_currency(:precision => 0)
+            %td= totals[2].to_currency(:precision => 0)
+            %td= totals[3].to_currency(:precision => 0)
+            %td= totals[4].to_currency(:precision => 0)
+      %p

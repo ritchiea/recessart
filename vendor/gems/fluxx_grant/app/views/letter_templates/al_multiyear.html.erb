@@ -1,0 +1,46 @@
+<div class="printed_letter">  
+<% # available vars
+   # fluxx_request: request/grant
+   # request_addressee_org: fiscal org || primary org
+   # request_primary_contact: primary contact at the request_addressee_org
+   # signatory_contact: signatory contact at the request_addressee_org
+   # program_lead_contact: lead at EF
+   # request_program: the program associated with this request
+   # report_details: <report type> report due no later than: <report due date>
+   # initial_payment: first transaction amount
+   # final_payment: second transaction amount
+ %>
+
+
+<p><%= fluxx_request.grant_agreement_at.full %></p>
+<%=signatory_contact.full_name%><br>
+<%=signatory_contact_title%><br>
+<%=request_addressee_org.name%><br>
+<%=request_addressee_org.street_address%><br>
+<% unless request_addressee_org.street_address2.blank? %>
+  <%=request_addressee_org.street_address2%><br>
+<% end %>
+<%=request_addressee_org.city%>, <%=request_addressee_org.state_abbreviation%> <%=request_addressee_org.postal_code%><br>
+<%=request_addressee_org.country_name unless request_addressee_org.country_name == 'United States'%><br>
+<p>Dear <%=signatory_contact.first_name%>,</p>
+
+<p>I am pleased to inform you that the Energy Foundation has approved a grant to <%=render_text_program_name(fluxx_request)%>, in the amount of <%=fluxx_request.amount_recommended.to_currency_no_cents%>.  The grant period is <%=fluxx_request.duration_in_months.to_english if fluxx_request.duration_in_months%> months, from <%=fluxx_request.grant_begins_at.full%> to <%=fluxx_request.grant_ends_at.full%>.</p>
+
+<p>This grant is designated <%=request_project_summary%>, as expressed in <%=fluxx_request.fiscal_or_program_possessive%> <%=al_proposal_and_budget_date%> to the Energy Foundation.  Your Energy Foundation contact for work performed under this grant is <%=program_lead_contact.full_name%>.</p>
+
+<p>Payment one will be made upon receipt of the signed grant agreement. Payment two will be made upon receipt and approval by Energy Foundation staff of interim narrative and financial reports, due
+<%= initial_report_due_at_full %>. The final financial and narrative report deadlines are stated in the grant agreement.  However, if you intend to apply for a renewal grant, we must receive your final report before the renewal proposal.</p>
+
+<p>The success of the Energy Foundation will depend on the success of our grantees.  In order to make the largest impact with our limited funds, we will rely on you and your colleagues to keep us informed of progress and trends in the field, and of your work in particular.  For this reason, we ask that your reports tell us the good and the bad, the success and the failure.  This will strengthen and speed our learning.</p>
+
+<p>Please carefully review the terms and conditions explained in the enclosed grant agreement, as the wording may have changed slightly from previous agreements.  Sign one copy of the grant agreement and return it to us.  Upon receipt of the form, we will forward your payment.</p>
+
+<p>Please refer to grant <b><%=fluxx_request.grant_id%></b> in all future correspondence and reports which relate to this grant.</p>
+
+<p>Please do not hesitate to call us if you have any questions about this grant or our policies.</p>
+  
+<p>Sincerely,</p>
+<br><br><br>
+Robert J. O'Connor<br>
+Sr. Vice President and Chief Operating Officer
+</div>

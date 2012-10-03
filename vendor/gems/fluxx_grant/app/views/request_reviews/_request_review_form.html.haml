@@ -1,0 +1,17 @@
+.container
+  .titlebar
+    %h4
+      External Review for
+      = model.request
+      %input{:type => 'submit', :name => 'cancel', :class => 'button create open-link float_right', :value => 'Return to List', 'data-href'.to_sym => portal_grant_request_path(model.request)}
+  %ul.content
+    = form.input :request_id, :as => :hidden
+    = form.input :review_type, :label => "Review Type"
+    = form.input :rating, :label => "Rating"
+    = form.input :comment, :label => "Comments"
+    = form.input :benefits, :label => "Benefits"
+    = form.input :outcomes, :label => "Outcomes"
+    = form.input :merits, :label => "Merits"
+    = form.input :recommendation, :label => "Recommendation"
+
+    = form.commit_button :label => "Submit Review"

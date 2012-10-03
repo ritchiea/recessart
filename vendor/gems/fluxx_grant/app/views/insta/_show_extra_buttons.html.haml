@@ -1,0 +1,6 @@
+- if model.is_a?(FipRequest) && model.granted
+  %li= link_to 'Add a Transaction', new_request_transaction_path(:request_transaction => {:request_id => model.id}), :title => 'Add A Transaction', :class => 'to-modal', :link_class => 'btn', 'data-on-success' => 'refreshCaller,close' if current_user.has_create_for_model?(RequestTransaction)
+- if model.is_a?(GrantRequest) && model.granted
+  %li= link_to 'Finance Tracker', granted_request_path(:finance_tracker => 1), :title => 'Finance Tracker', :link_class => 'btn', :target => '_blank'
+- if model.is_a?(Request) && model.granted && @edit_enabled
+  %li= link_to 'Amend', current_edit_path(model, :amend => 1, :as_modal => 1), :title => 'Amend', :class => 'to-modal', :link_class => 'btn', 'data-on-success' => 'refreshCaller,close' 

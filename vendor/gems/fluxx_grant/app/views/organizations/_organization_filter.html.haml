@@ -1,0 +1,10 @@
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :grant_program_ids, :label => "#{I18n.t(:program_name)} Grantees", :required => false, :as => :select, :collection => Program.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+- unless Fluxx.config(:hide_sub_program) == "1"
+  = form.input :grant_sub_program_ids, :label => "#{I18n.t(:sub_program_name)} Grantees", :as => :select, :required => false, :collection => SubProgram.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+= render :partial => "organizations/more_org_filter", :locals => { :form => form}
+
+= form.input :group_ids, :label => "Groups", :as => :select, :required => false, :collection => Group.all_sorted_groups.map {|group|[group.name, group.id]}, :input_html => {:class => 'add-another'}
+= form.input :favorite_user_ids, :label => 'Marked as Favorite', :required => false, :as => :boolean, :checked_value => (current_user ? current_user.id : nil), :unchecked_value => ''
+= form.input :sort_attribute, :label => 'Sort Field', :required => false, :as => :select, :include_blank => nil, :collection => [['Org Name', 'name'], ['Last Updated (Default)', 'updated_at']]
+= form.input :sort_order, :label => 'Sort Order', :required => false, :as => :select, :include_blank => nil, :collection => [['Descending', 'desc'], ['Ascending', 'asc']]

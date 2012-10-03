@@ -1,0 +1,5 @@
+= form.input :request_id, :as => :hidden
+= form.input :user, :label => "Name", :as => :autocomplete, :autocomplete_url => users_path(:format => :autocomplete), :related_attribute_name => :full_name
+= form.input :description, :as => :text
+
+= form.commit_button

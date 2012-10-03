@@ -1,0 +1,28 @@
+%html
+  %head
+    %title Fluxx Grant
+    %meta{:name => "application-name", :content => "Fluxx" }
+    %meta{:name => "description", :content => "Fluxx - The Open Source Grants Management Platform" }
+    %link{:rel => "icon", :href => "/images/fluxx_engine/theme/default/icons/fluxx_128x128.png", :sizes => "128x128" }
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/portal.css'
+    = javascript_include_tag '/javascripts/fluxx_engine/lib/plupload.js'
+    - preload_javascripts = Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/lib/*.js").map{|filename| filename.gsub("#{Rails.root}/public", '')}.select{|filename| filename =~ /lib\/(jquery|plupload)/}
+    - preload_javascripts.sort.each do |filename|
+      = javascript_include_tag filename
+    = javascript_include_tag '/javascripts/fluxx_grant/fluxx.portal.js'
+    = javascript_include_tag '/javascripts/fluxx_engine/src/fluxx.uploader.js'
+    - (Dir.glob("#{Rails.root}/public/javascripts/fluxx_*/src/*.js") - Dir.glob("#{Rails.root}/public/javascripts/fluxx_engine/src/**/*.js")).reject{|filename| filename.match('/fluxx_saas/') || filename.match('/fluxx_crm/')}.sort.map{|filename| filename.gsub("#{Rails.root}/public", '')}.each do |filename|
+      =javascript_include_tag filename
+
+    = csrf_meta_tag
+  %body
+    .header
+      %p
+        %span
+          = 'Welcome, ' 
+          = @current_user.full_name.gsub(/\b\w/){$&.upcase}
+        = link_to 'Logout', portal_path
+    .page
+      = yield
+      %p
+        = image_tag("/images/fluxx_engine/theme/_common/powered_by.png", :class => "logo")

@@ -1,0 +1,342 @@
+@import "/stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css";
+
+$icon_dimension: 48px;
+$icon_margin_top: 25px;
+$icon_margin_bottom: 25px;
+$footer_height: $icon_dimension + $icon_margin_top + $icon_margin_bottom;
+$header_height: 78px;
+// Fonts
+@mixin fluxx-font { font-family: "QuicksandBook", Helvetica, sans-serif; }
+@mixin default-font { font-family: "Helvetica Neue", sans-serif; }
+// Color Pallete
+@mixin bg($bg: rgb(255, 255, 255), $fg: rgb(0, 0, 0)) {
+  background-color: $bg;
+  color: $fg;
+  a {
+    color: $fg;
+  }
+}
+@mixin header-bg($bg: #333333, $fg: white) {
+  @include bg($bg, $fg);
+}
+@mixin footer-bg($bg: #333333, $fg: white) {
+  @include bg($bg, $fg);
+}
+@mixin body-bg($bg: #eeeeee, $fg: black) {
+  @include bg($bg, $fg);
+}
+// Rotations
+@mixin transform-origin($left: 100%, $top: 100%) {
+  transform-origin: $left $top;
+}
+@mixin rot0 {
+  -webkit-transform: rotate(0deg);
+  -webkit-transform-origin: 0px 0px;
+  -moz-transform: rotate(0deg);
+  -moz-transform-origin: 0px 0px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+}
+@mixin rot90 {
+  -webkit-transform: rotate(90deg);
+  -webkit-transform-origin: 0px 0px;
+  -moz-transform: rotate(90deg);
+  -moz-transform-origin: 0px 0px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+@mixin rot180 {
+  -webkit-transform: rotate(180deg);
+  -webkit-transform-origin: 0px 0px;
+  -moz-transform: rotate(180deg);
+  -moz-transform-origin: 0px 0px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+@mixin rot270 {
+  -webkit-transform: rotate(270deg);
+  -webkit-transform-origin: 0px 0px;
+  -moz-transform: rotate(270deg);
+  -moz-transform-origin: 0px 0px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+// Styles for inline properties
+@mixin chiseled-text($color: rgba(255, 255, 255, 0.5), $left: 0px, $top: 1px, $spread: 0px) {
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}");
+}
+@mixin chiseled-text-light($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: -1px, $spread: 0px) {
+  @include chiseled-text($color, $left, $top, $spread);
+}
+@mixin text-shadow($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: 1px, $spread: 1px) {
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}");
+}
+@mixin ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+// Styles for box properties
+@mixin border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+@mixin content-box {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -o-box-sizing: content-box;
+  box-sizing: content-box;
+}
+@mixin inline-block {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+// Rounded
+@mixin rounded-left($radius: 10px) {
+  -webkit-border-top-left-radius: $radius;
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-radius-topleft: $radius;
+  -moz-border-radius-bottomleft: $radius;
+}
+@mixin rounded-right($radius: 10px) {
+  -webkit-border-top-right-radius: $radius;
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-radius-topright: $radius;
+  -moz-border-radius-bottomright: $radius;
+}
+@mixin rounded-top($radius: 10px) {
+  -webkit-border-top-left-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  -moz-border-radius-topleft: $radius;
+  -moz-border-radius-topright: $radius;
+}
+@mixin rounded-bottom($radius: 10px) {
+  -webkit-border-bottom-left-radius: $radius;
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-radius-bottomleft: $radius;
+  -moz-border-radius-bottomright: $radius;
+}
+@mixin rounded($radius: 10px) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+  behavior: url(border-radius.htc);
+}
+// Shadow
+@mixin no-box-shadow {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+@mixin box-shadow($left: 5px, $top: 5px, $spread: 12px, $color: rgba(0, 0, 0, 0.5)) {
+  -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
+  -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
+  box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
+}
+@mixin box-shadow-inset($left: 0px, $top: 1px, $spread: 2px, $color: rgba(0, 0, 0, 0.4)) {
+  -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
+  -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
+  box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
+}
+@mixin box-shadow-with-inset($left: 1px, $top: 1px, $spread: 2px, $color: rgba(0, 0, 0, 0.2)) {
+  -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}, #{$left} #{$top} #{$spread} #{$color}");
+  -moz-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}");
+  box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}");
+}
+@mixin linear-gradient($top: rgb(255, 255, 255), $bottom: rgb(0, 0, 0)) {
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))");
+  background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)");
+}
+// Buttons
+@mixin btn-color($color: #cccccc, $hover: true, $textColor: black) {
+  $top: $color * 1.5;
+  $mid: $color * 0.90;
+  $bot: $color * 0.85;
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))");
+  background: unquote("-moz-linear-gradient(center top,#{$top} 0%,#{$color} 51%,#{$mid} 51%,#{$bot} 88%)");
+  color: $textColor;
+  border-color: $color - $color * 0.5;
+  @if $hover {
+    &:hover {
+      background: linear-gradient(center top,#{$top + #111111} 0%,#{$color + #111111} 51%,#{$mid + #111111} 51%,#{$bot + #111111} 88%);
+      color: $textColor + #111111; }
+    &:active {
+      background: linear-gradient(center top,#{$bot + #111111} 0%,#{$mid + #111111} 51%,#{$color + #111111} 51%,#{$top + #111111} 88%);
+    }
+  }
+}
+@mixin buttons($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: #000, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: 3px, $rounding: 3px) {
+  font-size: $size;
+  line-height: $size;
+  li {
+    @include btn-color($bgcolor);
+    @include rounded($rounding + 1);
+    color: $color;
+    margin: 0 2px;
+    display: block;
+    float: left;
+    a,span {
+      @include border-box;
+      @include chiseled-text($tscolor, 0px, $tspos);
+      color: $color;
+      text-decoration: none;
+      text-align: center;
+      text-transform: capitalize;
+      padding: $padding;
+      display: block;
+      min-width: $size + $padding * 2;
+      @include rounded($rounding);
+      border: 1px solid $bordercolor;
+    }
+  }
+}
+// Icons
+@mixin icon-32 {
+  .link {
+    height: 32px;
+    width: 32px;
+    margin-bottom: $icon_margin_bottom + 4px;
+    margin-top: $icon_margin_top + 6px;
+    margin-left: 16px;
+    margin-right: 0;
+    .label {
+      top: 42px;
+      margin-left: -16px;
+    }
+  }
+}
+@mixin icon-34 {
+  .link {
+    height: 34px;
+    width: 34px;
+    margin-bottom: $icon_margin_bottom + 4px;
+    margin-top: $icon_margin_top + 6px;
+    margin-left: 16px;
+    margin-right: 2px;
+    .label {
+      top: 42px;
+      margin-left: -16px;
+    }
+  }
+}
+@mixin icon-24 {
+  .link {
+    @include rounded(4px);
+    height: 24px;
+    width: 24px;
+    margin-bottom: $icon_margin_bottom + 12px;
+    margin-top: $icon_margin_top + 12px;
+    margin-left: 22px;
+    margin-right: 22px;
+    .label {
+      top: 36px;
+      margin-left: -22px;
+    }
+  }
+}
+// Forms
+@mixin form-field-one-line {
+  margin: 12px 0px;
+  position: relative;
+  label {
+    @include inline-block;
+    @include border-box;
+    width: 140px;
+    vertical-align: top;
+    .required {}
+  }
+  input,textarea, input[type='search'] {
+    @include inline-block;
+    @include border-box;
+    vertical-align: top;
+  }
+  input,input[type='search'] {overflow: hidden;}
+  select {
+    @include inline-block;
+    @include border-box;
+    vertical-align: top;
+  }
+  div.select-transfer { width: 100%;}
+  .inline-aft {
+    @include inline-block;
+    @include border-box;
+    position: relative;
+    top: 0px;
+    line-height: 1.5em;
+    /*height: 1.5em;*/
+    margin-left: 6px;
+    vertical-align: baseline;
+    width: auto;
+    margin-top: 1px;
+    .icon { margin-top: 4px; }
+  }
+  .inline-errors { margin-left: 140px; }
+}
+@mixin form-field-two-line {
+  @include form-field-one-line;
+  label {
+    width: 100%;
+  }
+  select {
+    @include inline-block;
+    @include border-box;
+  }
+  .required {}
+  .inline-errors { margin-left: 0px; }
+}
+@mixin pretty-forms {
+  form{ margin-left:10%; }
+  fieldset {
+    border: none;
+    padding: 0 0 1em 0;
+    margin: 0 0 1em 0;
+    width: auto;
+  }
+  ol {
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+  label {
+    border: 1px solid transparent;
+  }
+  input,select,textarea {
+    @include default-font;
+    font-size:78.6%;
+    padding: 7px 5px;
+    border: 1px solid #ccc;
+    overflow: auto;
+  }
+  input,textarea {
+    @include linear-gradient(#fcfcfc, white);
+    @include box-shadow-inset(0px, 1px, 2px, rgba(0, 0, 0, 0.1));
+  }
+  input, select { width:251px; }
+  select.select_short { width:50px; }
+  textarea { width:100%; max-width:396px; }
+  select {
+    height: 24px;
+    &[multiple=multiple] {
+      width: 140px;
+      height: auto;
+    }
+  }
+  input[type=search] {  }
+  input[type=checkbox] {
+    margin-right: 0.25em;
+    width:auto;
+  }
+  .commit,.hidden { display: none; }
+  .required {
+    label {
+      font-weight: bold;
+      abbr { display: none; }
+    }
+  }
+  .label-after .select {
+    select {float: left;}
+    label {
+      padding-left: 20px;
+      width: 450px;
+    }
+  }
+}

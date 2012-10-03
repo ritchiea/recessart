@@ -1,0 +1,3 @@
+- partial_data_src_url = url_for(project_list_items_path({:project_list_id => model.id, :skip_wrapper => true}))
+%div{:class => 'project-list-item-partial-span', 'data-src' => partial_data_src_url}
+  = render :partial => 'project_list_items/project_list_item_list', :locals => {:models => (model.project_list_items.where(:deleted_at => nil)), :project_list => model}

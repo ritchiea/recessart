@@ -1,0 +1,9 @@
+%ol.view-workflow
+  - timeline = model.event_timeline
+  - timeline.each_with_index do |req_state, idx|
+    - klass = (idx == 0 ? 'first' : (idx == timeline.length-1 ? 'last' : ''))
+    - cur_state = model.respond_to?(:state_id) ? model.state_id.to_s : model.state
+    - if (cur_state == req_state)
+      %li{:class => "state selected #{klass}"}= RequestReport.state_to_english_translation req_state
+    - else
+      %li{:class => "state #{klass}"}= RequestReport.state_to_english_translation req_state

@@ -1,0 +1,3 @@
+class RequestProjectsController < ApplicationController
+  include FluxxRequestProjectsController
+end

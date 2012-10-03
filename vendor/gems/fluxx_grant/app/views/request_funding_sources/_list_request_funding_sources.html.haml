@@ -1,0 +1,2 @@
+%div.partial{'data-src' => request_funding_sources_path(:request_id => model.id, :skip_wrapper => true)}
+  = render :partial => 'request_funding_sources/request_funding_source_list',  :locals => {:models => model.request_funding_sources, :model => model}

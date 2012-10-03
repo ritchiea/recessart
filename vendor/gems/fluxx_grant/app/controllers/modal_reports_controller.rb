@@ -1,0 +1,3 @@
+class ModalReportsController < ApplicationController
+  include FluxxModalReportsController
+end

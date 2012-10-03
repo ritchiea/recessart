@@ -1,0 +1,10 @@
+= form.input :date_range_type, :as => :select, :required => true, :include_blank => false, :collection => [['Custom', 'custom'], ['This Week', 'this_week'], ['Last Week', 'last_week']], :input_html => {:class => "date-presets", 'data-start-date-field' => '#active_record_base_start_date', 'data-end-date-field' => '#active_record_base_end_date'}
+- current_year = Time.now.year
+- form.object.start_date = Time.parse("1/1/#{current_year}")
+- form.object.end_date = Time.parse("1/1/#{current_year+1}")
+= form.input :start_date, :as => :date
+= form.input :end_date, :as => :date
+= form.input :include, :as=> :check_boxes, :collection => ["Grants", I18n.t(:fip_name).pluralize]
+= form.input :program_id, :label => I18n.t(:program_name), :as => :select, :required => true, :multiple => true, :include_blank => false, :wrapper_html => {:class => 'multiple-select-transfer'}, :collection => Program.load_all_without_children_programs.sort_by{|prog| prog.name}.map {|prog|[prog.name, prog.id]}
+
+

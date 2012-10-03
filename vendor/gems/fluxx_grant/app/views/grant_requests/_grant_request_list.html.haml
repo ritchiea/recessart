@@ -1,0 +1,12 @@
+- if model.is_a? FipRequest
+  - current_href = url_for(model)
+- else
+  - current_href = url_for(model)
+%a.to-detail{:href => current_href}
+  - if model.is_a? FipRequest
+    %h2= model.fip_title
+  - else
+    %h2= model.org_name_text
+  %h4= [dollars_format(model.granted ? model.amount_recommended : model.amount_requested), mdy_date_format(model.request_received_at), (model.program ? model.program.name : '')].compact.join(' | ')
+  %h4= model.grant_or_request_id
+  %p= model.project_summary

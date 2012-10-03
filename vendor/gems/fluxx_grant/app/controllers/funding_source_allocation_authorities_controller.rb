@@ -1,0 +1,3 @@
+class FundingSourceAllocationAuthoritiesController < ApplicationController
+  include FluxxFundingSourceAllocationAuthoritiesController
+end

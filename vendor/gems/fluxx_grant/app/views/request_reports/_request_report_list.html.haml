@@ -1,0 +1,5 @@
+= render :partial => 'request_reports/list_item1',  :locals => {:model => model}
+
+- if model.request
+  %p
+    = "Grant #{model.request.grant_id} - #{model.request.program_organization.display_name}"

@@ -1,0 +1,49 @@
+<div class="printed_letter no_letterhead">
+<% # available vars
+   # fluxx_request: request
+   # request_addressee_org: fiscal org || primary org
+   # request_primary_contact: primary contact at the request_addressee_org
+   # project_primary_contact: primary project contac
+   # program_lead_contact: lead at EF
+   # request_program: the program associated with this request
+   # report_details: <report type> report due no later than: <report due date>
+   # initial_payment: first transaction amount
+   # final_payment: second transaction amount
+ %>
+
+<p>GRANT CONDITIONS: <%=fluxx_request.grant_id%>, <%=render_text_program_name(fluxx_request)%></p>
+
+<p>The following conditions apply to the use of funds provided to <%=render_text_program_name(fluxx_request)%> pursuant to the Grant Award Letter dated <%=fluxx_request.grant_agreement_at.full%>.</p>
+
+<p>A. Expenditure limited to designated purposes. The grantee agrees to use the funds solely for religious, charitable, scientific, literary or educational purposes as defined by Section 170(c)(2)(B) of the Code. No other restrictions or limitations are placed on the grantee’s use the funds.
+<p>B. Maintenance of records. The grantee is responsible for maintaining adequate records of receipts and expenditures made in connection with the grant funds, consistent with generally accepted
+accounting principles.</p>
+<p>C. Reports to the Energy Foundation. The grantee is responsible for sending the Energy Foundation an annual report detailing the grantee’s activities and finances for each calendar year in the grant period.</p>
+<p>D. During the grant period, the grantee is responsible for updating the Energy Foundation upon the change of mailing address, telephone number, email address or significant project staff including the executive director.</p>
+<p>E. Use of other’s name. The Energy Foundation may include information about this grant in its periodic public reports. The grantee may not refer to the Energy Foundation’s support publicly, including in any press release, or report, unless the grantee has provided the foundation a written copy of such reference in advance and obtained written permission signed by an officer of the foundation.</p>
+<p>F. Affidavit of 501(c)(3) and public charity status. The undersigned certifies that the grantee’s 501(c)(3) exemption is in full force and effect and that the organization qualifies as a public charity as defined in IRS Code section 509(a)(1), (2) or (3). The undersigned agrees to promptly notify the Foundation of any change in the organization’s status as a tax-exempt organization or as a public charity.</p>
+
+<p><center>ACCEPTANCE:</center></p>
+
+<p>If this Grant Agreement, including the Grant Award Letter dated <%=fluxx_request.grant_agreement_at.full%> and the Grant Conditions herein, correctly sets forth your understanding of the terms of this grant, please indicate your organization’s agreement to its terms by having an authorized officer sign a copy of this letter and return it to the foundation.</p>
+
+<p>Payment of the grant funds will be made according to the timeframe outlined in the attached Grant Award Letter. Grantee agrees that the Grant Award Letter and Grant Conditions correctly and fully set out the arrangements and terms of this grant and supersede any prior oral or written understandings or communications between the parties and constitute the entire agreement of the parties with respect to the subject matter. This Grant Agreement may not be amended or modified, except in writing signed by both parties. This Grant Agreement is governed by the laws of the State of California.</p>
+
+<p class='page-break'>GRANT CONDITIONS: <%=fluxx_request.grant_id%>, <%=render_text_program_name(fluxx_request)%></p>
+
+<p>Payment of grant funds commence when the Foundation has received an executed copy of this form to acknowledge the terms of the grant and the Grant Conditions as set forth above.</p>
+
+<table style='page-break-inside: avoid'>
+  <tr height='50'><td width='500'></td><td width='25'></td><td width='500'></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Robert J. O'Connor</td><td></td><td>Date</td></tr> 
+<tr><td>Sr. Vice President and COO</td> <td></td> <td></td></tr>
+  <tr height='20'><td></td><td></td> <td></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Signature</td><td></td><td>Date</td><td></tr>
+  <tr height='20'><td></td><td></td> <td></td></tr>
+  <tr><td><hr></td><td></td> <td><hr></td></tr>
+  <tr><td>Print Name/Title</td><td></td> <td>Direct Phone</td></tr>
+  <tr><td><%=request_addressee_org.name%></td><td></td> <td>Grant Number:  <%=fluxx_request.grant_id%></td></tr>
+</table>
+</div>

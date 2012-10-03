@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# -*- mode: ruby -*-
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'generators/fluxx_engine_gen/fluxx_engine_gen'
+
+ARGV << "--help" if ARGV.empty?
+
+FluxxEngineGen.start

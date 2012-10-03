@@ -1,0 +1,21 @@
+%h2= model.name
+
+%h3
+  Subject
+%p= model.subject
+
+%h3
+  Body
+%p= model.body
+
+%h3
+  Recipients
+%p= model.recipients.map(&:full_name).to_sentence
+
+- unless model.class.recipient_roles.empty?
+  %h3
+    Role Recipients
+  - recipient_roles = model.class.recipient_roles.map{|rr, hash| model.send(rr) ? hash[:friendly_name] : nil }.compact
+  %p= recipient_roles.empty? ? "None" : recipient_roles.to_sentence
+
+= render :partial => "show_#{model.class.name.underscore}", :locals => { :model => model } unless model.class == Alert

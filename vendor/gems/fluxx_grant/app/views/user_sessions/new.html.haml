@@ -1,0 +1,20 @@
+%div.flash= raw "#{raw flash[:info]} #{raw flash[:error]}"
+- if @user_session.errors.any?
+  %div.error_explanation
+    -@user_session.errors.full_messages.each do |msg|
+      %ul
+        %li= msg
+
+%h2 Sign in to Fluxx
+= form_for(@user_session, :url => user_sessions_path) do |f|
+
+  %p
+    = f.label :login
+    = f.text_field :login, :placeholder => 'Login'
+  %p
+    = f.label :password, :placeholder => 'Password'
+    = f.password_field :password
+  %p= f.submit "Sign in"
+  %p
+    = f.check_box :remember_me
+    = f.label :remember_me

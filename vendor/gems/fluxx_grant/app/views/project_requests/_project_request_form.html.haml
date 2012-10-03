@@ -1,0 +1,9 @@
+= form.input :project_id, :as => :hidden
+= form.input :granted, :as => :hidden
+- if model.granted
+  - auto_url = granted_requests_path(:format => :autocomplete, :name_method => 'to_s')
+- else
+  - auto_url = grant_requests_path(:format => :autocomplete, :name_method => 'to_s')
+= form.input :request, :label => "Request", :as => :autocomplete, :autocomplete_url => auto_url, :related_attribute_name => :name, :input_html => {:class => 'request_lookup_select'}
+= form.input :description, :as => :text
+= form.commit_button

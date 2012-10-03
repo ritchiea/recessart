@@ -1,0 +1,3 @@
+- buttons.each do |button_clause|
+  - event_name, english_event_name = button_clause
+  %li= link_to model.event_to_english(event_name), current_put_path(model.id, {:event_action => event_name}), :class => 'as-put with-note', 'data-note-param'.to_sym => "#{@model_name}[workflow_note]"

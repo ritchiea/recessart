@@ -1,0 +1,15 @@
+%h3 Matches
+-if model.organization_matches(params[:loi]).count > 0
+  %table.dark-table
+    -model.organization_matches(params[:loi]).each do |org|
+      %tr
+      %td
+        =org.name
+        %h4= [org.city, (org.geo_state ? (org.geo_state.abbreviation || org.geo_state.name) : nil), (org.geo_country ? org.geo_country.iso3 : nil) ].compact.join(', ')
+        %p= org.url
+      %td
+        %ul.buttons.float_right
+          %li= link_to "Connect", loi_path(:link_organization => org.id), :class => "btn as-put"
+
+-else
+  %h4 no matches

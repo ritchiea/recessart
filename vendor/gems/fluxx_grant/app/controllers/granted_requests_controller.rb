@@ -1,0 +1,3 @@
+class GrantedRequestsController < ApplicationController
+  include FluxxGrantedRequestsController
+end

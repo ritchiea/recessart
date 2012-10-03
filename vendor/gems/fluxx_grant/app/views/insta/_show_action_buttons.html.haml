@@ -1,0 +1,16 @@
+- reject_event_names = model.class.all_rejected_events
+- sentback_event_names = model.class.all_sent_back_events
+- reject_buttons = buttons.select {|button| event_name, english_event_name = button; reject_event_names.include?(event_name)}
+- send_back_buttons = buttons.select {|button| event_name, english_event_name = button; sentback_event_names.include?(event_name)}
+- other_buttons = (buttons - reject_buttons) - send_back_buttons
+- reordered_buttons =  reject_buttons + send_back_buttons + other_buttons
+- reordered_buttons.each do |button_clause|
+  - event_name, english_event_name = button_clause
+  - english_event_name = model.event_to_english(event_name)
+  - # There are a couple of special cases where action buttons should go to edit; one is for turning a request into a grant, the other is when marking a request transaction as paid; see below
+  - if GrantRequest.all_events_with_category('become_grant').include?(event_name) || FipRequest.all_events_with_category('become_grant').include?(event_name)
+    %li= link_to english_event_name, current_edit_path(@model.id, {:approve_grant_details => event_name}), :class => 'to-self'
+  - elsif RequestTransaction.all_events_with_category('mark_paid').include?(event_name)
+    %li= link_to english_event_name, current_edit_path(@model.id, {:hidden_event_action => event_name}), :class => 'to-self'
+  - elsif !((model.is_a?(GrantRequest) || model.is_a?(FipRequest)) && model.granted && event_name.to_s == 'reject')
+    %li= link_to english_event_name, self.send("#{@model_name}_path", {:event_action => event_name}), :class => 'as-put with-note', 'data-note-param'.to_sym => "#{@model_name}[workflow_note]"

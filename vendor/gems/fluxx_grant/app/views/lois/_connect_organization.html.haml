@@ -1,0 +1,16 @@
+- new_org = @organization || Organization.new(:name => model.organization_name, :street_address => model.address, :tax_id => model.tax_id)
+%fieldset.inputs
+  %ol
+    = form.input :organization_name, :input_html => {:class => "refresh-partial", "data-target" => ".matches"}
+    = form.commit_button :value => "Show Matches"
+    = form.commit_button :value => "Create New Record"
+
+  %ul.buttons
+    %li= link_to "Show Matches", "#", :class => "btn tab-open #{new_org.errors.empty? ? 'disabled' : ''} hide-footer", 'data-target'.to_sym => ".matches"
+    %li= link_to "Create New Record", "#", :class => "btn tab-open show-footer #{new_org.errors.empty? ? '' : 'disabled'}", 'data-target'.to_sym => ".new-form"
+
+.partial.matches.tab{"data-src" => loi_path(:matching_organizations => true, :skip_wrapper => true), :class => (new_org.errors.empty? ? "" : "hidden")}
+  =render :partial => "matching_organizations_list", :locals => { :model => model, :form => form, :params => params }
+.new-form.tab{:class => (new_org.errors.empty? ? "hidden" : "")}
+  = semantic_form_for new_org, :html => {:class => 'to-self'} do |new_org_form|
+    =render :partial => "organizations/organization_form", :locals => { :model => new_org, :form => new_org_form }

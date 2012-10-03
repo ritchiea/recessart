@@ -1,0 +1,24 @@
+-# Note ESH: this is used by the finance tracker
+%div
+  %table.tabular{:cellspacing => 0}
+    %thead
+      %tr
+        %th
+          = "Transactions"
+    %tbody
+      - if !models || models.empty?
+        %tr
+          %td= "No Transactions"
+      - else
+        %td
+          %table
+            <tr width='100%'><td><b>Amount Due</b></td><td><b>Status</b></td><td><b>Last Update</b></td></tr>
+            - models.each do |model|
+              %tr
+                %td= number_to_currency(model.amount_due, :precision => 0) if model.amount_due
+                %td= model.state_to_english
+                %td= model.updated_at.mdy if model.updated_at
+            %tr
+              %td{:colspan=>4}
+      %tr
+        %td

@@ -1,0 +1,9 @@
+- sub_programs = (form.object.program.load_sub_programs if form.object.program) || []
+= form.input :name, :label => "Name"
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :program_id, :label => I18n.t(:program_name), :as => :select, :collection => Program.load_all_nonrollup.map{|program| [program.description || program.name, program.id]}, :input_html => {:class => 'program-dropdown-select', 'data-related-child-param' => 'program_id', 'data-related-child' => ".sub-program-select"}
+- unless Fluxx.config(:hide_sub_program) == "1"
+  = form.input :sub_program_id, :label => I18n.t(:sub_program_name), :as => :select, :collection => sub_programs.map{|sub_program| [sub_program.description || sub_program.name, sub_program.id]}, :input_html => {:class => 'sub-program-select', 'data-related-child-param' => 'sub_program_id', 'data-param'.to_sym => 'program_id', 'data-src'.to_sym => sub_programs_path(:format => 'autocomplete')}
+= form.input :retired, :as => :boolean, :label => "Retired:"
+
+= form.commit_button

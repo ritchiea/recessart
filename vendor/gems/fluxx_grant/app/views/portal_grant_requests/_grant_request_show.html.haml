@@ -1,0 +1,19 @@
+.container
+  .titlebar
+    %h4
+      = raw render_grant_or_request_id model
+      %input{:type => 'submit', :name => 'cancel', :class => 'button create open-link float_right', :value => 'Return to List', 'data-href'.to_sym => grantee_portal_index_path}
+      - if current_user.is_reviewer? && current_user.has_create_for_model?(RequestReview)
+        %input{:type => 'submit', :name => 'review', :class => 'button create open-link float_right', :value => 'Review', 'data-href'.to_sym => new_request_review_path(:request_review => {:request_id => model.id})}
+  .content
+    = render :partial => "grant_requests/grant_request_show", :locals => {:model => model}
+.container
+  .reports{"data-src".to_sym => grantee_portal_index_path({:table => "reports", :page => 1})}
+    = render :partial => "grantee_portal/report_list", :locals => {:@data => @reports}
+
+.container
+  .transactions= render :partial => "grantee_portal/transaction_list", :locals => {:@data => @transactions}
+
+- if current_user.has_create_for_model?(RequestReview)
+  %input{:type => 'submit', :name => 'review', :class => 'create open-link', :value => 'Review', 'data-href'.to_sym => new_request_review_path(:request_review => {:request_id => model.id})}
+%input{:type => 'submit', :name => 'cancel', :class => 'create open-link', :value => 'Return to List', 'data-href'.to_sym => grantee_portal_index_path}

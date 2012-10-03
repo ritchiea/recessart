@@ -1,0 +1,15 @@
+- unless Fluxx.config(:hide_program) == "1"
+  = form.input :grant_program_ids, :required => false, :label => "#{I18n.t(:program_name)} Grantee Contacts", :as => :select, :collection => Program.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+- unless Fluxx.config(:hide_sub_program) == "1"
+  = form.input :grant_sub_program_ids, :label => "#{I18n.t(:sub_program_name)} Grantee Contacts", :as => :select, :required => false, :collection => SubProgram.load_all.sort_by{|prog| prog.name || ''}.map {|prog|[prog.name, prog.id]}, :input_html => {:class => 'add-another'}
+
+= form.input :program_organization_lookup, :label => "Organization", :as => :autocomplete, :autocomplete_url => organizations_path(:format => :autocomplete, :parent_org_id => 0, :name_method => 'to_s'), :related_attribute_name => :name, :input_html => {:class => 'program_organization_lookup_select', 'data-related-child' => ".program-org-sat-select"}
+= form.input :organization_id, :label => 'Location: ', :as => :select, :input_html => {:class => 'program-org-sat-select', 'data-param'.to_sym => 'related_org_ids', 'data-src'.to_sym => organizations_path(:format => 'autocomplete'), 'data-cache'.to_sym => 'org_sat_select', 'data-required' => '1'}, :collection => []
+
+= form.input :group_ids, :label => "Groups", :as => :select, :required => false, :collection => Group.all_sorted_groups.map {|group|[group.name, group.id]}, :input_html => {:class => 'add-another'}
+- if current_user.is_admin?
+  = form.input :user_profile_id, :label => "Profile", :as => :select, :required => false, :collection => UserProfile.all.map {|profile|[profile.name, profile.id]}
+= form.input :favorite_user_ids, :label => 'Marked as Favorite', :required => false, :as => :boolean, :checked_value => (current_user ? current_user.id : nil), :unchecked_value => ''
+= form.input :was_grantee_org_owner, :label => 'Primary Grantee', :required => false, :as => :boolean, :checked_value => 1, :unchecked_value => ''
+= form.input :sort_attribute, :label => 'Sort Field', :required => false, :as => :select, :include_blank => nil, :collection => [['Last Name, First Name (Default)', 'full_name'], ['Last Updated', 'updated_at']]
+= form.input :sort_order, :label => 'Sort Order', :required => false, :as => :select, :include_blank => nil, :collection => [['Descending', 'desc'], ['Ascending', 'asc']]

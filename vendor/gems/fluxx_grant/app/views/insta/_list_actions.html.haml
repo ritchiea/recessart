@@ -1,0 +1,9 @@
+%li= link_to raw('&#9617;'), '#', :class => 'open-listing-actions', :title => 'Open/Close Listing Actions Tab'
+%li= link_to image_tag('/images/fluxx_engine/theme/default/icons/page_white_excel.png', :alt => "Export to .xls"), url_for(:format => :xls), :class => 'area-data', :title =>'Export to .xls'
+- if @first_report_id
+  %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/chart_bar.png', :alt => "Reports"), url_for(:fluxxreport_id => @first_report_id, :all_results => 1), :class => 'new-detail area-data', 'data-insert' => 'after', :title =>'Visualizations'
+- if @show_conversion_funnel
+  %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/arrow_join.png', :alt => "Conversion Funnel"), url_for(:view_funnel => 1, :all_results => 1), :class => 'new-detail area-data', 'data-insert' => 'after', :title =>'Conversion Funnel'
+%li= link_to image_tag('/images/fluxx_engine/theme/default/icons/arrow_refresh.png', :alt => 'Refresh Card'), '#', :class => 'refresh-card', :title =>'Refresh Card'
+%li= link_to image_tag('/images/fluxx_engine/theme/default/icons/cog_edit.png', :alt => 'Open Filters'), '#', :class => 'open-filters', :title =>'Filter Card'
+-# %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/cog_edit.png', :alt => 'Subscribe'), new_alert_path(:type => "#{@model_class}Alert"), :class => 'new-detail area-data', :title =>'Subscribe Card', 'data-insert' => 'after'

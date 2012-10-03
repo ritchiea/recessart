@@ -1,0 +1,8 @@
+%fieldset.inputs
+  %ol
+  = form.input :name, :label => "Funder Name:"
+  = form.input :start_at, :label => "Start Date:"
+  = form.input :end_at, :label => "End Date:"
+  = form.input :amount, :label => "Amount Allocated:"
+  = form.input :retired, :as => :boolean, :label => "Retired:"
+  = form.commit_button

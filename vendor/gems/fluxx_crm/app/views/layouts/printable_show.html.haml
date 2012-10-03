@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title Fluxx Grant
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/style.css', :media => "all"
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_crm/theme/default/style.css', :media => "all"
+    = stylesheet_link_tag '/stylesheets/compiled/fluxx_engine/theme/default/printable.css', :media => "all"
+
+  %body{:id => 'fluxx'}
+    %div{:id => 'card-table'}
+      %div{:id => 'hand'}
+        = yield

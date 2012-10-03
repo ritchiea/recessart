@@ -1,0 +1,7 @@
+%div.form-secondary-programs
+  %h2
+    Secondary Programs
+    %span.actions-left= link_to image_tag('/images/fluxx_engine/theme/default/icons/add.png'), '#',  :class=> 'clone-template', "data-append-to" => ".form-secondary-programs", "data-template" => generate_template(form, :request_programs, :partial => 'grant_requests/edit_request_program', :form_builder_local => :req_program) 
+
+  = form.semantic_fields_for :request_programs do |req_program|
+    = render :partial => 'grant_requests/edit_request_program', :locals => {:req_program => req_program}

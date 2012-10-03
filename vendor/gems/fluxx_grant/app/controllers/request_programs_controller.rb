@@ -1,0 +1,3 @@
+class RequestProgramsController < ApplicationController
+  include FluxxRequestProgramsController
+end

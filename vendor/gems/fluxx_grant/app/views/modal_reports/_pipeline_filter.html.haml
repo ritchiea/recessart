@@ -1,0 +1,9 @@
+- current_year = Time.now.year
+- form.object.start_date = Time.parse("1/1/#{current_year}")
+- form.object.end_date = Time.parse("1/1/#{current_year+1}")
+= form.input :start_date, :as => :date
+= form.input :end_date, :as => :date
+= form.input :granted, :as => :select, :required => true, :multiple => false, :include_blank => false, :collection => { "Requests" => 0, "Grants" => 1}
+= form.input :include, :as=> :check_boxes, :collection => ["Grants", I18n.t(:fip_name).pluralize]
+
+

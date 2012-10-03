@@ -1,0 +1,15 @@
+- if model.is_marked_complete? && model.display_warnings?
+  - unless model.funding_warnings.empty?
+    %div.funding_warnings_title
+      %div.hide_warnings
+        = link_to "Hide", grant_request_path(:id => model.id, :grant_request => {:display_warnings => '0'}), {:class => 'as-put', 'data-on-success' => 'refreshCaller'}
+
+      %h3 Warning - there may be problems with this Request.
+
+      %ul.funding_warnings
+        - model.funding_warnings.each do |warning|
+          %li= warning
+
+- model.general_warnings.each do |warning|
+  %div.warning
+    = warning
